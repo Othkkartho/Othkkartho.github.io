@@ -1,0 +1,225 @@
+lng:
+  name: 한국어
+  # based on ISO_639-1 https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+  code: ko
+  # specifically needed for open-graph meta og:locale. if open_graph or html_lng_with_country_code not enabled in _data/conf/main.yml, it's not necessary.
+  # For html tags, you can enable or disable using html_lng_with_country_code defined in _data/conf/main.yml
+  # based on ISO_3166-1 https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+  country: KR
+  switch_title: Ko
+  offer:
+    title: 언어
+    msg_page: 이 페이지는 한국어로 보입니다.
+    # if page translation is not available, use this.
+    msg_site: 한국어 홈페이지로 이동
+
+date:
+  long: "%Y년%m월%d일"
+  day: "%d일"
+  year: "%Y년"
+  months: [1월, 2월, 3월, 4월, 5월, 6월, 7월, 8월, 9월, 10월, 11월, 12월]
+
+not_found:
+  header: 페이지를 찾지 못했습니다.
+  line1: 요청하신 페이지를 찾을 수 없습니다.
+  line2: 가능한 경우 메뉴 또는 사이트 검색을 시도하십시오.
+
+no_translation_tooltip: 번역 없음
+
+navigation:
+  contact_header: 연결
+
+color_scheme_switch_tooltip: 색 구성표
+
+search:
+  placeholder: 검색
+  noResultText: 검색 결과가 없습니다.
+
+image_viewer:
+  load_error: 이미지를 로드할 수 없습니다.
+
+copyright:
+  additional_text: " 판권 소유."
+
+creative_commons:
+  some_rights_reserved: 일부 권리 보유.
+  # check _data/owner/[language].yml for license type.
+  by: 달리 명시되지 않는 한 이 웹 사이트의 콘텐츠는 Creative Commons Attribution 4.0 International License에 따라 사용이 허가되었습니다.
+  by-nd: 달리 명시되지 않는 한, 이 웹 사이트의 콘텐츠는 Creative Commons Attribution-NoDerivatives 4.0 International License에 따라 사용이 허가됩니다.
+  by-sa: 달리 명시되지 않는 한 이 웹 사이트의 콘텐츠는 Creative Commons Attribution-ShareAlike 4.0 International License에 따라 사용이 허가됩니다.
+  by-nc: 달리 명시되지 않는 한 이 웹 사이트의 콘텐츠는 Creative Commons Attribution-NonCommercial 4.0 International License에 따라 사용이 허가되었습니다.
+  by-nc-nd: 달리 명시되지 않는 한, 이 웹 사이트의 콘텐츠는 Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 국제 라이선스에 따라 사용이 허가되었습니다.
+  by-nc-sa: 달리 명시되지 않는 한 이 웹 사이트의 콘텐츠는 Creative Commons Attribution-NonCommercial-ShareAlike 4.0 국제 라이선스에 따라 라이선스가 부여됩니다.
+
+# for 404 layout
+not-found:
+  title: "404"
+
+# for post layout
+post:
+  read_time:
+    unit: "분"
+    text: "읽을 수 있습니다."
+    # c for char w for word
+    word_char: c
+    # char or words per minute
+    per_minute: 500
+  pager_buttons:
+    older_post: "← 오래된 게시물로"
+    newer_post: "새로운 게시물로 →"
+    first_post: 처음
+    last_post: 마지막
+  comments:
+    disqus:
+      count_title: 코멘트
+      noscript: 코멘트를 보려면 JavaScript를 활성화하십시오.
+      click_to_load: "댓글 표시"
+      consent:
+        title: 코멘트 (Disqus.com)
+        text: >
+          주석 기능은 타사에서 호스팅됩니다. 외부 콘텐츠를 보면 disqus.com의 $terms와 $privacy_policy에 동의하는 것으로 간주합니다.
+          <br>타겟팅된 광고를 선택 해제하려면 $settings_link를 열고 'opt-out' 버튼을 클릭하여 닫습니다. 여기로 돌아가서 댓글을 표시합니다.
+        terms_link_text: 이용 약관
+        privacy_link_text: 개인 정보 보호 정책
+        settings_link_text: 이 링크
+        button:
+          load_once: 이번에만 표시
+          load_and_do_not_ask_again: 항상 표시
+  table_of_contents:
+    heading: 제목
+    tooltip:
+      move: 드래그하여 이동
+      close: 닫다
+  share:
+    heading: 공유
+    link_copied: 링크가 복사되었습니다!
+    tooltip:
+      # keys need to match with _data/share.yml
+      twitter: Twitter
+      facebook: Facebook
+      telegram: Telegram
+      linkedin: LinkedIn
+      email: 이메일
+      copy_link: 링크 복사
+
+# for post-list layout
+post-list:
+  title: 블로그
+  button_name: 블로그
+  upside_down_tabs:
+    tab:
+      all: 모두
+      categories: 카테고리
+      tags: 태그
+      years: 년
+      clear: 클리어
+      close: 닫다
+      tooltip:
+        clear: 클리어
+        close: 닫다
+    msg:
+      property_list:
+        # keys need to match with /query/post-query.json
+        tags: 테그
+        category: 카테고리
+        year: 년
+      # you can use these wildcards, {property} {value} {thumb}
+      resultFoundTitleFormat: "{property} : {thumb}"
+
+# for home layout
+home:
+  title: 환영합니다
+  button_name: 홈
+  new_posts_title: 새로운 글
+  new_posts_show_more_button: 더 보기 ...
+
+# for archives layout
+archives:
+  title: 아카이브
+  button_name: 아카이브
+  page_header: 아카이브
+
+# for about layout
+about:
+  title: 소개
+  button_name: 소개
+  email_title: 이메일
+
+# for links layout
+links:
+  title: 링크
+  button_name: 링크
+  link_text: 웹사이트
+  info_text: 정보
+
+# for projects layout
+projects:
+  title: 프로젝트
+  button_name: 프로젝트
+  read_more_text: 더 읽기
+  read_less_text: 덜 읽기
+
+# for privacy-policy layout
+privacy-policy:
+  title: &privacy_policy_title 개인 정보 보호 정책
+
+# constants to be replaced for
+constants:
+  greetings: 안녕하세요
+  welcome: 환영합니다
+  sample: 샘플
+
+# for cookie consent
+cookie_consent:
+  privacy_policy_link_text: *privacy_policy_title
+  side_nav_setting_button_tooltip: &cookie_settings 쿠키 설정
+  panel_bar:
+    msg: >
+      이 웹 사이트는 기능을 최적화하기 위해 쿠키를 사용합니다.
+      승인 후 활성화됩니다.
+    privacy_msg: $privacy_link를 확인하십시오.
+    buttons:
+      accept: &accept_button 모두 허용
+      settings: 설정
+      deny: &deny_button 거부
+  panel_settings:
+    title: *cookie_settings
+    msg: >
+      이 웹 사이트는 기능을 최적화하기 위해 쿠키를 사용합니다.
+      승인 후 활성화됩니다. 쿠키 정책에 대해서는 아래의 각 항목을 클릭하십시오.
+    privacy_msg: $privacy_link를 확인하십시오.
+    buttons:
+      accept: *accept_button
+      save: 선택 허용
+      deny: *deny_button
+    always_active: 항상 유효
+    consent_types:
+      necessary:
+        title: 필수 쿠키
+        info: >
+          이 쿠키는 웹사이트 기능에 필수적이며 사용 중지할 수 없습니다.
+          일반적으로 색 구성표와 같은 사이트 기능을 변경할 때 설정됩니다.
+          이 쿠키에는 개인 식별 정보가 저장되지 않습니다.
+          $gtag_info
+      analytics:
+        title: 성능 쿠키
+        info: $gtag_info
+      preferences:
+        title: 기능 쿠키
+        info: $gtag_info
+      advertising:
+        title: 대상 지정 및 광고 쿠키
+        info: $gtag_info
+    gtag_info:
+      # from https://support.google.com/tagmanager/answer/10718549#consent-types
+      ad_storage: >
+        광고와 관련된 저장(예: 쿠키)을 사용 설정합니다.
+      analytics_storage: >
+        방문 시 체류 시간과 같은 분석과 관련된 저장(예: 쿠키)을 사용합니다.
+      functionality_storage: >
+        웹사이트 또는 앱 기능(예: 언어 설정)을 지원하는 저장을 사용합니다.
+      personalization_storage: >
+        추천 동영상과 같은 맞춤설정과 관련된 저장을 사용 설정합니다.
+      security_storage: >
+        인증기능, 부정행위 방지, 기타 사용자 보호 등
+        보안 관련 저장을 사용합니다.
