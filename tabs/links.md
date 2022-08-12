@@ -39,20 +39,23 @@ lng_pair: id_links
 ###########################################################
 page_data:
   main:
-    header: "Links"
-    info: "Your Links page description."
+    header: "링크"
+    info: "공부에 사용한 책들이나 사용하는 홈페이지의 링크들을 정리해 둔 곳입니다."
 
   # To change order of the Categories, simply change order. (you don't need to change list order.)
   category:
-    - title: "JekyII / Liquid"
-      type: id_jekyiiliquid
-      color: "gray"
-    - title: "Web Design"
-      type: id_webdesign
-      color: "#F4A273"
+    - title: "Spring"
+      type: id_spring
+      color: "#00FF00"
+    - title: "Node.js"
+      type: id_nodejs
+      color: "#009000"
+    - title: "Python"
+      type: id_python
+      color: "#FFFF00"
     - title: "Programming"
       type: id_programming
-      color: "#62b462"
+      color: "#050dfa"
 
   list:
     -
@@ -60,33 +63,31 @@ page_data:
     - type: id_programming
       title: "Stack OverFlow"
       url: "https://stackoverflow.com/"
-      info: "Stack Overflow is a question and answer website for professional and enthusiastic programmers."
+      info: "Stack Overflow는 전문적이고 열정적인 프로그래머를 위한 질문과 답변 웹사이트입니다."
 
-    # jekyiiliquid
-    - type: id_jekyiiliquid
-      title: "Jekyll"
-      url: "https://jekyllrb.com/"
-      info: "Transform your plain text into static websites and blogs."
-    - type: id_jekyiiliquid
-      title: "Jekyll Cheat Sheet"
-      url: "https://cloudcannon.com/community/jekyll-cheat-sheet/"
-      info: "There are so many Jekyll variables and filters to remember and it can be tricky to keep it all in your head. This cheat sheet serves as a quick reference of everything Jekyll can do."
-    - type: id_jekyiiliquid
-      title: "Liquid for Designers"
-      url: "https://github.com/Shopify/liquid/wiki/Liquid-for-Designers"
-      info: "Liquid for Designers wiki on GitHub"
-    - type: id_jekyiiliquid
-      title: "Liquid for Programmers"
-      url: "https://github.com/Shopify/liquid/wiki/Liquid-for-Programmers"
-      info: "Liquid for Programmers wiki on GitHub"
-    - type: id_jekyiiliquid
-      title: "Liquid Reference"
-      url: "https://shopify.dev/api/liquid/"
-      info: "Liquid is a template language created by Shopify and written in Ruby. It is now available as an open source project on GitHub"
+    # Spring
+    - type: id_spring
+      title: "Spring initializr"
+      url: "https://start.spring.io/"
+      info: "스프링을 시작할 때 스프링을 만들어주는 사이트"
+    - type: id_spring
+      title: "mvnrepository"
+      url: "https://mvnrepository.com/"
+      info: "스프링의 라이브러리를 가져오는 사이트"
+    - type: id_spring
+      title: "토비의 스프링 3.1"
+      url: "https://github.com/AcornPublishing/toby-spring3-1"
+      info: "스프링을 공부할 때 사용한 책의 깃허브"
 
-    # webdesign
-    - type: id_webdesign
-      title: "W3Schools"
-      url: "https://www.w3schools.com/"
-      info: "W3Schools offers free online tutorials, references and exercises in all the major languages of the web. Covering popular subjects like HTML, CSS, JavaScript, Python, SQL, Java, and many more."
+    # Node.js
+    - type: id_nodejs
+      title: "Node.js 교과서"
+      url: "https://github.com/ZeroCho/nodejs-book"
+      info: "Node.js 공부에 사용한 책의 깃허브"
+
+    # Python
+    - type: id_python
+      title: "파이썬 머신러닝 완벽 가이드"
+      url: "https://github.com/wikibook/ml-definitive-guide"
+      info: "파이썬 공부에 사용한 책의 깃허브"
 ---

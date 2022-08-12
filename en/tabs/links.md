@@ -39,20 +39,23 @@ lng_pair: id_links
 ###########################################################
 page_data:
   main:
-    header: "リンク"
-    info: "リンクページの説明はこちら。"
+    header: "Links"
+    info: "This is a page where you can find links to the books you used in your study or to the websites you use."
 
   # To change order of the Categories, simply change order. (you don't need to change list order.)
   category:
-    - title: "JekyII / Liquid"
-      type: id_jekyiiliquid
-      color: "gray"
-    - title: "Webデザイン"
-      type: id_webdesign
-      color: "#F4A273"
-    - title: "プログラミング"
+    - title: "Spring"
+      type: id_spring
+      color: "#00FF00"
+    - title: "Node.js"
+      type: id_nodejs
+      color: "#009000"
+    - title: "Python"
+      type: id_python
+      color: "#FFFF00"
+    - title: "Programming"
       type: id_programming
-      color: "#62b462"
+      color: "#050dfa"
 
   list:
     -
@@ -60,33 +63,31 @@ page_data:
     - type: id_programming
       title: "Stack OverFlow"
       url: "https://stackoverflow.com/"
-      info: "Stack Overflowは、プロや熱狂的なプログラマー向けの質疑応答Webサイトです。"
+      info: "Stack Overflow is a question and answer website for professional and enthusiastic programmers."
 
-    # jekyiiliquid
-    - type: id_jekyiiliquid
-      title: "Jekyll"
-      url: "https://jekyllrb.com/"
-      info: "プレーンテキストを静的なWebサイトやブログに変換します。"
-    - type: id_jekyiiliquid
-      title: "Jekyllチートシート"
-      url: "https://cloudcannon.com/community/jekyll-cheat-sheet/"
-      info: "覚えておくべきJekyll変数とフィルターは非常に多く、すべてを頭の中に入れておくのは難しい場合があります。 このチートシートは、Jekyllが実行できるすべてのことのクイックリファレンスとして使えます。"
-    - type: id_jekyiiliquid
-      title: "デザイナー向けLiquid"
-      url: "https://github.com/Shopify/liquid/wiki/Liquid-for-Designers"
-      info: "デザイナー向けLiquid用GitHub wiki"
-    - type: id_jekyiiliquid
-      title: "プログラマー向けLiquid"
-      url: "https://github.com/Shopify/liquid/wiki/Liquid-for-Programmers"
-      info: "プログラマー向けLiquid用GitHub wiki"
-    - type: id_jekyiiliquid
-      title: "Liquidリファレンス"
-      url: "https://shopify.dev/api/liquid/"
-      info: "Liquidは、Shopifyによって作成され、Rubyで記述されたテンプレート言語です。 GitHubでオープンソースプロジェクトとして利用できるようになりました。"
+    # Spring
+    - type: id_spring
+      title: "Spring initializr"
+      url: "https://start.spring.io/"
+      info: "A site that creates a spring when you start it"
+    - type: id_spring
+      title: "mvnrepository"
+      url: "https://mvnrepository.com/"
+      info: "A site that imports spring libraries"
+    - type: id_spring
+      title: "Toby's Spring 3.1"
+      url: "https://github.com/AcornPublishing/toby-spring3-1"
+      info: "The github of the book I used to study Spring"
 
-    # webdesign
-    - type: id_webdesign
-      title: "W3Schools"
-      url: "https://www.w3schools.com/"
-      info: "W3Schoolsは、Webのすべての主要言語で、無料のオンラインチュートリアル、リファレンス、および演習を提供しています。 HTML、CSS、JavaScript、Python、SQL、Javaなどの人気のあるテーマをカバーしています。"
+    # Node.js
+    - type: id_nodejs
+      title: "Node.js textbook"
+      url: "https://github.com/ZeroCho/nodejs-book"
+      info: "Github of the book I used to study Node.js"
+
+    # Python
+    - type: id_python
+      title: "Python Machine Learning Complete Guide"
+      url: "https://github.com/wikibook/ml-definitive-guide"
+      info: "The github of the book I used to study Python"
 ---
