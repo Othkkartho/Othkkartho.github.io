@@ -34,7 +34,7 @@ date: 2022-03-03 10:04:19 +0900
 # exclude from search engines
 #search_engine_exclude: true
 # to disable this page, simply set published: false or delete this file
-#published: false
+published: false
 ---
 
 {%- capture readme_file -%}{%- include_relative _README-en.md -%}{%- endcapture -%}

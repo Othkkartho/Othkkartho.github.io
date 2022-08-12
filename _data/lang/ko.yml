@@ -156,8 +156,8 @@ links:
 projects:
   title: 프로젝트
   button_name: 프로젝트
-  read_more_text: 더 읽기
-  read_less_text: 덜 읽기
+  read_more_text: 펼치기
+  read_less_text: 접기
 
 # for privacy-policy layout
 privacy-policy:

@@ -16,3 +16,6 @@ Thumbs.db
 
 # diff files
 *.bak
+
+# A file that has been modified and cannot be changed any more
+_config.yml

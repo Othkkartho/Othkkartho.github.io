@@ -37,7 +37,10 @@ img: ":home-heading.jpg"
 
 {%- comment -%} Please delete below and place your page content here {%- endcomment -%}
 
-{%- include util/auto-content-generator.liquid -%}
 {{ website_info_text_first }}
+## Hello
+***
 
 {{ website_info_text_second }}
+> This is a blog that writes down projects of Spring and Node.js of college students aspiring to backend programming.
+> Occasionally, Python also comes up.

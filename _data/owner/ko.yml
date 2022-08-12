@@ -5,7 +5,7 @@
 brand: "오스카르소"
 
 # text below the brand name
-brand_sub_text: "$site_sample"
+brand_sub_text: "백앤드 지망 대학생입니다."
 
 # used for seo meta post author (if it's not defined in post)
 name: "오스카르소"
@@ -19,7 +19,7 @@ home:
 
 # about page sub title
 about:
-  sub_title: "$site_sample"
+  sub_title: "메인으로 Spring과 Node.js를, 서브로 Python을 공부하고 있습니다."
 
 # if you don't want to add copyright year, comment or leave it blank.
 # the year during which the claimed copyright for the work was first asserted.

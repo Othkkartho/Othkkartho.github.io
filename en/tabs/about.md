@@ -4,7 +4,7 @@ layout: about
 lng_pair: id_about
 
 # image for page specific usage
-img: ":about.jpg"
+img: "/assets/img/default/profile_img.jpg"
 # publish date (used for seo)
 # if not specified, site.time will be used.
 #date: 2022-03-03 12:32:00 +0000
@@ -36,7 +36,11 @@ img: ":about.jpg"
 
 {%- comment -%} Please delete below and place your page content here {%- endcomment -%}
 
-{%- include util/auto-content-generator.liquid -%}
 {{ website_info_text_first }}
+## Hello
+***
 
 {{ website_info_text_second }}
+I'm mainly studying Java and JavaScript, and I'm also studying Python.<br>
+Before this blog, [SNS](https://github.com/Othkkartho/node_sns) and [Auction System](https://github.com/Othkkartho/node_auction) were developed to add to the project of the Node.js textbook.<br>
+Spring is [Spring Server](https://github.com/Othkkartho/Spring_Server) and there is a project made with Toby's Spring book.

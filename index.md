@@ -37,7 +37,10 @@ img: ":home-heading.jpg"
 
 {%- comment -%} Please delete below and place your page content here {%- endcomment -%}
 
-{%- include util/auto-content-generator.liquid -%}
 {{ website_info_text_first }}
+## 어서오세요.
+***
 
 {{ website_info_text_second }}
+> 백앤드 프로그래머 지망 대학생의 Spring, Node.js의 프로젝트들을 끄적이는 블로그입니다.
+> 가끔 파이썬도 올라옵니다.

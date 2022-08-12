@@ -4,7 +4,7 @@ layout: about
 lng_pair: id_about
 
 # image for page specific usage
-img: ":about.jpg"
+img: "/assets/img/default/profile_img.jpg"
 # publish date (used for seo)
 # if not specified, site.time will be used.
 #date: 2022-03-03 12:32:00 +0000
@@ -36,7 +36,11 @@ img: ":about.jpg"
 
 {%- comment -%} Please delete below and place your page content here {%- endcomment -%}
 
-{%- include util/auto-content-generator.liquid -%}
 {{ website_info_text_first }}
+## 어서오세요.
+***
 
 {{ website_info_text_second }}
+주로 자바와 자바 스크립트를 공부하고 있고, 파이썬도 공부하고 있습니다.<br>
+이 블로그 전에 [SNS](https://github.com/Othkkartho/node_sns), [경매 시스템](https://github.com/Othkkartho/node_auction)를 Node.js 교과서의 프로젝트에 덧붙이는 개발을 진행했습니다.<br>
+Spring은 [Spring Server](https://github.com/Othkkartho/Spring_Server)로 토비의 스프링 책을 가지고 만든 프로젝트가 있습니다.
