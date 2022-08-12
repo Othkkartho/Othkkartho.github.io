@@ -37,6 +37,6 @@ date: 2022-03-03 10:04:19 +0900
 #published: false
 ---
 
-{%- capture readme_file -%}{%- include_relative _README-jp.md -%}{%- endcapture -%}
+{%- capture readme_file -%}{%- include_relative _README-en.md -%}{%- endcapture -%}
 {%- assign tmp_content = readme_file | split: "<!-- readme -->" -%}
 {{tmp_content[1]}}
