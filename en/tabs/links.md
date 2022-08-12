@@ -56,6 +56,9 @@ page_data:
     - title: "Programming"
       type: id_programming
       color: "#050dfa"
+    - title: "etc"
+      type: id_etc
+      color: "#D3D3D3"
 
   list:
     -
@@ -90,4 +93,10 @@ page_data:
       title: "Python Machine Learning Complete Guide"
       url: "https://github.com/wikibook/ml-definitive-guide"
       info: "The github of the book I used to study Python"
+
+    # etc
+    - type: id_etc
+      title: "pixabay"
+      url: "https://pixabay.com/"
+      info: "free image sites"
 ---

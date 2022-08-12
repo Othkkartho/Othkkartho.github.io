@@ -59,7 +59,7 @@ not-found:
 post:
   read_time:
     unit: "분"
-    text: "읽을 수 있습니다."
+    text: "읽었습니다."
     # c for char w for word
     word_char: c
     # char or words per minute

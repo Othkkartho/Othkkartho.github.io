@@ -56,6 +56,9 @@ page_data:
     - title: "Programming"
       type: id_programming
       color: "#050dfa"
+    - title: "etc"
+      type: id_etc
+      color: "#D3D3D3"
 
   list:
     -
@@ -90,4 +93,10 @@ page_data:
       title: "파이썬 머신러닝 완벽 가이드"
       url: "https://github.com/wikibook/ml-definitive-guide"
       info: "파이썬 공부에 사용한 책의 깃허브"
+
+    # etc
+    - type: id_etc
+      title: "pixabay"
+      url: "https://pixabay.com/"
+      info: "무료 사진 사이트"
 ---
