@@ -12,221 +12,87 @@ page_data:
     back_color: "lightblue"
 
   category:
-    - title: "Example"
-      type: id_example
+    - title: "library"
+      type: id_library
       color: "gray"
-    - title: "Picture"
-      type: id_picture
-      color: "#62b462"
-    - title: "Quote"
-      type: id_quote
-      color: "#2FD0ED"
 
   list:
-    # example
-    - type: id_example
-      project_name: "Example Project"
-      project_excerpt: "Examples"
-      img: ":project1_thumb.jpg"
-      img_title: "img title1"
-      date: "2021-03-13"
+    # library
+    - type: id_library
+      project_name: "Spring library I used before"
+      project_excerpt: "library"
+      img: ":spring_img.jpg"
+      img_title: "spring log"
+      date: "2022-08-15"
       post: |
-        # Examples
+        
 
-        This is an example page to display markdown related styles for Mr. Green Jekyll Theme.
-
-        ### Headings (centered)
+    - type: id_library
+      project_name: "Node.js library I used before"
+      project_excerpt: "library"
+      img: ":node_js_img.jpg"
+      img_title: "node.js log"
+      date: "2022-08-15"
+      post: |
+        This is a project that organizes the libraries of Node.js that I used.
+        Please refer to [this link](https://nodejs.org/api/documentation.html)for detailed API information of Node.
+        ### Node modules
+        
+        | 모듈 이름 | 설명 |
+        | :------:  | :------: |
+        | [os](https://nodejs.org/api/os.html) | A module that can get information from the operating system |
+        | [path](https://nodejs.org/api/documentation.html) | This is a module that helps to easily manipulate the paths of folders and files because the path separator is different for each operating system. |
+        | [url](https://nodejs.org/api/url.html) | This module helps you to easily manipulate Internet addresses. |
+        | [querystring](https://nodejs.org/api/querystring.html) | When using the url of an existing node instead of the url of the WHATWG method, this module makes the search part into an object that is easy to use. |
+        | [util](https://nodejs.org/api/util.html) | It provides various utility functions such as deprecate and promisify. |
+        | [worker_threads](https://nodejs.org/api/worker_threads.html) | Used when working with nodes in a multi-threaded manner. |
+        | [child_process](https://nodejs.org/api/worker_threads.html) | This module is used when executing other programs or executing commands on the node. |
+        | [fs](https://nodejs.org/api/fs.html) | Abbreviation for file system, you can access the file system to create, delete, read and write files.|
+        | [event](https://nodejs.org/api/events.html) | This module is used to create events. |
+        | [http2](https://nodejs.org/api/http.html) | This module is for using the http2 server. This is an improved version of http/1.1 and request and response. |
+        | [cluster](https://nodejs.org/api/cluster.html) | A module that allows a node operating as a single process to use all CPU cores. |
+        | [readline](https://nodejs.org/api/readline.html) | A module that provides an interface for reading data one line at a time. |
+        | [process](https://nodejs.org/api/process.html) | This module manages the current process. |
         {:data-align="center"}
 
-        # Heading 1
+        ### npm 패키지
 
-        ## Heading 2
+        | 패키지 이름 | 설명 |
+        | :----: | :----: |
+        | [express](https://www.npmjs.com/package/express) |It is a web server framework that adds additional functions to the request and response objects of the http module. (There are also types such as koa and hapi.) |
+        | [morgan](https://www.npmjs.com/package/morgan) | You can view additional logs in addition to the existing logs. It is convenient to see requests and responses at a glance. |
+        | [cookie-parser](https://www.npmjs.com/package/cookie-parser) | Interprets the cookies enclosed in the request into a req.cookies object. |
+        | [express-session](https://www.npmjs.com/package/express-session) | As a middleware for session management, it is useful when implementing a session for reasons such as login or temporarily storing data for a specific user. |
+        | [multer](https://www.npmjs.com/package/multer) | This middleware is used to upload various files including images and videos in multipart format. |
+        | [dotenv](https://www.npmjs.com/package/dotenv) | Package to manage process.env |
+        | [pug](https://pugjs.org) | A template engine similar to Ruby. |
+        | [nunjucks](https://mozilla.github.io/nunjucks) | It is a template engine with similar syntax to Python's Twig. |
+        | [sequelize](https://www.npmjs.com/package/sequelize) | It is a package classified as an ORM that maps JavaScript objects and relationships between databases. |
+        | [sequelize-cli](https://www.npmjs.com/package/sequelize-cli) | This is a package for executing sequencing commands. |
+        | [mysql2](https://www.npmjs.com/package/mysql2) | It is a driver that connects MySQL and Sequelize. |
+        | [bcrypt](https://www.npmjs.com/package/bcrypt) | It is a package that encrypts and decrypts text. |
+        | [passport](https://www.npmjs.com/package/passport) | Used for user authentication, such as login. |
+        | [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) | Token-based authentication for authenticating and identifying users. |
+        | [axios](https://axios-http.com/) | It is an HTTP asynchronous communication library that utilizes the Promise API, which is an API for flexibly handling asynchronous processing for browsers and Node.js. |
+        | [CORS](https://www.npmjs.com/package/cors) | It is an abbreviation for Cross Origin Resource Sharing. It is a package that blocks the API for security reasons by the browser when the client requests it to a server with a different domain and port. |
+        | [express-rate-limit](https://www.npmjs.com/package/express-rate-limit) | A package that allows you to limit the number of incoming requests from one IP address per unit time. |
+        | [UUID](https://www.npmjs.com/package/uuid) | Abbreviation for Universally Unique IDentifier, which is used by the server to distinguish users by attaching UUIDs. |
+        | [ms](https://www.npmjs.com/package/ms) | You can easily convert various time formats to milliseconds. |
+        | [WS](https://www.npmjs.com/package/ws) | The client and server can send and receive data to each other without disconnecting and maintaining the connection. |
+        | [socket.io](https://www.npmjs.com/package/socket.io) | It is a websocket implementation like ws, but it is a better choice when considering cross-browser compatibility or backward compatibility. |
+        | [EventSource](https://developer.mozilla.org/ko/docs/Web/API/EventSource) | A package that makes a persistent connection to an http server. |
+        | [node-schedule](https://www.npmjs.com/package/node-schedule) | You can schedule it and run it. |
+        | [sse](https://www.npmjs.com/package/sse) | It is an abbreviation for Server Sent Events, and is a package that streams data from the server in real time. |
+        | [schtasks](https://docs.microsoft.com/ko-kr/windows-server/administration/windows-commands/schtasks) | Causes commands and programs to run periodically or at specific times. |
+        | [commander](https://www.npmjs.com/package/commander) | A package for receiving input values ​​and operating them using cli |
+        | [inquirer](https://www.npmjs.com/package/inquirer) | It enables interactive communication with users. |
+        | [chalk](https://github.com/chalk/chalk) | This is a package that colorizes cmd. |
 
-        ### Heading 3
-
-        #### Heading 4
-
-        ##### Heading 5
-
-        ###### Heading 6
-
-        ***
-
-        ### Paragraphs
-
-        #### Paragraph
-
-        **William Shakespeare**, Let me not to the marriage of true minds
-        Admit impediments. Love is not love
-        Which alters when it alteration finds,
-        Or bends with the remover to remove.
-        O no, it is an ever-fixed mark
-        That looks on tempests and is never shaken;
-        It is the star to every wand'ring barque,
-        Whose worth's unknown, although his height be taken.
-        Love's not Time's fool, though rosy lips and cheeks
-        Within his bending sickle's compass come;
-        Love alters not with his brief hours and weeks,
-        But bears it out even to the edge of doom.
-        If this be error and upon me proved,
-        I never writ, nor no man ever loved.
-
-        #### Texts
-
-        Quoted text `Hello world`
-
-        Bold text **Hello world**
-
-        Italic text _Hello world_
-
-        kbd text <kbd>Hello world</kbd>
-
-        #### Blockquote
-
-        > **William Shakespeare**, Let me not to the marriage of true minds
-        Admit impediments. Love is not love
-        Which alters when it alteration finds,
-        Or bends with the remover to remove.
-        O no, it is an ever-fixed mark
-        That looks on tempests and is never shaken;
-        It is the star to every wand'ring barque,
-        Whose worth's unknown, although his height be taken.
-        Love's not Time's fool, though rosy lips and cheeks
-        Within his bending sickle's compass come;
-        Love alters not with his brief hours and weeks,
-        But bears it out even to the edge of doom.
-        If this be error and upon me proved,
-        I never writ, nor no man ever loved.
-
-        ### Link
-
-        This is [Mr. Green Jekyll Theme](https://github.com/MrGreensWorkshop/MrGreen-JekyllTheme), a simple theme built for [Jekyll](https://jekyllrb.com/).
-
-        ### Picture
-
-        ![such a lovely place](:projects-heading.jpg)
-
-        ### Picture (centered)
-
-        ![such a lovely place](:project1_thumb.jpg){:data-align="center"}
-
-        ### Lists
-
-        - Apple
-        - Banana
-        - Orange
-
-        1. Fruits
-            1. Apples
-                - Granny Smith
-                - Mutsu
-            1. Bananas
-                - Cavendish
-                - Red
-        1. Vegetables
-
-        ***
-
-        ### Tables
-
-        #### Small Table (centered)
-
-        | Fruits(not aligned) | Alignment (centered) | num (right align) |
-        | ------------------- | :------------------: | ----------------: |
-        | Apple               |       centered       |              9999 |
-        | Banana              |  centered long text  |               999 |
-        | Orange              |       centered       |                99 |
-        | Lemon               |       centered       |                 9 |
-        {:data-align="center"}
-
-        #### Wide Table (centered)
-
-        scroll enabled when page is narrow
-
-        | Fruits | num (left align) | num (right align) | num  | num  | num  |
-        | ------ | :--------------- | ----------------: | ---- | ---- | ---- |
-        | Apple  | 1111             |              1111 | 2222 | 3333 | 4444 |
-        | Banana | 111              |               111 | 222  | 333  | 444  |
-        | Orange | 11               |                11 | 22   | 33   | 44   |
-        | Lemon  | 1                |                 1 | 2    | 3    | 4    |
-        {:data-align="center"}
-
-        #### Wider Table
-
-        scroll enabled when page is narrow
-
-        | Fruits | num (left align) | num (right align) | num  | num  | num  | num  | num  | num  |
-        | ------ | :--------------- | ----------------: | ---- | ---- | ---- | ---- | ---- | ---- |
-        | Apple  | 1111             |              1111 | 2222 | 3333 | 4444 | 5555 | 6666 | 7777 |
-        | Banana | 111              |               111 | 222  | 333  | 444  | 555  | 666  | 777  |
-        | Orange | 11               |                11 | 22   | 33   | 44   | 55   | 66   | 77   |
-        | Lemon  | 1                |                 1 | 2    | 3    | 4    | 5    | 6    | 7    |
-
-        ### Code
-
-        #### Quote
-
-        ```python
-        for i in range(5, 10):
-          print(i)
-        ```
-
-    # picture
-    - type: id_picture
-      project_name: "Example Project"
-      project_excerpt: "Picture"
-      img: ":project2_thumb.jpg"
-      img_title: "img title2"
-      date: "2021-04-23"
+    - type: id_library
+      project_name: "전에 사용했던 Python 라이브러리"
+      project_excerpt: "라이브러리"
+      img: ":python_img.png"
+      img_title: "Python log"
+      date: "2022-08-15"
       post: |
-        # Title
-        This is project content.
-
-        ![Image](:project2_thumb.jpg)
-
-    # quote
-    - type: id_quote
-      project_name: "Example Project"
-      project_excerpt: "William Shakespeare"
-      #img: ":project1_thumb.jpg"
-      #img_title: "img title3"
-      date: "2021-05-27"
-      post: |
-        Let me not to the marriage of true minds
-        Admit impediments. Love is not love
-        Which alters when it alteration finds,
-        Or bends with the remover to remove.
-        O no, it is an ever-fixed mark
-        That looks on tempests and is never shaken;
-        It is the star to every wand'ring barque,
-        Whose worth's unknown, although his height be taken.
-        Love's not Time's fool, though rosy lips and cheeks
-        Within his bending sickle's compass come;
-        Love alters not with his brief hours and weeks,
-        But bears it out even to the edge of doom.
-        If this be error and upon me proved,
-        I never writ, nor no man ever loved.
-    - type: id_quote
-      project_name: "Example Project"
-      project_excerpt: "Albert Einstein"
-      img: ":project2_thumb.jpg"
-      img_title: "img title4"
-      date: "2021-06-08"
-      post: |
-        Two things are infinite: the universe and human stupidity; and I'm not sure about the universe.
-    - type: id_quote
-      project_name: "Example Project"
-      project_excerpt: "Mae West"
-      img: ":project1_thumb.jpg"
-      img_title: "img title5"
-      date: "2021-08-20"
-      post: |
-        You only live once, but if you do it right, once is enough.
-    - type: id_quote
-      project_name: "Example Project"
-      project_excerpt: "Mahatma Gandhi "
-      img: ":project2_thumb.jpg"
-      img_title: "img title6"
-      date: "2021-12-20"
-      post: |
-        Be the change that you wish to see in the world.
+        

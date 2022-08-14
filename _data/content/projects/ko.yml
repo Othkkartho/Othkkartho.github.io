@@ -12,221 +12,87 @@ page_data:
     back_color: "lightblue"
 
   category:
-    - title: "예"
-      type: id_example
+    - title: "라이브러리"
+      type: id_library
       color: "gray"
-    - title: "사진"
-      type: id_picture
-      color: "#62b462"
-    - title: "인용"
-      type: id_quote
-      color: "#2FD0ED"
 
   list:
-    # example
-    - type: id_example
-      project_name: "예시 프로젝트"
-      project_excerpt: "예"
-      img: ":project1_thumb.jpg"
-      img_title: "img title1"
-      date: "2021-03-13"
+    # library
+    - type: id_library
+      project_name: "전에 사용했던 Spring 라이브러리"
+      project_excerpt: "라이브러리"
+      img: ":spring_img.jpg"
+      img_title: "spring log"
+      date: "2022-08-15"
       post: |
-        # Examples
+        
 
-        This is an example page to display markdown related styles for Mr. Green Jekyll Theme.
-
-        ### Headings (centered)
+    - type: id_library
+      project_name: "전에 사용했던 Node.js 라이브러리"
+      project_excerpt: "라이브러리"
+      img: ":node_js_img.jpg"
+      img_title: "node.js log"
+      date: "2022-08-15"
+      post: |
+        Node.js의 라이브러리를 정리해 놓은 프로젝트입니다.
+        노드의 자세한 API 정보는 [이 링크](https://nodejs.org/api/documentation.html)를 참조해 주세요.
+        ### 노드의 모듈들
+        
+        | 모듈 이름 | 설명 |
+        | :------:  | :------: |
+        | [os](https://nodejs.org/api/os.html) | 운영체제의 정보를 가져올 수 있는 모듈 |
+        | [path](https://nodejs.org/api/documentation.html) | 운영체제별로 경로 구분자가 다르기 때문에 폴더와 파일의 경로를 쉽게 조작하도록 도와주는 모듈입니다. |
+        | [url](https://nodejs.org/api/url.html) | 인터넷 주소를 쉽게 조작하도록 도와주는 모듈입니다. |
+        | [querystring](https://nodejs.org/api/querystring.html) | WHATWG 방식의 url 대신 기존 노드의 url을 사용할 때, search 부분을 사용하기 쉽게 객체로 만드는 모듈입니다. |
+        | [util](https://nodejs.org/api/util.html) | deprecate나 promisify와 같은 다양한 유틸 기능을 제공합니다. |
+        | [worker_threads](https://nodejs.org/api/worker_threads.html) | 노드에서 멀티 스레드 방식으로 작업할 때 사용합니다. |
+        | [child_process](https://nodejs.org/api/worker_threads.html) | 노드에서 다른 프로그램을 실행하거나 명령어를 수행할 때 사용하는 모듈입니다. |
+        | [fs](https://nodejs.org/api/fs.html) | file system의 약자로 파일 시스템에 접근해 파일의 생성, 삭제, 일고 쓰기를 할 수 있습니다. |
+        | [event](https://nodejs.org/api/events.html) | 이벤트를 만들때 사용하는 모듈입니다. |
+        | [http2](https://nodejs.org/api/http.html) | http2 서버를 사용하기 위한 모듈입니다. http/1.1과 요청 및 응답 방식이 개선된 버전입니다. |
+        | [cluster](https://nodejs.org/api/cluster.html) | 싱글 프로세스로 동작하는 노드가 CPU 코어를 모두 사용할 수 있게 해주는 모듈입니다. |
+        | [readline](https://nodejs.org/api/readline.html) | 한 번에 한 줄씩 데이터를 읽기 위한 인터페이스를 제공하는 모듈입니다. |
+        | [process](https://nodejs.org/api/process.html) | 현재 프로세스를 관리하는 모듈입니다. |
         {:data-align="center"}
 
-        # Heading 1
+        ### npm 패키지
 
-        ## Heading 2
+        | 패키지 이름 | 설명 |
+        | :----: | :----: |
+        | [express](https://www.npmjs.com/package/express) | http 모듈의 요청과 응답 객체에 추가 기능들을 부여한 웹서버 프레임워크입니다.(koa, hapi 같은 종류도 있습니다.) |
+        | [morgan](https://www.npmjs.com/package/morgan) | 기존 로그 외에 추가적인 로그를 볼 수 있습니다. 요청과 응답을 한눈에 볼 수 있어 편리합니다. |
+        | [cookie-parser](https://www.npmjs.com/package/cookie-parser) | 요청에 동봉된 쿠키를 해석해 req.cookies 객체로 만듭니다. |
+        | [express-session](https://www.npmjs.com/package/express-session) | 세션 관리용 미들웨어로써, 로그인 등의 이유로 세션을 구현하거나 특정 사용자를 위한 데이터를 임시적으로 저장해둘 때 유용합니다. |
+        | [multer](https://www.npmjs.com/package/multer) | 이미지, 동영상 등을 비롯한 여러 가지 파일들을 멀티파트 형식으로 업로드할 때 사용하는 미들웨어입니다. |
+        | [dotenv](https://www.npmjs.com/package/dotenv) | process.env를 관리하기 위한 패키지 |
+        | [pug](https://pugjs.org) | 루비와 비슷한 템플릿 엔진입니다. |
+        | [nunjucks](https://mozilla.github.io/nunjucks) | 파이썬의 Twig와 문법이 비슷한 템플릿 엔진입니다. |
+        | [sequelize](https://www.npmjs.com/package/sequelize) | 자바스크립트 객체와 데이터베이스의 릴레이션을 매핑해주는 ORM으로 분류되는 패키지입니다. |
+        | [sequelize-cli](https://www.npmjs.com/package/sequelize-cli) | 시퀼라이즈 명령어를 실행하기 위한 패키지 입니다. |
+        | [mysql2](https://www.npmjs.com/package/mysql2) | MySQL과 시퀼라이즈를 이어주는 드라이버입니다. |
+        | [bcrypt](https://www.npmjs.com/package/bcrypt) | 텍스트를 암,복호화 하는 패키지입니다. |
+        | [passport](https://www.npmjs.com/package/passport) | 로그인과 같은 사용자 인증을 위해 사용됩니다. |
+        | [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) | 유저를 인증하고 식별하기 위한 토큰 기반 인증입니다. |
+        | [axios](https://axios-http.com/) | 브라우저, Node.js를 위한 비동기 처리를 유연하게 처리하기 위한 API인 Promise API를 활용하는 HTTP 비동기 통신 라이브러리입니다. |
+        | [CORS](https://www.npmjs.com/package/cors) | Cross Origin Resource Sharing의 약자로 도메인 및 포트가 다른 서버로 클라이언트가 요청했을 씨 브라우저가 보안상의 이유로 API를 차단하는 패키지입니다. |
+        | [express-rate-limit](https://www.npmjs.com/package/express-rate-limit) | 단위 시간 동안 하나의 ip 주소에서 들어오는 request의 숫자를 제한할 수 있는 패키지입니다. |
+        | [UUID](https://www.npmjs.com/package/uuid) | Universally Unique IDentifier의 약자로, 서버에서 사용자들에 UUID를 붙여 구분하는 등으로 사용합니다. |
+        | [ms](https://www.npmjs.com/package/ms) | 다양한 시간 형식을 밀리초로 쉽게 변환할 수 있습니다. |
+        | [WS](https://www.npmjs.com/package/ws) | 연결을 끊지 않고 계속 유지한 상태로 클라이언트와 서버가 서로 데이터를 주고 받을수 있습니다. |
+        | [socket.io](https://www.npmjs.com/package/socket.io) | ws와 같은 웹 소켓 구현체지만 브라우저간 호환이나 이전 버전 호환을 고려하면 더 좋은 선택입니다. |
+        | [EventSource](https://developer.mozilla.org/ko/docs/Web/API/EventSource) | http 서버에 지속적인 연결을 하는 패키지입니다. |
+        | [node-schedule](https://www.npmjs.com/package/node-schedule) | 스케줄을 지정하고, 실행할 수 있습니다. |
+        | [sse](https://www.npmjs.com/package/sse) | Server Sent Events의 약자로 서버의 데이터를 실시간으로, 스트리밍하는 패키지입니다. |
+        | [schtasks](https://docs.microsoft.com/ko-kr/windows-server/administration/windows-commands/schtasks) | 명령 및 프로그램이 주기적으로 또는 특정 시간에 실행되도록 합니다. |
+        | [commander](https://www.npmjs.com/package/commander) | cli를 이용해 입력 값을 받아 동작하도록 하기 위한 패키지 |
+        | [inquirer](https://www.npmjs.com/package/inquirer) | 사용자와 대화형 소통이 가능하도록 만들어 줍니다. |
+        | [chalk](https://github.com/chalk/chalk) | cmd에 색을 입혀주는 패키지입니다. |
 
-        ### Heading 3
-
-        #### Heading 4
-
-        ##### Heading 5
-
-        ###### Heading 6
-
-        ***
-
-        ### Paragraphs
-
-        #### Paragraph
-
-        **William Shakespeare**, Let me not to the marriage of true minds
-        Admit impediments. Love is not love
-        Which alters when it alteration finds,
-        Or bends with the remover to remove.
-        O no, it is an ever-fixed mark
-        That looks on tempests and is never shaken;
-        It is the star to every wand'ring barque,
-        Whose worth's unknown, although his height be taken.
-        Love's not Time's fool, though rosy lips and cheeks
-        Within his bending sickle's compass come;
-        Love alters not with his brief hours and weeks,
-        But bears it out even to the edge of doom.
-        If this be error and upon me proved,
-        I never writ, nor no man ever loved.
-
-        #### Texts
-
-        Quoted text `Hello world`
-
-        Bold text **Hello world**
-
-        Italic text _Hello world_
-
-        kbd text <kbd>Hello world</kbd>
-
-        #### Blockquote
-
-        > **William Shakespeare**, Let me not to the marriage of true minds
-        Admit impediments. Love is not love
-        Which alters when it alteration finds,
-        Or bends with the remover to remove.
-        O no, it is an ever-fixed mark
-        That looks on tempests and is never shaken;
-        It is the star to every wand'ring barque,
-        Whose worth's unknown, although his height be taken.
-        Love's not Time's fool, though rosy lips and cheeks
-        Within his bending sickle's compass come;
-        Love alters not with his brief hours and weeks,
-        But bears it out even to the edge of doom.
-        If this be error and upon me proved,
-        I never writ, nor no man ever loved.
-
-        ### Link
-
-        This is [Mr. Green Jekyll Theme](https://github.com/MrGreensWorkshop/MrGreen-JekyllTheme), a simple theme built for [Jekyll](https://jekyllrb.com/).
-
-        ### Picture
-
-        ![such a lovely place](:projects-heading.jpg)
-
-        ### Picture (centered)
-
-        ![such a lovely place](:project1_thumb.jpg){:data-align="center"}
-
-        ### Lists
-
-        - Apple
-        - Banana
-        - Orange
-
-        1. Fruits
-            1. Apples
-                - Granny Smith
-                - Mutsu
-            1. Bananas
-                - Cavendish
-                - Red
-        1. Vegetables
-
-        ***
-
-        ### Tables
-
-        #### Small Table (centered)
-
-        | Fruits(not aligned) | Alignment (centered) | num (right align) |
-        | ------------------- | :------------------: | ----------------: |
-        | Apple               |       centered       |              9999 |
-        | Banana              |  centered long text  |               999 |
-        | Orange              |       centered       |                99 |
-        | Lemon               |       centered       |                 9 |
-        {:data-align="center"}
-
-        #### Wide Table (centered)
-
-        scroll enabled when page is narrow
-
-        | Fruits | num (left align) | num (right align) | num  | num  | num  |
-        | ------ | :--------------- | ----------------: | ---- | ---- | ---- |
-        | Apple  | 1111             |              1111 | 2222 | 3333 | 4444 |
-        | Banana | 111              |               111 | 222  | 333  | 444  |
-        | Orange | 11               |                11 | 22   | 33   | 44   |
-        | Lemon  | 1                |                 1 | 2    | 3    | 4    |
-        {:data-align="center"}
-
-        #### Wider Table
-
-        scroll enabled when page is narrow
-
-        | Fruits | num (left align) | num (right align) | num  | num  | num  | num  | num  | num  |
-        | ------ | :--------------- | ----------------: | ---- | ---- | ---- | ---- | ---- | ---- |
-        | Apple  | 1111             |              1111 | 2222 | 3333 | 4444 | 5555 | 6666 | 7777 |
-        | Banana | 111              |               111 | 222  | 333  | 444  | 555  | 666  | 777  |
-        | Orange | 11               |                11 | 22   | 33   | 44   | 55   | 66   | 77   |
-        | Lemon  | 1                |                 1 | 2    | 3    | 4    | 5    | 6    | 7    |
-
-        ### Code
-
-        #### Quote
-
-        ```python
-        for i in range(5, 10):
-          print(i)
-        ```
-
-    # picture
-    - type: id_picture
-      project_name: "예시 프로젝트"
-      project_excerpt: "사진"
-      img: ":project2_thumb.jpg"
-      img_title: "img title2"
-      date: "2021-04-23"
+    - type: id_library
+      project_name: "전에 사용했던 Python 라이브러리"
+      project_excerpt: "라이브러리"
+      img: ":python_img.png"
+      img_title: "Python log"
+      date: "2022-08-15"
       post: |
-        # Title
-        This is project content.
-
-        ![Image](:project2_thumb.jpg)
-
-    # quote
-    - type: id_quote
-      project_name: "예시 프로젝트"
-      project_excerpt: "William Shakespeare"
-      #img: ":project1_thumb.jpg"
-      #img_title: "img title3"
-      date: "2021-05-27"
-      post: |
-        Let me not to the marriage of true minds
-        Admit impediments. Love is not love
-        Which alters when it alteration finds,
-        Or bends with the remover to remove.
-        O no, it is an ever-fixed mark
-        That looks on tempests and is never shaken;
-        It is the star to every wand'ring barque,
-        Whose worth's unknown, although his height be taken.
-        Love's not Time's fool, though rosy lips and cheeks
-        Within his bending sickle's compass come;
-        Love alters not with his brief hours and weeks,
-        But bears it out even to the edge of doom.
-        If this be error and upon me proved,
-        I never writ, nor no man ever loved.
-    - type: id_quote
-      project_name: "예시 프로젝트"
-      project_excerpt: "Albert Einstein"
-      img: ":project2_thumb.jpg"
-      img_title: "img title4"
-      date: "2021-06-08"
-      post: |
-        Two things are infinite: the universe and human stupidity; and I'm not sure about the universe.
-    - type: id_quote
-      project_name: "예시 프로젝트"
-      project_excerpt: "Mae West"
-      img: ":project1_thumb.jpg"
-      img_title: "img title5"
-      date: "2021-08-20"
-      post: |
-        You only live once, but if you do it right, once is enough.
-    - type: id_quote
-      project_name: "예시 프로젝트"
-      project_excerpt: "Mahatma Gandhi "
-      img: ":project2_thumb.jpg"
-      img_title: "img title6"
-      date: "2021-12-20"
-      post: |
-        Be the change that you wish to see in the world.
+        

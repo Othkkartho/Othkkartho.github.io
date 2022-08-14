@@ -87,6 +87,14 @@ page_data:
       title: "Node.js 교과서"
       url: "https://github.com/ZeroCho/nodejs-book"
       info: "Node.js 공부에 사용한 책의 깃허브"
+    - type: id_nodejs
+      title: "Node.js v18.7.0 문서"
+      url: "https://nodejs.org/api/documentation.html"
+      info: "Node.js의 공식 API 참조 문서"
+    - type: id_nodejs
+      title: "npm"
+      url: "https://www.npmjs.com/"
+      info: "Node.js npm 패키지 문서"
 
     # Python
     - type: id_python

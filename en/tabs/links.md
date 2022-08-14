@@ -87,6 +87,14 @@ page_data:
       title: "Node.js textbook"
       url: "https://github.com/ZeroCho/nodejs-book"
       info: "Github of the book I used to study Node.js"
+    - type: id_nodejs
+      title: "Node.js v18.7.0 documentation"
+      url: "https://nodejs.org/api/documentation.html"
+      info: "official API reference documentation for Node.js"
+    - type: id_nodejs
+      title: "npm"
+      url: "https://www.npmjs.com/"
+      info: "Node.js npm package"
 
     # Python
     - type: id_python
