@@ -38,7 +38,7 @@ page_data:
         Please refer to [this link](https://nodejs.org/api/documentation.html)for detailed API information of Node.
         ### Node modules
         
-        | 모듈 이름 | 설명 |
+        | module name | Explanation |
         | :------:  | :------: |
         | [os](https://nodejs.org/api/os.html) | A module that can get information from the operating system |
         | [path](https://nodejs.org/api/documentation.html) | This is a module that helps to easily manipulate the paths of folders and files because the path separator is different for each operating system. |
@@ -55,9 +55,9 @@ page_data:
         | [process](https://nodejs.org/api/process.html) | This module manages the current process. |
         {:data-align="center"}
 
-        ### npm 패키지
+        ### npm package
 
-        | 패키지 이름 | 설명 |
+        | package name | Explanation |
         | :----: | :----: |
         | [express](https://www.npmjs.com/package/express) |It is a web server framework that adds additional functions to the request and response objects of the http module. (There are also types such as koa and hapi.) |
         | [morgan](https://www.npmjs.com/package/morgan) | You can view additional logs in addition to the existing logs. It is convenient to see requests and responses at a glance. |
