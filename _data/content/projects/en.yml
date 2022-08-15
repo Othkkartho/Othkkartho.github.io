@@ -89,8 +89,8 @@ page_data:
         | [chalk](https://github.com/chalk/chalk) | This is a package that colorizes cmd. |
 
     - type: id_library
-      project_name: "전에 사용했던 Python 라이브러리"
-      project_excerpt: "라이브러리"
+      project_name: "Python library I used before"
+      project_excerpt: "library"
       img: ":python_img.png"
       img_title: "Python log"
       date: "2022-08-15"
