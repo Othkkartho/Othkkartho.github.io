@@ -7,9 +7,9 @@ title: 버츄얼 유튜버 커뮤니티 사이트 요구분석 및 설계
 # if not specified, .name will be used from _data/owner/[language].yml
 author: Othkkartho's Workshop
 # multiple category is not supported
-category: Node.js
+category: Spring
 # multiple tag entries are possible
-tags: [Node.js, virtual community]
+tags: [Spring, virtual community]
 # thumbnail image for post
 img: ":post_virtual_pic1.jpg"
 # disable comments on this page
