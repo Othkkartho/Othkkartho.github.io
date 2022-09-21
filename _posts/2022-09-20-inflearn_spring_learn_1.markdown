@@ -16,7 +16,7 @@ img: ":post_spring_security.jpg"
 #comments_disable: true
 
 # publish date
-date: 2022-09-21 10:00:00 +0900
+date: 2022-09-20 10:00:00 +0900
 
 # seo
 # if not specified, date will be used.
