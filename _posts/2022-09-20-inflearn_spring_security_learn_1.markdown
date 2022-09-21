@@ -64,11 +64,11 @@ public class SecurityController {
 위와 같이 만들 수 있습니다. 그럼 localhost:8080으로 접속해본다면 루트에 리턴한 문자값인 home이 나오게 됩니다.
 여기에 Spring Security의존성을 추가해 보겠습니다.
 의존성을 추가하고, 홈페이지에 접속을 하면 아래의 사진과 같이 로그인 입력창이 출력됩니다.
-![로그인 페이지](:/inflearn_spring_security_learn/1s/login.png)
+![로그인 페이지](:/inflearn_spring_security_learn/1s/login.PNG)
 그럼 기본으로 제공해주는 ID인 user와 무작위 생성되는 비밀번호를 치면
-![비밀번호](:/inflearn_spring_security_learn/1s/password.png)
+![비밀번호](:/inflearn_spring_security_learn/1s/password.PNG)
 처음 접속했을 때 보여지는 home 화면이 보여지게 됩니다.
-![홈 화면](:/inflearn_spring_security_learn/1s/home.png)
+![홈 화면](:/inflearn_spring_security_learn/1s/home.PNG)
 
 ### Security 의존성의 동작
 위의 사례를 보면 알 수 있듯 개발자가 의존성을 추가하게 된다면 다음과 같은 일들이 일어나게 됩니다.
@@ -113,9 +113,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 #### 스프링 2.7 이후의 SecurityConfig
 좀 더 자세히 살펴본 후 어떻게 변환할 수 있는지 알아보도록 하겠습니다.
 우선 현재 제가 사용하는 Spring 버전 2.7.3에서 WebSecurityConfigurerAdapter을 호출하면
-![WebSecurityConfigurerAdapter Extend](:/inflearn_spring_security_learn/1s/home.png)
+![WebSecurityConfigurerAdapter Extend](:/inflearn_spring_security_learn/1s/home.PNG)
 위의 그림과 같이 취소선 표시가 뜨며 더이상 사용되지 않는 파일임을 알려줍니다.
-![WebSecurityConfigurerAdapter Deprecated](:/inflearn_spring_security_learn/1s/deprecated_security.png)
+![WebSecurityConfigurerAdapter Deprecated](:/inflearn_spring_security_learn/1s/deprecated_security.PNG)
 조금 더 자세히 살펴보면 아래의 사진과 같이 Deprecated가 작성되어 있는 것을 확인하실 수 있습니다.
 
 이제 그럼 어떻게 위 클래스를 상속받지 않고, Security사용을 할 수 있는지를 설명드리도록 하겠습니다.
@@ -166,16 +166,16 @@ public WebSecurityCustomizer webSecurityCustomizer() {
 
 아직 삭제된 것은 아니기 때문에 각 방식의 간단한 코드와 결과 또한 아래 사진에 첨부하겠습니다.
 기존 방식 코드
-![Override code](:/inflearn_spring_security_learn/1s/override_code.png)
+![Override code](:/inflearn_spring_security_learn/1s/override_code.PNG)
 
 기존 방식 결과
-![Override result](:/inflearn_spring_security_learn/1s/override_result.png)
+![Override result](:/inflearn_spring_security_learn/1s/override_result.PNG)
 
 변경된 방식 코드
-![Bean code](:/inflearn_spring_security_learn/1s/Bean_code.png)
+![Bean code](:/inflearn_spring_security_learn/1s/Bean_code.PNG)
 
 변경된 방식 결과
-![Bean code](:/inflearn_spring_security_learn/1s/Bean_result.png)
+![Bean code](:/inflearn_spring_security_learn/1s/Bean_result.PNG)
 
 확인해 보시면 두 방식 모두 SecurityConfig에 직접 작성한 코드 부분의 Breakpoint에서 걸려 작성한 코드가 정상적으로 실행되었다는 것을 알 수 있습니다.
 결과 사진 또한 모두 동일하게 출력되어 정상적으로 실행 되었음을 알려줍니다.
