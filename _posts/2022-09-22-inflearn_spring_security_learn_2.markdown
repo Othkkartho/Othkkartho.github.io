@@ -148,23 +148,6 @@ public String loginPage() {
 ![parameter](:/inflearn_spring_security_learn/1s/2/parameter.PNG){:data-align="center"}
 위 코드에서 설정했던 대로 action에 /login_proc, username input 메소드에 이름이 userId, password input 메소드에 이름이 pw가 되어있는 것을 확인할 수 있습니다.
 
-### 참고
-#### Handler의 입력 메소드 설명
-- HttpServletRequest
-    - Http프로토콜의 request 정보를 Servlet에게 전달하기 위한 목적으로 사용합니다.
-    - Header정보, Parameter, Cookie, URI, URL 등의 정보를 읽어드리는 메소드를 가진 클래스입니다.
-    - Body의 Stream을 읽어들이는 메소드를 가지고 있습니다.
-
-- HttpServletResponse
-    - WAS는 어떤 클라이언트가 요청을 보냈는지 알고 있고, 해당 클라이언트에게 응답을 보내기 위한 HttpServleResponse 객체를 생성하여 Servlet에게 전달합니다.
-    - Servlet은 HttpServletResponse 객체에 Content Type, 응답코드, 응답 메시지등을 담아 전송합니다.
-
-- Authentication
-    - 인증에 성공했을 시 그 인증결과를 담은 인정 에셋 파라미터 인터페이스입니다.
-
-- AuthenticationException
-    - 인증 오류시 그 인증예외를 파라미터로 전달하는 클래스입니다.
-
 ## 인증 API - UsernamePasswordAuthenticationFilter
 ### UsernamePasswordAuthenticationFilter의 흐름
 UsernamePasswordAuthenticationFilter은 사용자가 로그인 후의 인증처리를 담당하고, 관련 요청을 처리하는 필터입니다.
@@ -181,6 +164,26 @@ UsernamePasswordAuthenticationFilter은 사용자가 로그인 후의 인증처�
     - 이 Context 객체가 Session에도 저장되 사용자가 Context 안에서 인증 객체를 참조할 수 있도록 처리해주기도 합니다.
 7. 인증에 성공한 이후에 SuccessHandler가 성공 이후의 작업들을 처리하기도 합니다.
 
-### 출처
+## 참고
+### Handler의 입력 메소드 설명
+- HttpServletRequest
+    - Http프로토콜의 request 정보를 Servlet에게 전달하기 위한 목적으로 사용합니다.
+    - Header정보, Parameter, Cookie, URI, URL 등의 정보를 읽어드리는 메소드를 가진 클래스입니다.
+    - Body의 Stream을 읽어들이는 메소드를 가지고 있습니다.
+
+- HttpServletResponse
+    - WAS는 어떤 클라이언트가 요청을 보냈는지 알고 있고, 해당 클라이언트에게 응답을 보내기 위한 HttpServleResponse 객체를 생성하여 Servlet에게 전달합니다.
+    - Servlet은 HttpServletResponse 객체에 Content Type, 응답코드, 응답 메시지등을 담아 전송합니다.
+
+- Authentication
+    - 인증에 성공했을 시 그 인증결과를 담은 인정 에셋 파라미터 인터페이스입니다.
+
+- AuthenticationException
+    - 인증 오류시 그 인증예외를 파라미터로 전달하는 클래스입니다.
+
+### FilterChainProxy
+Filter들을 관리하는 빈입니다. additionalFilters에 각 실행할 필터들이 있고 이 필터들은 스프링을 실행할 때 만들어 지는 필터들도 있고, 사용자가 등록한 필터들도 등록이 되어있습니다. 그래서 0번부터 끝까지 실행됩니다.
+
+## 출처
 1. [학습중인 강의](https://www.inflearn.com/course/%EC%BD%94%EC%96%B4-%EC%8A%A4%ED%94%84%EB%A7%81-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0)
 2. [HttpServletRequest, HttpServletResponse에 대한 설명](https://www.boostcourse.org/web326/lecture/258511/?isDesc=false)

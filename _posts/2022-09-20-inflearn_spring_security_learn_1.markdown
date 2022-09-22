@@ -184,24 +184,24 @@ public WebSecurityCustomizer webSecurityCustomizer() {
 결과 사진 또한 모두 동일하게 출력되어 정상적으로 실행 되었음을 알려줍니다.<br>
 현재 예외 사항 처리가 필요하지 않아 이 포스트에서는 작성하지 않았지만 예외 처리가 필요할 때 예외처리 코드의 변경 또한 작성하도록 하겠습니다. 이상으로 세션 1의 1, 2번 강의의 정리 포스트를 마치겠습니다. 감사합니다.
 
-### 참고
-#### Form 로그인 방식
+## 참고
+### Form 로그인 방식
 Form 로그인 방식의 경우 
 - 사용자가 서버에 특정 자원의 접근을 요청하면 그 요청의 인증 여부를 판단해 인증이 되지 않았다면 로그인 페이지를 사용자에게 return하게 됩니다.
 - 그럼 그 로그인 페이지에 유저ID와 비밀번호를 입력해 로그인을요청하면 PostMapping으로 해당 데이터가 서버에 전송됩니다.
 - 해당 정보가 일치할 경우 인증을 완료하고, 접속을 허용하게 됩니다.
 
-#### HttpBasic 방식
+### HttpBasic 방식
 Http Basic은 Http 프로토콜에서 정의한 기본 인증입니다.
 - 사용자가 인증을 받지 않은 상태로 요청을 하게 되면 서버에서는 사용자에게 401 Unauthorized 오류 응답과 함께 WWW-Authenticate 헤더를 기술해 인증을 어떤 방식으로 해야하는지에 대한 설명을 동봉하여 보냅니다.
 - 사용자는 아이디와 패스워드를 Base64로 인코딩한 문자열을 Authorization 헤더에 담아 요청합니다.
 - 서버에서 인증이 수락되면 정상적인 상태 코드를 반환합니다.
 
-#### Form 로그인 VS HttpBasic
+### Form 로그인 VS HttpBasic
 차이점은 Http Basic은 세션방식의 인증이 아닌 서버로부터 요청받은 인증방식대로 구성한 다음 헤더에 기술해서 서버로 보내는 방식을 취합니다.
 반면 Form 인증방식은 서버에 해당 사용자의 Session 상태가 유효한지를 판단해 인증처리를 합니다.
 
-#### Spring Security 기존 아이디 비밀번호 변경
+### Spring Security 기존 아이디 비밀번호 변경
 기존 무작위로 생성되는 비밀번호나, 기존 ID인 user를 변경하고 싶다면 application.properties에서 다음과 같은 코드를 작성하면 변경됩니다.
 
 {% highlight Spring %}
@@ -209,7 +209,7 @@ spring.security.user.name=user
 spring.security.user.password=1234
 {% endhighlight %}
 
-### 출처
+## 출처
 1. [학습중인 강의](https://www.inflearn.com/course/%EC%BD%94%EC%96%B4-%EC%8A%A4%ED%94%84%EB%A7%81-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0)  
 2. [Http Basic 인증과 Form 인증의 차이](https://www.inflearn.com/questions/250472)
 3. [WebSecurityConfigurerAdapter의 Deprected 처리의 해결책](https://yooooonnf.tistory.com/3)
