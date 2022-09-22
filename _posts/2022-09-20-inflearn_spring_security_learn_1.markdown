@@ -50,6 +50,7 @@ date: 2022-09-20 10:00:00 +0900
 의존도는 Spring Security, Spring Thymeleaf, Spring Web 의 라이브러리를 참조했습니다.<br>
 제작 환경은 IntelliJ와 Gradle을 사용합니다.
 
+## 프로젝트 구성 및 의존성 추가
 ### 프로젝트 구성
 우선 간단하게 루트에 접속할 수 있는 컨트롤러를 만들어 보겠습니다.<br>
 의존성을 Spring Web만 추가하고, 사이트에 들어갈 수 있는 간단한 컨트롤러를 만든다면.
@@ -71,6 +72,7 @@ public class SecurityController {
 처음 접속했을 때 보여지는 home 화면이 보여지게 됩니다.
 ![홈 화면](:/inflearn_spring_security_learn/1s/1/home.PNG){:data-align="center"}
 
+## 사용자 정의 보안 기능 구현
 ### Security 의존성의 동작
 위의 사례를 보면 알 수 있듯 개발자가 의존성을 추가하게 된다면 다음과 같은 일들이 일어나게 됩니다.
 - 서버를 작동하면 Spring Security의 초기화 작업과 보안 설정이 이루어집니다.

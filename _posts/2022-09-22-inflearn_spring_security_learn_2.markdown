@@ -44,6 +44,7 @@ date: 2022-09-20 10:00:00 +0900
 
 <!-- outline-end -->
 
+## Form Login 인증
 ### 인증 API - Form 인증
 우선 전 포스트에서 참조에 작성되었던 내용이지만 강의에 있기 때문에 다시 작성하겠습니다.<br>
 1. 클라이언트가 서버에 GET 형태로 /home에 접근을 시도한다면
@@ -147,5 +148,39 @@ public String loginPage() {
 ![parameter](:/inflearn_spring_security_learn/1s/2/parameter.PNG){:data-align="center"}
 위 코드에서 설정했던 대로 action에 /login_proc, username input 메소드에 이름이 userId, password input 메소드에 이름이 pw가 되어있는 것을 확인할 수 있습니다.
 
+### 참고
+#### Handler의 입력 메소드 설명
+- HttpServletRequest
+    - Http프로토콜의 request 정보를 Servlet에게 전달하기 위한 목적으로 사용합니다.
+    - Header정보, Parameter, Cookie, URI, URL 등의 정보를 읽어드리는 메소드를 가진 클래스입니다.
+    - Body의 Stream을 읽어들이는 메소드를 가지고 있습니다.
+
+- HttpServletResponse
+    - WAS는 어떤 클라이언트가 요청을 보냈는지 알고 있고, 해당 클라이언트에게 응답을 보내기 위한 HttpServleResponse 객체를 생성하여 Servlet에게 전달합니다.
+    - Servlet은 HttpServletResponse 객체에 Content Type, 응답코드, 응답 메시지등을 담아 전송합니다.
+
+- Authentication
+    - 인증에 성공했을 시 그 인증결과를 담은 인정 에셋 파라미터 인터페이스입니다.
+
+- AuthenticationException
+    - 인증 오류시 그 인증예외를 파라미터로 전달하는 클래스입니다.
+
+## 인증 API - UsernamePasswordAuthenticationFilter
+### UsernamePasswordAuthenticationFilter의 흐름
+UsernamePasswordAuthenticationFilter은 사용자가 로그인 후의 인증처리를 담당하고, 관련 요청을 처리하는 필터입니다.
+1. 먼저 사용자가 인증을 시도하면, 필터가 요청을 받습니다.
+2. AntPathRequestMatcher가 요청 정보의 Url이 매칭되는지 확인합니다. 디폴트는 /login이고, 이 값은 loginProcessingUrl에서 변경이 가능합니다. 매칭이 되면 실제 인증처리를 하고, 매칭이 되지 않으면 인증처리를 하지 않고 다른 필터로 이동합니다.
+3. 매칭 후 필터는 Authentication객체를 만들어 사용자가 로그인할 때 입력한 Username과 Password 값을 인증 객체에 저장해 인증을 맡깁니다.
+4. AuthenticationManager가 Authentication 객체를 받고, 실제 인증 처리를 합니다.
+    - 이 Manager은 AuthenticationProvider 객체가 있고, 이 객체들 중에게 인증을 위임합니다.
+    - 인증이 성공, 실패 결과를 리턴하는데 실패하면 필터에게 예외를 보냅니다.
+    - 인증에 성공하면 Authentication 객체를 만들어 인증 성공 결과를 객체에 저장하고, Manager에게 Return합니다.
+5. Manager는 Provider에게 받은 객체를 필터에게 반환합니다.
+    - 그 객체에는 유저 정보와, 유저의 권한 정보가 담겨 있습니다.
+6. Filter은 인증 객체를 SecurityContext에 저장합니다.
+    - 이 Context 객체가 Session에도 저장되 사용자가 Context 안에서 인증 객체를 참조할 수 있도록 처리해주기도 합니다.
+7. 인증에 성공한 이후에 SuccessHandler가 성공 이후의 작업들을 처리하기도 합니다.
+
 ### 출처
 1. [학습중인 강의](https://www.inflearn.com/course/%EC%BD%94%EC%96%B4-%EC%8A%A4%ED%94%84%EB%A7%81-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0)
+2. [HttpServletRequest, HttpServletResponse에 대한 설명](https://www.boostcourse.org/web326/lecture/258511/?isDesc=false)
