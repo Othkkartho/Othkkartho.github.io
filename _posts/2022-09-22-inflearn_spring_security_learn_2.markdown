@@ -16,7 +16,7 @@ img: ":/inflearn_spring_security_learn/post_spring_security.PNG"
 #comments_disable: true
 
 # publish date
-date: 2022-09-20 10:00:00 +0900
+date: 2022-09-22 10:00:00 +0900
 
 # seo
 # if not specified, date will be used.
@@ -40,12 +40,12 @@ date: 2022-09-20 10:00:00 +0900
 <!-- outline-start -->
 
 출처는 인프런의 스프링 시큐리티 - [Spring Boot 기반으로 개발하는 Spring Security](https://www.inflearn.com/course/%EC%BD%94%EC%96%B4-%EC%8A%A4%ED%94%84%EB%A7%81-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0)강의를 바탕으로 이 포스트를 작성하고 있습니다.<br>
-강의의 세션 1의 3번 강의내용에 대한 정리입니다.
+강의의 세션 1의 3,4번 강의내용에 대한 정리입니다.
 
 <!-- outline-end -->
 
-## Form Login 인증
-### 인증 API - Form 인증
+### Form Login 인증
+#### 인증 API - Form 인증
 우선 전 포스트에서 참조에 작성되었던 내용이지만 강의에 있기 때문에 다시 작성하겠습니다.<br>
 1. 클라이언트가 서버에 GET 형태로 /home에 접근을 시도한다면
 2. 서버는 자신의 자원에 접근하기 위해서는 인증된 사용자만이 접근 가능하다고 보안 정책에 설정 되어있습니다.
@@ -54,7 +54,7 @@ date: 2022-09-20 10:00:00 +0900
 5. 서버에서는 Security가 Session을 생성하게 되고, Session에 최종 성공한 인증 결과를 담은 인증 토큰(객체)을 생성하고, Security context에 생성하고, Session에 저장합니다.
 6. 다시 GET /home 세션에 접근하게 되면 서버는 인증 토큰의 존재 여부를 판단하고, 사용자는 지속적으로 그 인증 토큰으로 접근하고/인증을 유지하는 방식으로 처리합니다.
 
-### Form Login API
+#### Form Login API
 다음으론 폼 로그인이 가지고 있는 API에 관해 설명하겠습니다.
 {% highlight Spring %}
 http.formLogin()
@@ -78,7 +78,7 @@ http.formLogin()
 7. 로그인을 성공했을 때의 핸들러입니다. 로그인을 성공했을 때의 동작입니다.
 8. 로그인을 실패했을 때의 핸들러입니다. 로그인을 실패했을 때의 동작입니다.
 
-### 실제 코드 및 결과 화면
+#### 실제 코드 및 결과 화면
 {% highlight Spring %}
 @Configuration
 @EnableWebSecurity
@@ -148,8 +148,8 @@ public String loginPage() {
 ![parameter](:/inflearn_spring_security_learn/1s/2/parameter.PNG){:data-align="center"}
 위 코드에서 설정했던 대로 action에 /login_proc, username input 메소드에 이름이 userId, password input 메소드에 이름이 pw가 되어있는 것을 확인할 수 있습니다.
 
-## 인증 API - UsernamePasswordAuthenticationFilter
-### UsernamePasswordAuthenticationFilter의 흐름
+### 인증 API - UsernamePasswordAuthenticationFilter
+#### UsernamePasswordAuthenticationFilter의 흐름
 UsernamePasswordAuthenticationFilter은 사용자가 로그인 후의 인증처리를 담당하고, 관련 요청을 처리하는 필터입니다.
 1. 먼저 사용자가 인증을 시도하면, 필터가 요청을 받습니다.
 2. AntPathRequestMatcher가 요청 정보의 Url이 매칭되는지 확인합니다. 디폴트는 /login이고, 이 값은 loginProcessingUrl에서 변경이 가능합니다. 매칭이 되면 실제 인증처리를 하고, 매칭이 되지 않으면 인증처리를 하지 않고 다른 필터로 이동합니다.
@@ -164,8 +164,8 @@ UsernamePasswordAuthenticationFilter은 사용자가 로그인 후의 인증처�
     - 이 Context 객체가 Session에도 저장되 사용자가 Context 안에서 인증 객체를 참조할 수 있도록 처리해주기도 합니다.
 7. 인증에 성공한 이후에 SuccessHandler가 성공 이후의 작업들을 처리하기도 합니다.
 
-## 참고
-### Handler의 입력 메소드 설명
+### 참고
+#### Handler의 입력 메소드 설명
 - HttpServletRequest
     - Http프로토콜의 request 정보를 Servlet에게 전달하기 위한 목적으로 사용합니다.
     - Header정보, Parameter, Cookie, URI, URL 등의 정보를 읽어드리는 메소드를 가진 클래스입니다.
@@ -181,9 +181,9 @@ UsernamePasswordAuthenticationFilter은 사용자가 로그인 후의 인증처�
 - AuthenticationException
     - 인증 오류시 그 인증예외를 파라미터로 전달하는 클래스입니다.
 
-### FilterChainProxy
+#### FilterChainProxy
 Filter들을 관리하는 빈입니다. additionalFilters에 각 실행할 필터들이 있고 이 필터들은 스프링을 실행할 때 만들어 지는 필터들도 있고, 사용자가 등록한 필터들도 등록이 되어있습니다. 그래서 0번부터 끝까지 실행됩니다.
 
-## 출처
+### 출처
 1. [학습중인 강의](https://www.inflearn.com/course/%EC%BD%94%EC%96%B4-%EC%8A%A4%ED%94%84%EB%A7%81-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0)
 2. [HttpServletRequest, HttpServletResponse에 대한 설명](https://www.boostcourse.org/web326/lecture/258511/?isDesc=false)
