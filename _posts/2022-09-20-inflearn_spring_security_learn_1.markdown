@@ -11,7 +11,7 @@ category: Spring
 # multiple tag entries are possible
 tags: [Spring, inflearn, spring security class]
 # thumbnail image for post
-img: ":post_spring_security.jpg"
+img: ":/inflearn_spring_security_learn/post_spring_security.PNG"
 # disable comments on this page
 #comments_disable: true
 
@@ -39,18 +39,19 @@ date: 2022-09-20 10:00:00 +0900
 
 <!-- outline-start -->
 
-버츄얼 유튜버 커뮤니티 사이트 제작 과정 중 스프링에 대한 이해가 부족하다는 판단하에 인프런에서 관련 영상을 검색해 듣게되었습니다.
-출처는 인프런의 스프링 시큐리티 - [Spring Boot 기반으로 개발하는 Spring Security](https://www.inflearn.com/course/%EC%BD%94%EC%96%B4-%EC%8A%A4%ED%94%84%EB%A7%81-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0)강의를 바탕으로 이 블로그를 제작하고 있습니다.
+버츄얼 유튜버 커뮤니티 사이트 제작 과정 중 스프링에 대한 이해가 부족하다는 판단하에 인프런에서 관련 영상을 검색해 듣게되었습니다.<br>
+출처는 인프런의 스프링 시큐리티 - [Spring Boot 기반으로 개발하는 Spring Security](https://www.inflearn.com/course/%EC%BD%94%EC%96%B4-%EC%8A%A4%ED%94%84%EB%A7%81-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0)강의를 바탕으로 이 블로그를 제작하고 있습니다.<br>
+강의의 세션 1의 1, 2번 강의내용에 대한 정리입니다.
 
 <!-- outline-end -->
 
 ### 제작 환경
-이 강의를 들으며 테스트하는 환경은 Spring 2.7.3 버전을 사용하고, Java는 17버전을 사용합니다.
-의존도는 Spring Security, Spring Thymeleaf, Spring Web 의 라이브러리를 참조했습니다.
+이 강의를 들으며 테스트하는 환경은 Spring 2.7.3 버전을 사용하고, Java는 17버전을 사용합니다.<br>
+의존도는 Spring Security, Spring Thymeleaf, Spring Web 의 라이브러리를 참조했습니다.<br>
 제작 환경은 IntelliJ와 Gradle을 사용합니다.
 
 ### 프로젝트 구성
-우선 간단하게 루트에 접속할 수 있는 컨트롤러를 만들어 보겠습니다.
+우선 간단하게 루트에 접속할 수 있는 컨트롤러를 만들어 보겠습니다.<br>
 의존성을 Spring Web만 추가하고, 사이트에 들어갈 수 있는 간단한 컨트롤러를 만든다면.
 {% highlight Spring %}
 @RestController
@@ -61,14 +62,14 @@ public class SecurityController {
     }
 }
 {% endhighlight %}
-위와 같이 만들 수 있습니다. 그럼 localhost:8080으로 접속해본다면 루트에 리턴한 문자값인 home이 나오게 됩니다.
-여기에 Spring Security의존성을 추가해 보겠습니다.
-의존성을 추가하고, 홈페이지에 접속을 하면 아래의 사진과 같이 로그인 입력창이 출력됩니다.
-![로그인 페이지](:/inflearn_spring_security_learn/1s/login.PNG){:data-align="center"}
+위와 같이 만들 수 있습니다. 그럼 localhost:8080으로 접속해본다면 루트에 리턴한 문자값인 home이 나오게 됩니다.<br>
+여기에 Spring Security의존성을 추가해 보겠습니다.<br>
+의존성을 추가하고, 홈페이지에 접속을 하면 아래의 사진과 같이 로그인 입력창이 출력됩니다.<br>
+![로그인 페이지](:/inflearn_spring_security_learn/1s/1/login.PNG){:data-align="center"}
 그럼 기본으로 제공해주는 ID인 user와 무작위 생성되는 비밀번호를 치면
-![비밀번호](:/inflearn_spring_security_learn/1s/password.PNG){:data-align="center"}
+![비밀번호](:/inflearn_spring_security_learn/1s/1/password.PNG){:data-align="center"}
 처음 접속했을 때 보여지는 home 화면이 보여지게 됩니다.
-![홈 화면](:/inflearn_spring_security_learn/1s/home.PNG){:data-align="center"}
+![홈 화면](:/inflearn_spring_security_learn/1s/1/home.PNG){:data-align="center"}
 
 ### Security 의존성의 동작
 위의 사례를 보면 알 수 있듯 개발자가 의존성을 추가하게 된다면 다음과 같은 일들이 일어나게 됩니다.
@@ -84,7 +85,7 @@ public class SecurityController {
 - 기본적인 보안 기능은 보안에 취약하며, 시스템이 원하는 보안기능을 제공하지 않아 사용자의 편의를 해칠 가능성이 있습니다.
 
 ### 인증 API - 사용자 정의 보안 기능 구현 설명
-우선 스프링 시큐리티의 웹 보안 기능 초기화 및 설정을 하는 WebSecurityConfigurerAdapter라는 클레스를 보통 사용자 정의 보안 설정 클래스인 SecurityConfig에서 상속 받아 사용합니다.
+우선 스프링 시큐리티의 웹 보안 기능 초기화 및 설정을 하는 WebSecurityConfigurerAdapter라는 클레스를 보통 사용자 정의 보안 설정 클래스인 SecurityConfig에서 상속 받아 사용합니다.<br>
 이 클레스는 HttpSecurity라는 세부적인 보안 기능을 설정할 수 있는 API를 제공하는 클레스를 생성을 합니다.
 
 ### 인증 API - SecurityConfig 설정
@@ -105,20 +106,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 }
 {% endhighlight %}
-위에서 설명했던 바와 같이 SecurityConfig가 WebSecurityConfigurerAdapter을 상속 받고, configure는 Override하고, HttpSecurity를 파라미터로 받는 메소드입니다.
-이 안에서 인가나 인증 API를 작성해 사용합니다.
-하지만 이는 [Spring 공식 문서](https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter)에도 나와있듯이 spring security 5.7이상과 SpringBoot 2.7 이상의 버전에서 사용을 권장하지 않고, 삭제 예약인 Deprecated가 걸려있습니다.
+위에서 설명했던 바와 같이 SecurityConfig가 WebSecurityConfigurerAdapter을 상속 받고, configure는 Override하고, HttpSecurity를 파라미터로 받는 메소드입니다.<br>
+이 안에서 인가나 인증 API를 작성해 사용합니다.<br>
+하지만 이는 [Spring 공식 문서](https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter)에도 나와있듯이 spring security 5.7이상과 SpringBoot 2.7 이상의 버전에서 사용을 권장하지 않고, 삭제 예약인 Deprecated가 걸려있습니다.<br>
 그 이유는 스프링 프레임워크 개발자들이 사용자들의 component-based security configuration로의 전환을 권하기 때문입니다.
 
 #### 스프링 2.7 이후의 SecurityConfig
-좀 더 자세히 살펴본 후 어떻게 변환할 수 있는지 알아보도록 하겠습니다.
+좀 더 자세히 살펴본 후 어떻게 변환할 수 있는지 알아보도록 하겠습니다.<br>
 우선 현재 제가 사용하는 Spring 버전 2.7.3에서 WebSecurityConfigurerAdapter을 호출하면
-![WebSecurityConfigurerAdapter Extend](:/inflearn_spring_security_learn/1s/home.PNG){:data-align="center"}
+![WebSecurityConfigurerAdapter Extend](:/inflearn_spring_security_learn/1s/1/home.PNG){:data-align="center"}
 위의 그림과 같이 취소선 표시가 뜨며 더이상 사용되지 않는 파일임을 알려줍니다.
-![WebSecurityConfigurerAdapter Deprecated](:/inflearn_spring_security_learn/1s/deprecated_security.PNG){:data-align="center"}
+![WebSecurityConfigurerAdapter Deprecated](:/inflearn_spring_security_learn/1s/1/deprecated_security.PNG){:data-align="center"}
 조금 더 자세히 살펴보면 아래의 사진과 같이 Deprecated가 작성되어 있는 것을 확인하실 수 있습니다.
 
-이제 그럼 어떻게 위 클래스를 상속받지 않고, Security사용을 할 수 있는지를 설명드리도록 하겠습니다.
+이제 그럼 어떻게 위 클래스를 상속받지 않고, Security사용을 할 수 있는지를 설명드리도록 하겠습니다.<br>
 기존 방식
 {% highlight Spring %}
 @Override
@@ -146,7 +147,7 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 {% endhighlight %}
 으로 작성할 수 있습니다.
 
-아직 강의에는 나오지 않았지만, 예외를 처리하는 WebSecurity를 변수로 받는 configure의 경우
+아직 강의에는 나오지 않았지만, 예외를 처리하는 WebSecurity를 변수로 받는 configure의 경우<br>
 기존 방식
 {% highlight Spring %}
 @Override
@@ -164,21 +165,21 @@ public WebSecurityCustomizer webSecurityCustomizer() {
 {% endhighlight %}
 로 변경할 수 있습니다.
 
-아직 삭제된 것은 아니기 때문에 각 방식의 간단한 코드와 결과 또한 아래 사진에 첨부하겠습니다.
+아직 삭제된 것은 아니기 때문에 각 방식의 간단한 코드와 결과 또한 아래 사진에 첨부하겠습니다.<br>
 기존 방식 코드
-![Override code](:/inflearn_spring_security_learn/1s/override_code.PNG){:data-align="center"}
+![Override code](:/inflearn_spring_security_learn/1s/1/override_code.PNG){:data-align="center"}
 
 기존 방식 결과
-![Override result](:/inflearn_spring_security_learn/1s/override_result.PNG){:data-align="center"}
+![Override result](:/inflearn_spring_security_learn/1s/1/override_result.PNG){:data-align="center"}
 
 변경된 방식 코드
-![Bean code](:/inflearn_spring_security_learn/1s/Bean_code.PNG){:data-align="center"}
+![Bean code](:/inflearn_spring_security_learn/1s/1/Bean_code.PNG){:data-align="center"}
 
 변경된 방식 결과
-![Bean code](:/inflearn_spring_security_learn/1s/Bean_result.PNG){:data-align="center"}
+![Bean code](:/inflearn_spring_security_learn/1s/1/Bean_result.PNG){:data-align="center"}
 
-확인해 보시면 두 방식 모두 SecurityConfig에 직접 작성한 코드 부분의 Breakpoint에서 걸려 작성한 코드가 정상적으로 실행되었다는 것을 알 수 있습니다.
-결과 사진 또한 모두 동일하게 출력되어 정상적으로 실행 되었음을 알려줍니다.
+확인해 보시면 두 방식 모두 SecurityConfig에 직접 작성한 코드 부분의 Breakpoint에서 걸려 작성한 코드가 정상적으로 실행되었다는 것을 알 수 있습니다.<br>
+결과 사진 또한 모두 동일하게 출력되어 정상적으로 실행 되었음을 알려줍니다.<br>
 현재 예외 사항 처리가 필요하지 않아 이 포스트에서는 작성하지 않았지만 예외 처리가 필요할 때 예외처리 코드의 변경 또한 작성하도록 하겠습니다. 이상으로 세션 1의 1, 2번 강의의 정리 포스트를 마치겠습니다. 감사합니다.
 
 ### 참고
