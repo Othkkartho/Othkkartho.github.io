@@ -59,7 +59,7 @@ date: 2022-09-22 10:00:00 +0900
 {% highlight Spring %}
 http.formLogin()
     .loginPage("/login.html")               // 1
-    .defaultSuccessUrl("/home)              // 2
+    .defaultSuccessUrl("/home")             // 2
     .failureUrl("/login.html?error=true")   // 3
     .usernameParameter("username")          // 4
     .passwordParameter("passowrd")          // 5
