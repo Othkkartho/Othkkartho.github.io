@@ -91,7 +91,7 @@ http
 
 - 1번은 추후 공부할 remember-me 인증을 발급하는데 이 때 서버는 쿠키를 발급합니다. 하지만 로그아웃 할 때 이 쿠키를 삭제하고 싶다면 작성하면 삭제가 됩니다.
 실제 로그아웃 버튼을 클릭하고 나면 아래 이미지와 같이 브레이크 포인트가 걸리며 정상적으로 실행되고 있음을 보여줍니다.
-![logout 실제 브레이크 포인트 장면](:/inflearn_spring_security_learn/1s/3/logout.PNG)
+![logout 실제 브레이크 포인트 장면](:/inflearn_spring_security_learn/1s/3/logout.PNG){:data-align="center"}
 
 ### LogoutFilter
 1. 로그아웃 요청을 사용자가 하면 로그아웃 필터가 처리합니다.
@@ -221,6 +221,6 @@ Spring 5.2.3 Reference에서는
 
 ### 출처
 1. [학습중인 강의](https://www.inflearn.com/course/%EC%BD%94%EC%96%B4-%EC%8A%A4%ED%94%84%EB%A7%81-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0)
-2. [DI와 Autowired 설명부분 출처](https://life-with-coding.tistory.com/433) 
-3. [Field injection is not recommended 오류에 관한 설명의 출처](https://sightstudio.tistory.com/20)
-4. [강한 결합과 약한 결합의 설명 출처](https://yaboong.github.io/spring/2019/08/29/why-field-injection-is-bad/)
+2. [코딩젤리 - [Spring] @Autowired 와 DI 개념 정리](https://life-with-coding.tistory.com/433) 
+3. [SightStudio - [Spring] Field Injection은 왜 나쁜가?](https://sightstudio.tistory.com/20)
+4. [YABOONG - 스프링 - 생성자 주입을 사용해야 하는 이유, 필드인젝션이 좋지 않은 이유](https://yaboong.github.io/spring/2019/08/29/why-field-injection-is-bad/)
