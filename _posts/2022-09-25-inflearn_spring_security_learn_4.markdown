@@ -7,7 +7,7 @@ title: 인프런 스프링 시큐리티 강의 학습-4
 # if not specified, .name will be used from _data/owner/[language].yml
 author: Othkkartho's Workshop
 # multiple category is not supported
-category: spring security learn
+category: 인프런 스프링 시큐리티 강의 정리
 # multiple tag entries are possible
 tags: [Spring, inflearn, spring security learn]
 # thumbnail image for post
@@ -38,6 +38,7 @@ date: 2022-09-25 20:00:00 +0900
 ---
 
 <!-- outline-start -->
+
 익명사용자 인증 필터, 동시 세션제어, 세션 고정 보호, 세션 정책, 세션 제어 필터에 관해 포스트했습니다.
 ----------------------------------------------------------------------------------------------
 

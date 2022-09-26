@@ -7,7 +7,7 @@ title: 인프런 스프링 시큐리티 강의 학습-3
 # if not specified, .name will be used from _data/owner/[language].yml
 author: Othkkartho's Workshop
 # multiple category is not supported
-category: spring security learn
+category: 인프런 스프링 시큐리티 강의 정리
 # multiple tag entries are possible
 tags: [Spring, inflearn, spring security learn]
 # thumbnail image for post
@@ -38,6 +38,7 @@ date: 2022-09-24 10:00:00 +0900
 ---
 
 <!-- outline-start -->
+
 Logout 처리, LogoutFilter, Remember Me 인증과 필터인 RememberMeAuthenticationFilter에 관한 포스트입니다.
 ------------------------------------------------------------------------------------------------------
 

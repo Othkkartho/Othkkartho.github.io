@@ -7,7 +7,7 @@ title: 인프런 스프링 시큐리티 강의 학습-5
 # if not specified, .name will be used from _data/owner/[language].yml
 author: Othkkartho's Workshop
 # multiple category is not supported
-category: spring security learn
+category: 인프런 스프링 시큐리티 강의 정리
 # multiple tag entries are possible
 tags: [Spring, inflearn, spring security learn]
 # thumbnail image for post
@@ -38,6 +38,7 @@ date: 2022-09-26 10:00:00 +0900
 ---
 
 <!-- outline-start -->
+
 권한설정과 표현식, 예외 처리 및 요청 캐시 필터, 사이트 간 요청 위조에 관해 포스팅 했습니다.
 ---------------------------------------------------------------------------------------
 

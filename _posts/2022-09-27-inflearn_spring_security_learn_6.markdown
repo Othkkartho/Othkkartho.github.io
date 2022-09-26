@@ -7,7 +7,7 @@ title: 인프런 스프링 시큐리티 강의 학습-6
 # if not specified, .name will be used from _data/owner/[language].yml
 author: Othkkartho's Workshop
 # multiple category is not supported
-category: spring security learn
+category: 인프런 스프링 시큐리티 강의 정리
 # multiple tag entries are possible
 tags: [Spring, inflearn, spring security learn]
 # thumbnail image for post
@@ -38,6 +38,7 @@ date: 2022-09-27 10:00:00 +0900
 ---
 
 <!-- outline-start -->
+
 위임 필터 및 필터 빈 초기화, 다중 보안 설정에 관해 포스팅 했습니다.
 ---------------------------------------------------------------
 
