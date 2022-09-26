@@ -39,6 +39,9 @@ date: 2022-09-20 10:00:00 +0900
 
 <!-- outline-start -->
 
+프로젝트 구성 및 의존성 추가와 사용자 정의 보안 기능 구현에 관한 포스트입니다.
+------------------------------------------------------------------------
+
 버츄얼 유튜버 커뮤니티 사이트 제작 과정 중 스프링에 대한 이해가 부족하다는 판단하에 인프런에서 관련 영상을 검색해 듣게되었습니다.<br>
 출처는 인프런의 스프링 시큐리티 - [Spring Boot 기반으로 개발하는 Spring Security](https://www.inflearn.com/course/%EC%BD%94%EC%96%B4-%EC%8A%A4%ED%94%84%EB%A7%81-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0)강의를 바탕으로 이 블로그를 제작하고 있습니다.<br>
 강의의 세션 1의 1, 2번 강의내용에 대한 정리입니다.
@@ -56,7 +59,7 @@ date: 2022-09-20 10:00:00 +0900
 #### 프로젝트 구성
 우선 간단하게 루트에 접속할 수 있는 컨트롤러를 만들어 보겠습니다.<br>
 의존성을 Spring Web만 추가하고, 사이트에 들어갈 수 있는 간단한 컨트롤러를 만든다면.
-
+**SecurityController.java**{:data-align="center"}
 ```java
 @RestController
 public class SecurityController {
@@ -66,7 +69,6 @@ public class SecurityController {
     }
 }
 ```
-
 위와 같이 만들 수 있습니다. 그럼 localhost:8080으로 접속해본다면 루트에 리턴한 문자값인 home이 나오게 됩니다.<br>
 여기에 Spring Security의존성을 추가해 보겠습니다.<br>
 의존성을 추가하고, 홈페이지에 접속을 하면 아래의 사진과 같이 로그인 입력창이 출력됩니다.<br>
@@ -98,7 +100,7 @@ public class SecurityController {
 현재 사람들이 가장 많이 사용하는 SecurityConfig의 사용 방법을 살펴보고, 스프링 2.7 이후의 SecurityConfig 제작에 관해 작성합니다.
 
 ##### 스프링 2.6 이전의 SecurityConfig
-
+**SecurityConfig.java**{:data-align="center"}
 ```java
 @Configuration
 @EnableWebSecurity
@@ -113,7 +115,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 }
 ```
-
 위에서 설명했던 바와 같이 SecurityConfig가 WebSecurityConfigurerAdapter을 상속 받고, configure는 Override하고, HttpSecurity를 파라미터로 받는 메소드입니다.<br>
 이 안에서 인가나 인증 API를 작성해 사용합니다.<br>
 하지만 이는 [Spring 공식 문서](https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter)에도 나와있듯이 spring security 5.7이상과 SpringBoot 2.7 이상의 버전에서 사용을 권장하지 않고, 삭제 예약인 Deprecated가 걸려있습니다.<br>
@@ -128,8 +129,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 조금 더 자세히 살펴보면 아래의 사진과 같이 Deprecated가 작성되어 있는 것을 확인하실 수 있습니다.
 
 이제 그럼 어떻게 위 클래스를 상속받지 않고, Security사용을 할 수 있는지를 설명드리도록 하겠습니다.<br>
-기존 방식
 
+**기존 방식 - SecurityConfig.java**{:data-align="center"}
 ```java
 @Override
 protected void configure(HttpSecurity http) throws Exception {
@@ -141,8 +142,7 @@ protected void configure(HttpSecurity http) throws Exception {
 }
 ```
 
-변경된 방식
-
+**변경된 방식 - SecurityConfig.java**{:data-align="center"}
 ```java
 @Bean
 public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -155,12 +155,11 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     return http.build();
 }
 ```
-
 으로 작성할 수 있습니다.
 
 아직 강의에는 나오지 않았지만, 예외를 처리하는 WebSecurity를 변수로 받는 configure의 경우<br>
-기존 방식
 
+**기존 방식**{:data-align="center"}
 ```java
 @Override
 protected void configure(WebSecurity web) throws Exception {
@@ -168,28 +167,26 @@ protected void configure(WebSecurity web) throws Exception {
 }
 ```
 
-변경된 방식
-
+**변경된 방식**{:data-align="center"}
 ```java
 @Bean
 public WebSecurityCustomizer webSecurityCustomizer() {
     return (web) -> web.ignoring().antMatchers("/images/**", "/js/**", "/css/**");
 }
 ```
-
-로 변경할 수 있습니다.
+으로 변경할 수 있습니다.
 
 아직 삭제된 것은 아니기 때문에 각 방식의 간단한 코드와 결과 또한 아래 사진에 첨부하겠습니다.<br>
-기존 방식 코드
+**기존 방식 코드**
 ![Override code](:/inflearn_spring_security_learn/1s/1/override_code.PNG){:data-align="center"}
 
-기존 방식 결과
+**기존 방식 결과**
 ![Override result](:/inflearn_spring_security_learn/1s/1/override_result.PNG){:data-align="center"}
 
-변경된 방식 코드
+**변경된 방식 코드**
 ![Bean code](:/inflearn_spring_security_learn/1s/1/Bean_code.PNG){:data-align="center"}
 
-변경된 방식 결과
+**변경된 방식 결과**
 ![Bean code](:/inflearn_spring_security_learn/1s/1/Bean_result.PNG){:data-align="center"}
 
 확인해 보시면 두 방식 모두 SecurityConfig에 직접 작성한 코드 부분의 Breakpoint에서 걸려 작성한 코드가 정상적으로 실행되었다는 것을 알 수 있습니다.<br>
@@ -215,7 +212,7 @@ Http Basic은 Http 프로토콜에서 정의한 기본 인증입니다.
 
 #### Spring Security 기존 아이디 비밀번호 변경
 기존 무작위로 생성되는 비밀번호나, 기존 ID인 user를 변경하고 싶다면 application.properties에서 다음과 같은 코드를 작성하면 변경됩니다.
-
+**application.properties**{:data-align="center"}
 {% highlight Spring %}
 spring.security.user.name=user
 spring.security.user.password=1234
