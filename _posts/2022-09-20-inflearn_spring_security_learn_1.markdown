@@ -52,11 +52,10 @@ date: 2022-09-20 10:00:00 +0900
 의존도는 Spring Security, Spring Thymeleaf, Spring Web 의 라이브러리를 참조했습니다.<br>
 제작 환경은 IntelliJ와 Gradle을 사용합니다.
 
-## 프로젝트 구성 및 의존성 추가
+### 프로젝트 구성 및 의존성 추가
 #### 프로젝트 구성
 우선 간단하게 루트에 접속할 수 있는 컨트롤러를 만들어 보겠습니다.<br>
 의존성을 Spring Web만 추가하고, 사이트에 들어갈 수 있는 간단한 컨트롤러를 만든다면.
-{% highlight Spring %}
 ```java
 @RestController
 public class SecurityController {
@@ -66,7 +65,6 @@ public class SecurityController {
     }
 }
 ```
-{% endhighlight %}
 위와 같이 만들 수 있습니다. 그럼 localhost:8080으로 접속해본다면 루트에 리턴한 문자값인 home이 나오게 됩니다.<br>
 여기에 Spring Security의존성을 추가해 보겠습니다.<br>
 의존성을 추가하고, 홈페이지에 접속을 하면 아래의 사진과 같이 로그인 입력창이 출력됩니다.<br>
@@ -76,7 +74,7 @@ public class SecurityController {
 처음 접속했을 때 보여지는 home 화면이 보여지게 됩니다.
 ![홈 화면](:/inflearn_spring_security_learn/1s/1/home.PNG){:data-align="center"}
 
-## 사용자 정의 보안 기능 구현
+### 사용자 정의 보안 기능 구현
 #### Security 의존성의 동작
 위의 사례를 보면 알 수 있듯 개발자가 의존성을 추가하게 된다면 다음과 같은 일들이 일어나게 됩니다.
 - 서버를 작동하면 Spring Security의 초기화 작업과 보안 설정이 이루어집니다.
@@ -98,7 +96,6 @@ public class SecurityController {
 현재 사람들이 가장 많이 사용하는 SecurityConfig의 사용 방법을 살펴보고, 스프링 2.7 이후의 SecurityConfig 제작에 관해 작성합니다.
 
 ##### 스프링 2.6 이전의 SecurityConfig
-{% highlight Spring %}
 ```java
 @Configuration
 @EnableWebSecurity
@@ -113,7 +110,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 }
 ```
-{% endhighlight %}
 위에서 설명했던 바와 같이 SecurityConfig가 WebSecurityConfigurerAdapter을 상속 받고, configure는 Override하고, HttpSecurity를 파라미터로 받는 메소드입니다.<br>
 이 안에서 인가나 인증 API를 작성해 사용합니다.<br>
 하지만 이는 [Spring 공식 문서](https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter)에도 나와있듯이 spring security 5.7이상과 SpringBoot 2.7 이상의 버전에서 사용을 권장하지 않고, 삭제 예약인 Deprecated가 걸려있습니다.<br>
@@ -129,7 +125,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 이제 그럼 어떻게 위 클래스를 상속받지 않고, Security사용을 할 수 있는지를 설명드리도록 하겠습니다.<br>
 기존 방식
-{% highlight Spring %}
 ```java
 @Override
 protected void configure(HttpSecurity http) throws Exception {
@@ -140,10 +135,8 @@ protected void configure(HttpSecurity http) throws Exception {
     .formLogin();
 }
 ```
-{% endhighlight %}
 
 변경된 방식
-{% highlight Spring %}
 ```java
 @Bean
 public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -156,29 +149,24 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     return http.build();
 }
 ```
-{% endhighlight %}
 으로 작성할 수 있습니다.
 
 아직 강의에는 나오지 않았지만, 예외를 처리하는 WebSecurity를 변수로 받는 configure의 경우<br>
 기존 방식
-{% highlight Spring %}
 ```java
 @Override
 protected void configure(WebSecurity web) throws Exception {
     web.ignoring().antMatchers("/images/**", "/js/**", "/css/**"); 
 }
 ```
-{% endhighlight %}
 
 변경된 방식
-{% highlight Spring %}
 ```java
 @Bean
 public WebSecurityCustomizer webSecurityCustomizer() {
     return (web) -> web.ignoring().antMatchers("/images/**", "/js/**", "/css/**");
 }
 ```
-{% endhighlight %}
 로 변경할 수 있습니다.
 
 아직 삭제된 것은 아니기 때문에 각 방식의 간단한 코드와 결과 또한 아래 사진에 첨부하겠습니다.<br>
