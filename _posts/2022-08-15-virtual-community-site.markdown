@@ -7,7 +7,7 @@ title: 버츄얼 유튜버 커뮤니티 사이트 요구분석 및 설계
 # if not specified, .name will be used from _data/owner/[language].yml
 author: Othkkartho's Workshop
 # multiple category is not supported
-category: 버츄얼 유튜버 커뮤니티 제작
+category: Created by virtual YouTuber community
 # multiple tag entries are possible
 tags: [Spring, virtual community]
 # thumbnail image for post
