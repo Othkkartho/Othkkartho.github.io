@@ -73,20 +73,21 @@ http.antMatcher("/shop/**")                                                     
     - 주의 사항은 설정 시 구체적인 경로(주석 4번)가 먼저 오고 그것 보다 큰 범위(주석 5번)의 경로가 뒤에 오도록 해야합니다. 이유는 인증 처리를 위에서 아래로 설정하기 때문입니다.
 
 #### 인증, 권한과 관련된 표현식
-| 메소드                      | 동작                                                               |
-| :------------------------: | :----------------------------------------------------------------: |
-| authenticated()            | 인증된 사용자의 접근을 허용                                          |
-| fullyAuthenticated()       | 인증된 사용자의 접근을 허용, rememberMe 인증 제외                     |
-| permitAll()                | 무조건 접근을 허용                                                  |
-| denyAll()                  | 무조건 접근을 허용하지 않음                                          |
-| anonymous()                | 익명사용자의 접근을 허용, 인증된 사용자는 접근이 허용되지 않음          |
-| rememberMe()               | rememberMe를 통해 인증된 사용자의 접근을 허용                         |
-| access(String)             | 주어진 SpEL 표현식의 평가 결과가 true이면 접근을 허용                  |
-| hasRole(String)            | 사용자가 주어진 역할이 있다면 접근을 허용, ROLE 프리비어스를 붙이지 않음 |
-| hasAuthority(String)       | 사용자가 주어진 권한이 있다면, ROLE 프리비어스를 붙임                   |
-| hasAnyRole(String...)      | 사용자가 주어진 권한이 있다면 접근을 허용                              |
-| hasAnyAuthority(String...) | 사용자가 주어진 권한 중 어떤 것이라도 있다면 접근을 허용                |
-| hasIpAddress(String)       | 주어진 IP로부터 요청이 왔다면 접근을 허용                              |
+
+| 메소드 | 동작 |
+| :------------------: | :--------------: |
+| authenticated() | 인증된 사용자의 접근을 허용 |
+| fullyAuthenticated() | 인증된 사용자의 접근을 허용, rememberMe 인증 제외 |
+| permitAll() | 무조건 접근을 허용 |
+| denyAll() | 무조건 접근을 허용하지 않음 |
+| anonymous() | 익명사용자의 접근을 허용, 인증된 사용자는 접근이 허용되지 않음 |
+| rememberMe() | rememberMe를 통해 인증된 사용자의 접근을 허용 |
+| access(String) | 주어진 SpEL 표현식의 평가 결과가 true이면 접근을 허용 |
+| hasRole(String) | 사용자가 주어진 역할이 있다면 접근을 허용, ROLE 프리비어스를 붙이지 않음 |
+| hasAuthority(String) | 사용자가 주어진 권한이 있다면, ROLE 프리비어스를 붙임 |
+| hasAnyRole(String...) | 사용자가 주어진 권한이 있다면 접근을 허용 |
+| hasAnyAuthority(String...) | 사용자가 주어진 권한 중 어떤 것이라도 있다면 접근을 허용 |
+| hasIpAddress(String) | 주어진 IP로부터 요청이 왔다면 접근을 허용 |
 {:data-align="center"}
 
 #### 실제 코드
