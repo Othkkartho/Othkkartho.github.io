@@ -183,7 +183,12 @@ session.isExpired() == true라면 로그아웃 처리를 하고, 즉시 오류 �
 - HTML 변경 시 Servlet을 재컴파일해야 하는 단점이 있습니다.
 출처는 출처 스레드의 3번입니다.
 
+#### JWT를 사용한다는 것
+JWT를 사용하는 이유 중 하나는 세션을 사용하지 않기 위함입니다.<br>
+예를 들어 서버를 여러대 운영할 경우 세션같은 경우 사용자의 동일한 세션이 서버간에 공유(클러스터)가 되어야 하는 문제가 생기는데 JWT는 토큰 자체에 인증기능을 구현할 수 있기 때문에 어떤 서버로 접속하더라도 동일한 토큰값이라면 서버개수와 상관없이 인증 시스템을 구현할 수 있습니다.
+
 ### 출처
 1. [학습중인 강의](https://www.inflearn.com/course/%EC%BD%94%EC%96%B4-%EC%8A%A4%ED%94%84%EB%A7%81-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0)
 2. [자바 서블릿 위키백과](https://ko.wikipedia.org/wiki/%EC%9E%90%EB%B0%94_%EC%84%9C%EB%B8%94%EB%A6%BF)
 3. [[JSP] 서블릿(Servlet)이란?](https://mangkyu.tistory.com/14)
+4. [인프런 - jwt 토큰방식에서의 세션 미사용 질문](https://www.inflearn.com/course/%EC%BD%94%EC%96%B4-%EC%8A%A4%ED%94%84%EB%A7%81-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0/unit/29834?tab=community&category=questionDetail&q=558844)

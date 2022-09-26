@@ -272,8 +272,35 @@ public String login() {
     - http.csrf() 기본 활성화 되어있고, 만약 비활성화 하고 싶다면 .disabled()를 붙이면 됩니다.
 이렇게 하면 위에 예시에서 사용자와 쇼핑몰은 csrf 토큰 값으로 주고 받으며 정상적으로 요청을 처리하지만, 공격자의 링크에 경우 CsrfFilter가 csrf 값을 확인할 때 URL에 csrf 값이 없거나 다르기 때문어 쇼핑몰 서버는 요청을 수락하지 않으므로써 csrf 공격을 방지합니다.
 
-#### 실재 실행
-(작성해야 함)
+#### 실제 실행 화면
+먼저 localhost:8080에 접속해 로그인을 한 후 크롬 확장자를 통해 http://localhost:8080에 접속하겠습니다.<br>
+해더에 아무 값도 넣지 않고, 접속한다면 actualToken은 null이 됩니다.
+![actualToken Null](:/inflearn_spring_security_learn/1s/5/actualToken_null.PNG){:data-align="center"}
+그럼 결국 인증에 실패하고, 에러가 발생하게 됩니다.
+![403 Error](:/inflearn_spring_security_learn/1s/5/token_403.PNG){:data-align="center"}
+이번에는 서버에서 주는 토큰 값을 확인하고, 해더에 값을 넣어 요청을 보내보겠습니다.
+![토큰 값](:/inflearn_spring_security_learn/1s/5/token_value_1.PNG){:data-align="center"}
+![해더에 입력](:/inflearn_spring_security_learn/1s/5/token_header.PNG){:data-align="center"}
+그럼 아래 사진과 같이 acturalToken에 해더에 저장했던 값이 출력되고, 정상적으로 값이 출력됩니다.
+![acutalToken 값](:/inflearn_spring_security_learn/1s/5/actualToken.PNG){:data-align="center"}
+![요청에 대한 결과 정상 출력](:/inflearn_spring_security_learn/1s/5/auth_end.PNG){:data-align="center"}
+위의 home은 SecurityController.java에 관련 코드를 추가해 나오는 화면입니다.<br>
+SecurityController.java
+{% highlight Spring %}
+@PostMapping("/")
+public String goHome() {
+    return "home";
+}
+{% endhighlight %}
+
+그럼 이번에는 csrf 기능을 끈다면 어떻게 작동할 지 확인해 보도록 하겠습니다.<br>
+SecurityConfig.java
+{% highlight Spring %}
+http.csrf().disable();
+{% endhighlight %}
+![FilterChainProxy에 csrf 필터가 없음](:/inflearn_spring_security_learn/1s/5/csrf_disable.PNG){:data-align="center"}
+위 사진은 FilterChainProxy입니다. 위 필더에서도 보면 csrf 필터가 체인에 없는 것을 확인할 수 있습니다. 그리고 실제로 csrf 값이 이상해도 검사를 하지 않기 때문에 요청에 대한 결과를 보여줍니다.<br>
+결과는 따로 사진에 첨부하지 않겠습니다.
 
 ### 참고
 #### 유저 권한 설정 순서의 중요성에 관해
