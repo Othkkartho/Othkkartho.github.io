@@ -265,7 +265,7 @@ public String login() {
 - 모든 요청에 랜덤하게 생성된 토큰을 클라이언트에 발급을 하고, 클라이언트가 서버에 접속하기 위해 토큰을 HTTP 파라미터로 요구합니다.
 - 요청 시 전달되는 토큰 값과 서버에 저장된 실제 값과 비교한 후 만약 일치하지 않으면 요청은 실패합니다.
 - Client
-    - <input type="hiden" name="${csrf.parameterName}" value="${_csrf.token}"/>
+    - `<input type="hiden" name="${csrf.parameterName}" value="${_csrf.token}"/>`
         - ${csrf.parameterName}는 서버에서 발급한 토큰 명이고, ${_csrf.token}은 토큰 값입니다.
     - 서버에 자원에 HTTP 메소드(PATCH, POST, PUT, DELETE)로 접근할 때는 토큰 명과 토큰 값을 가지고 요청을 해야합니다.
         - 그렇지 않다면 사용자가 접근하지 못하도록 처리합니다.
