@@ -38,6 +38,8 @@ date: 2022-09-26 10:00:00 +0900
 ---
 
 <!-- outline-start -->
+권한설정과 표현식, 예외 처리 및 요청 캐시 필터, 사이트 간 요청 위조에 관해 포스팅 했습니다.
+---------------------------------------------------------------------------------------
 
 출처는 인프런의 스프링 시큐리티 - [Spring Boot 기반으로 개발하는 Spring Security](https://www.inflearn.com/course/%EC%BD%94%EC%96%B4-%EC%8A%A4%ED%94%84%EB%A7%81-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0)강의를 바탕으로 이 포스트를 작성하고 있습니다.<br>
 강의의 세션 1의 11,12,13번 강의내용에 대한 정리입니다.
@@ -54,7 +56,6 @@ date: 2022-09-26 10:00:00 +0900
 이 포스트에서는 선언적 방식의 URL 형태로 권한 설정해보겠습니다.
 
 #### 권한 설정 실행 코드
-{% highlight Spring %}
 ```java
 http.antMatcher("/shop/**")                                                         // 1
     .authorizeRequests()
@@ -64,7 +65,6 @@ http.antMatcher("/shop/**")                                                     
     .antMatchers("/shop/admin/**").access("hasRole('ADMIN') or hasRole('SYS')");    // 5
     .anyRequest().authenticated()                                                   // 3
 ```
-{% endhighlight %}
 1. 특정한 경로를 지정해 사용자의 요청이 설정한 경로로 접근할 때만 설정 클레스의 보안 기능이 작동합니다. 만약 아무 경로도 지정하지 않는다면 모든 경로에 관해 보안 검색을 합니다.
 2. antMatchers는 설정한 경로나 설정한 경로에 포함된 모든(/**)경로들의 경우 뒤의 권한 심사를 하겠다는 코드입니다.
     - permitAll()은 유저 권한에 관계없이 허용하겠다는 의미입니다.
@@ -93,8 +93,7 @@ http.antMatcher("/shop/**")                                                     
 {:data-align="center"}
 
 #### 실제 코드
-SecurityConfig.java
-{% highlight Spring %}
+**SecurityConfig.java**{:data-align="center"}
 ```java
 @Configuration
 @EnableWebSecurity
@@ -122,10 +121,8 @@ public class SecurityConfig {
     }
 }
 ```
-{% endhighlight %}
 
-SecurityController.java
-{% highlight Spring %}
+**SecurityController.java**{:data-align="center"}
 ```java
 @GetMapping("/user")
 public String user() {
@@ -141,10 +138,10 @@ public String adminPay() {
 public String admin() {
     return "admin";
 }
-{% endhighlight %}
+```
 위 코드의 주석 1번은 강의 중 아래 코드를 WebSecurityConfigurerAdapter의 Override를 사용하지 않는 방법을 찾아서 변경한 코드입니다. 출처는 출처 스레드 2번에 링크되어 있습니다.<br><br>
-SecurityConfig.java
-{% highlight Spring %}
+**SecurityConfig.java**{:data-align="center"}
+```java
 @Override
 protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     auth.inMemoryAutentication().withUser("user").password("{noop}1111").roles("USER");
@@ -152,7 +149,6 @@ protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     auth.inMemoryAutentication().withUser("admin").password("{noop}1111").roles("ADMIN","SYS","USER");
 }
 ```
-{% endhighlight %}
 
 실행은 같은 사진의 연속이기 때문에 굳이 모든 실행 화면을 다 첨부하진 않고, USER 권한을 가진 사용자만 첨부하겠습니다.<br>
 ![유저 정보를 가진 사용자 로그인](:/inflearn_spring_security_learn/1s/5/user_login.jpg){:data-align="center"}
@@ -185,13 +181,12 @@ Exception 필터가 사용자 요청을 받을 때 try~catch로 감싸서 Filter
     - AccessDeniedHandler를 호출해 부속작업을 처리합니다. 보통은 response.redirect(/denied)을 호출해 인가 오류를 띄웁니다.
 
 #### 실행 코드
-{% highlight Spring %}
+
 ```java
 http.exceptionHandling()                                    // 1
     .authenticationEntryPoint(authenticationEntryPoint())   // 2
     .accessDeniedHandler(accessDeniedHandler())             // 3
 ```
-{% endhighlight %}
 1. 예외처리 기능이 작동하게 합니다.
 2. API를 통해 인터페이스를 구현해 클래스를 만들어 설정하면 만든 클래스를 호출합니다.
     - commence 메소드 안에서 인증 예외가 발생했을 경우 로그인 페이지나, 인증오류 코드를 띄울 수 있습니다.
@@ -199,8 +194,7 @@ http.exceptionHandling()                                    // 1
     - 보통 /denied로 가 인가 실패 메시지를 띄웁니다.
 
 #### 실제 코드
-SecurityConfig.java
-{% highlight Spring %}
+**SecurityConfig.java**{:data-align="center"}
 ```java
 http
     .formLogin()
@@ -229,10 +223,8 @@ http
         }
     });
 ```
-{% endhighlight %}
 
-SecurityController.java
-{% highlight Spring %}
+**SecurityController.java**{:data-align="center"}
 ```java
 @GetMapping("/denied")
 public String denied() {
@@ -244,7 +236,6 @@ public String login() {
     return "login";
 }
 ```
-{% endhighlight %}
 1. 사용자가 인증 전에 요청했던 경로를 저장했다가 로그인에 성공했을 때 그 경로로 이동하는 코드입니다.
 2. 인증 예외가 발생했을 때 login 페이지로 이동시키는 코드입니다.
 3. 인가 예외가 발생했을 때 denied 페이지로 이동시키는 코드입니다.
@@ -298,23 +289,19 @@ public String login() {
 ![acutalToken 값](:/inflearn_spring_security_learn/1s/5/actualToken.PNG){:data-align="center"}
 ![요청에 대한 결과 정상 출력](:/inflearn_spring_security_learn/1s/5/auth_end.PNG){:data-align="center"}
 위의 home은 SecurityController.java에 관련 코드를 추가해 나오는 화면입니다.<br>
-SecurityController.java
-{% highlight Spring %}
+**SecurityController.java**{:data-align="center"}
 ```java
 @PostMapping("/")
 public String goHome() {
     return "home";
 }
 ```
-{% endhighlight %}
 
 그럼 이번에는 csrf 기능을 끈다면 어떻게 작동할 지 확인해 보도록 하겠습니다.<br>
-SecurityConfig.java
-{% highlight Spring %}
+**SecurityConfig.java**{:data-align="center"}
 ```java
 http.csrf().disable();
 ```
-{% endhighlight %}
 ![FilterChainProxy에 csrf 필터가 없음](:/inflearn_spring_security_learn/1s/5/csrf_disable.PNG){:data-align="center"}
 위 사진은 FilterChainProxy입니다. 위 필더에서도 보면 csrf 필터가 체인에 없는 것을 확인할 수 있습니다. 그리고 실제로 csrf 값이 이상해도 검사를 하지 않기 때문에 요청에 대한 결과를 보여줍니다.<br>
 결과는 따로 사진에 첨부하지 않겠습니다.
@@ -322,7 +309,7 @@ http.csrf().disable();
 ### 참고
 #### 유저 권한 설정 순서의 중요성에 관해
 유저 권한을 설정할 때 순서를 다르게 하면 어떻게 되는지 실제 구동을 통해 확인해 보겠습니다.
-{% highlight Spring %}
+**SecurityConfig.java**{:data-align="center"}
 ```java
 @Bean
 public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -338,7 +325,6 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     return http.build();
 }
 ```
-{% endhighlight %}
 코드를 위와 같이 설정한다면 원래 /admin/pay 경로로는 SYS 권한을 가진 사용자가 접근할 수 없어야 하지만 접근이 가능한 것을 확인할 수 있습니다.
 ![SYS 사용자 로그인](:/inflearn_spring_security_learn/1s/5/sys_login.jpg){:data-align="center"}
 ![/admin/pay 경로에 SYS 사용자가 접근 가능](:/inflearn_spring_security_learn/1s/5/sys_adminPay.jpg){:data-align="center"}

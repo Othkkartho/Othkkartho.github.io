@@ -38,6 +38,8 @@ date: 2022-09-25 20:00:00 +0900
 ---
 
 <!-- outline-start -->
+익명사용자 인증 필터, 동시 세션제어, 세션 고정 보호, 세션 정책, 세션 제어 필터에 관해 포스트했습니다.
+----------------------------------------------------------------------------------------------
 
 출처는 인프런의 스프링 시큐리티 - [Spring Boot 기반으로 개발하는 Spring Security](https://www.inflearn.com/course/%EC%BD%94%EC%96%B4-%EC%8A%A4%ED%94%84%EB%A7%81-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0)강의를 바탕으로 이 포스트를 작성하고 있습니다.<br>
 강의의 세션 1의 8,9,10번 강의내용에 대한 정리입니다.
@@ -68,7 +70,6 @@ date: 2022-09-25 20:00:00 +0900
 2. 두번째는 사용자가 과거 생성된 세션이 있다면 현재 다른 세션을 생성하려고 할 때 인증 예외를 발생시켜 인증 실패를 방법이 있습니다.
 
 #### 실행 코드
-{% highlight Spring %}
 ```java
 http.sessionManagement()            // 1
     .maximumSessions(1)             // 2
@@ -76,17 +77,14 @@ http.sessionManagement()            // 1
     .invalidSessionUrl("/invalid")  // 4
     .expiredUrl("/expired")         // 5
 ```
-{% endhighlight %}
 1. 세션 관리 기능을 작동시킵니다.
 2. 최대 허용 가능 세션 수를 설정합니다. -1을 입력할 경우 무제한 로그인 세션을 허용합니다.
 3. 동시 로그인 차단을 설정해 현재 사용자 인증 실패 전략을 사용합니다. Default는 false로 기존 세션을 만료시켜 이전 사용자 세션을 만료시키는 전략을 사용합니다.
 4. 세션이 유효하지 않을 때 이동 할 페이지를 설정합니다.
 5. 세션이 만료된 경우 이동할 페이지를 설정합니다.
 
-#### 실제 코드
+#### 실제 실행 절차
 서버에 사용자의 세션이 2개 생성된 것은 맞지만 첫번째 사용자가 서버 자원에 접근하려고 하면 서버는 사용자의 세션이 만료 되었는지 아닌지 확인하는 ConcurrentSessionFilter가 체크를 합니다. 만약 세션이 만료된것을 확인하면 사용자의 세션을 실제로 만료시키게 되고, 사용자 세션 만료를 응답을 보내게됩니다.
-
-#### 결과
 
 ### 세션 고정 보호
 #### 세션 고정 공격이란?
@@ -101,12 +99,11 @@ http.sessionManagement()            // 1
 그럼 공격자는 본인이 가지고있는 세션 아이디를 가지고 사용자와 공유할 수 없게 됩니다.
 
 #### 실행 코드
-{% highlight Spring %}
+**SecurityConfig.java**{:data-align="center"}
 ```java
 http.sessionManagement()
     .sessionFixation().changeSessionId()    // 1
 ```
-{% endhighlight %}
 1. 세션 고정 보호를 사용하는 기본값입니다.
     - changeSessionId는 Servlet 3.1 이상에서 기본값입니다. 사용자가 인증에 성공하면 세션은 그대로 두고, 세션 아이디만 변경됩니다.
     - migrateSession은 Servlet 3.1 이하에서 기본값입니다. 사용자가 인증에 성공하면 세션도 새로 만들고, 세션 아이디도 새로 만듭니다.
@@ -116,12 +113,11 @@ http.sessionManagement()
 - 위와 같은 코드로 따로 설정하지 않더라도 스프링 시큐리티가 기본적으로 초기화 되면서 기본값이 작동하도록 설정되어있습니다.
 
 #### 실제 공격 시뮬레이션
-{% highlight Spring %}
+**SecurityConfig.java**{:data-align="center"}
 ```java
 http.sessionManagement()
     .sessionFixation().none();
 ```
-{% endhighlight %}
 실제 코드를 적용해 만약 세션 고정 보호가 되지 않는다면 어떤 일이 일어나는지 실제로 확인하도록 하겠습니다.<br>
 먼저 각 브라우저의 세션 쿠키를 확인해보겠습니다.<br>
 엣지의 세션 쿠키 값입니다.
@@ -140,12 +136,11 @@ http.sessionManagement()
 
 ### 세션 정책
 #### 실행 코드
-{% highlight Spring %}
+**SecurityConfig.java**{:data-align="center"}
 ```java
 http.sessionManagement()
     .sessionCreationPolicy(SessionCreationPolicy.If_Required)   // 1
 ```
-{% endhighlight %}
 1. 스프링 시큐리티의 세션 정책옵션을 설정할 수 있습니다.
     - Always는 스프링 시큐리티가 항상 세션을 생성합니다.
     - If_Required는 스프링 시큐리티가 필요 시 세션을 생성합니다. 이 설정이 기본값입니다.

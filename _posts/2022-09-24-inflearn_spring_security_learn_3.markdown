@@ -38,6 +38,8 @@ date: 2022-09-24 10:00:00 +0900
 ---
 
 <!-- outline-start -->
+Logout 처리, LogoutFilter, Remember Me 인증과 필터인 RememberMeAuthenticationFilter에 관한 포스트입니다.
+------------------------------------------------------------------------------------------------------
 
 출처는 인프런의 스프링 시큐리티 - [Spring Boot 기반으로 개발하는 Spring Security](https://www.inflearn.com/course/%EC%BD%94%EC%96%B4-%EC%8A%A4%ED%94%84%EB%A7%81-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0)강의를 바탕으로 이 포스트를 작성하고 있습니다.<br>
 강의의 세션 1의 5,6,7번 강의내용에 대한 정리입니다.
@@ -50,7 +52,6 @@ date: 2022-09-24 10:00:00 +0900
 2. 서버는 세션 무효화, 인증토큰 삭제, 쿠키정보 삭제, 로그인 페이지로 리이렉트 시킵니다.
 
 ##### 로그아웃 API 설정
-{% highlight Spring %}
 ```java
 http.logout()                                       // 1
     .logoutUrl("/logout")                           // 2
@@ -59,7 +60,6 @@ http.logout()                                       // 1
     .addLogoutHandler("logoutHandler()")            // 5
     .logoutSuccessHandler("logoutSuccessHandler")   // 6
 ```
-{% endhighlight %}
 1. 로그아웃 처리를 진행합니다.
 2. 로그아웃 처리를 할 때 로그아웃을 요청할 URL을 설정합니다.
 3. 로그아웃 성공 후 어디로 이동할 지 이동페이지를 설정합니다.
@@ -69,7 +69,7 @@ http.logout()                                       // 1
 
 ##### 실제 코드
 우선 로그아웃은 POST 방식으로 요청을 보냅니다. 따라서 GET 방식으로 로그아웃 할 수도 있지만, 원칙적으로는 POST 방식으로 logout을 설정해야합니다.
-{% highlight Spring %}
+**SecurityConfig.java**{:data-align="center"}
 ```java
 http
     .logout()
@@ -90,7 +90,6 @@ http
     })
     .deleteCookies("remember-me");  // 1
 ```
-{% endhighlight %}
 위 코드는 실제 코드입니다. 받는 파라미터는 request, response, authentication을 받습니다.
 
 - 1번은 추후 공부할 remember-me 인증을 발급하는데 이 때 서버는 쿠키를 발급합니다. 하지만 로그아웃 할 때 이 쿠키를 삭제하고 싶다면 작성하면 삭제가 됩니다.
@@ -119,7 +118,6 @@ Remember Me는 세션이 만료되거나, 웹 브라우저가 종료된 후에�
 - 로그아웃이 일어날 때 쿠키가 존재한다면 쿠키를 무효화 시킵니다.
 
 #### Remember Me 인증 API
-{% highlight Spring %}
 ```java
 http.rememberMe()                               // 1
     .rememberMeParameter("remember")            // 2
@@ -127,7 +125,6 @@ http.rememberMe()                               // 1
     .alwaysRemember(true)                       // 4
     .userDetails Service(userDetailsService)    // 5
 ```
-{% endhighlight %}
 위에 작성된 코드가 RememberMe 설정 코드입니다.
 1. Remember Me의 처리를 진행합니다.
 2. Remember Me의 파라미터명을 지정합니다. 기본명은 remember-me입니다. 사용자 화면에 체크박스 파라미터명도 동일하게  맞춰줘야합니다.
@@ -136,7 +133,7 @@ http.rememberMe()                               // 1
 5. Remember Me 기능을 수행할 때 시스템에 있는 사용자 계정을 조회하는데 필요한 클레스입니다.
 
 #### 실제 코드
-{% highlight Spring %}
+**SecurityConfig.java**{:data-align="center"}
 ```java
 @Bean
 public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -156,7 +153,6 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     return http.build();
 }
 ```
-{% endhighlight %}
 간단히 코드를 살펴보면 먼저 Remember Me를 선언해 주고, 파라미터명을 remember로 변경시켰습니다.<br>
 쿠키의 유지 기간은 3600초 = 1시간 이고, UserDetailService를 Security에 선언된 것을 받아와 사용했습니다.
 
@@ -208,11 +204,10 @@ SW를 사용하는 고객은 Factory 클래스만을 호출해야하며, 그것�
 Autowired는 스프링 DI에서 사용되는 어노테이션입니다. 스프링에서 빈 인스턴스가 생성된 후 @Autowired를 설정한 메소드가 자동으로 호출되고, 인스턴스가 자동으로 주입됩니다.<br>즉, 해당 변수 및 메서드에 스프링이 관리하는 Bean을 자동으로 매핑해주는 개념입니다. @Autowired 는 변수, Setter메서드, 생성자, 일반 메서드에 적용이 가능하며 <property>, <constructor-arg>태그와 동일한 역할을 합니다.
 
 ##### Field injection is not recommended 오류
-{% highlight Spring %}
+**SecurityConfig.java**{:data-align="center"}
 ```java
 @Autowired UserDetailsService userDetailsService
 ```
-{% endhighlight %}
 위의 방식을 Field Injection 방식이라고 합니다. 이 방식은 setter기반과 마찬가지로 빈 생성이 완료된 이후 주입되며, final로 선언할 수 없습니다.<br>
 보기에는 매우 간결합니다. 하지만 IDE에서의 워닝과 같이 몇 가지 단점이 있습니다.<br>
 1. 주입된 객체는 Immutable한 상태를 만들 수 없습니다.

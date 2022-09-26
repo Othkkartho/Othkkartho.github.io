@@ -38,9 +38,13 @@ date: 2022-09-22 10:00:00 +0900
 ---
 
 <!-- outline-start -->
+Form Login인증과 필터인 UsernamePasswordAuthenticationFilter에 관한 포스트입니다.
+-------------------------------------------------------------------------------
 
 출처는 인프런의 스프링 시큐리티 - [Spring Boot 기반으로 개발하는 Spring Security](https://www.inflearn.com/course/%EC%BD%94%EC%96%B4-%EC%8A%A4%ED%94%84%EB%A7%81-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0)강의를 바탕으로 이 포스트를 작성하고 있습니다.<br>
 강의의 세션 1의 3,4번 강의내용에 대한 정리입니다.
+
+* * *
 
 <!-- outline-end -->
 
@@ -56,7 +60,6 @@ date: 2022-09-22 10:00:00 +0900
 
 #### Form Login API
 다음으론 폼 로그인이 가지고 있는 API에 관해 설명하겠습니다.
-{% highlight Spring %}
 ```java
 http.formLogin()
     .loginPage("/login.html")               // 1
@@ -68,7 +71,6 @@ http.formLogin()
     .successHandler(loginSuccessHandler())  // 7
     .failureHandler(loginFailureHandler())  // 8
 ```
-{% endhighlight %}
 
 1. 기본적으로 제공하는 로그인 페이지가 아닌 사용자 정의 로그인 페이지를 넣습니다.
 2. 로그인 성공 후 이동할 페이지를 넣습니다.
@@ -81,7 +83,7 @@ http.formLogin()
 8. 로그인을 실패했을 때의 핸들러입니다. 로그인을 실패했을 때의 동작입니다.
 
 #### 실제 코드 및 결과 화면
-{% highlight Spring %}
+**SecurityConfig.java**{:data-align="center"}
 ```java
 @Configuration
 @EnableWebSecurity
@@ -119,7 +121,6 @@ public class SecurityConfig {
     }
 }
 ```
-{% endhighlight %}
 위 코드는 SecuritConfig의 전문입니다.
 
 1. 서버에 접속하는 모든 요청에 관해 인증을 요청합니다.
@@ -131,14 +132,13 @@ public class SecurityConfig {
 loginPage()에 관한 결과 화면입니다.
 ![loginPage](:/inflearn_spring_security_learn/1s/2/loginPage.PNG){:data-align="center"}
 실제 로그인 화면인 /login이 아닌 /loginPage가 출력이 됩니다. 화면에는 아래의 코드와 같이 loginPage 문자를 출력합니다.
-{% highlight Spring %}
+**SecurityController.java**{:data-align="center"}
 ```java
 @GetMapping("loginPage")
 public String loginPage() {
     return "loginPage";
 }
 ```
-{% endhighlight %}
 
 다음은 loginPage를 주석처리 하고, 로그인 시도를 했습니다.<br>
 - 2번의 결과 화면입니다.
