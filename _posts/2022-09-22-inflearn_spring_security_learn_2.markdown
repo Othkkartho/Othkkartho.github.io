@@ -11,7 +11,7 @@ category: spring security learn
 # multiple tag entries are possible
 tags: [Spring, inflearn, spring security learn]
 # thumbnail image for post
-img: ":/inflearn_spring_security_learn/post_spring_security.PNG"
+img: ":/inflearn_spring_security_learn/post_spring_security.png"
 # disable comments on this page
 #comments_disable: true
 
@@ -57,6 +57,7 @@ date: 2022-09-22 10:00:00 +0900
 #### Form Login API
 다음으론 폼 로그인이 가지고 있는 API에 관해 설명하겠습니다.
 {% highlight Spring %}
+```java
 http.formLogin()
     .loginPage("/login.html")               // 1
     .defaultSuccessUrl("/home")             // 2
@@ -66,6 +67,7 @@ http.formLogin()
     .loginProcessingUrl("/login")           // 6
     .successHandler(loginSuccessHandler())  // 7
     .failureHandler(loginFailureHandler())  // 8
+```
 {% endhighlight %}
 
 1. 기본적으로 제공하는 로그인 페이지가 아닌 사용자 정의 로그인 페이지를 넣습니다.
@@ -80,6 +82,7 @@ http.formLogin()
 
 #### 실제 코드 및 결과 화면
 {% highlight Spring %}
+```java
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -115,6 +118,7 @@ public class SecurityConfig {
         return http.build();
     }
 }
+```
 {% endhighlight %}
 위 코드는 SecuritConfig의 전문입니다.
 
@@ -128,10 +132,12 @@ loginPage()에 관한 결과 화면입니다.
 ![loginPage](:/inflearn_spring_security_learn/1s/2/loginPage.PNG){:data-align="center"}
 실제 로그인 화면인 /login이 아닌 /loginPage가 출력이 됩니다. 화면에는 아래의 코드와 같이 loginPage 문자를 출력합니다.
 {% highlight Spring %}
+```java
 @GetMapping("loginPage")
 public String loginPage() {
     return "loginPage";
 }
+```
 {% endhighlight %}
 
 다음은 loginPage를 주석처리 하고, 로그인 시도를 했습니다.<br>

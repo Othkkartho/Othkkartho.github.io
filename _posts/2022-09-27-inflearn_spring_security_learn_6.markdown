@@ -11,7 +11,7 @@ category: spring security learn
 # multiple tag entries are possible
 tags: [Spring, inflearn, spring security learn]
 # thumbnail image for post
-img: ":/inflearn_spring_security_learn/post_spring_security.PNG"
+img: ":/inflearn_spring_security_learn/post_spring_security.png"
 # disable comments on this page
 #comments_disable: true
 
@@ -70,8 +70,102 @@ Filter가 하는 역할은 요청이 Servlet 자원으로 가기 전 필터가 �
     - 이때 필터의 순서를 잘 정의해야 됩니다.
 6. 마지막 필터까지 인증, 인가 예외가 발생하지 않으면 보안을 통과하는 것입니다.
 
+#### 아키텍처 흐름
+1. 유저가 서버에 요청을 보내면 Servlet Container가 처음 요청을 받고, DelegatingFilterProxy가 요청을 받으면 그 요청 객체를 springSecurityFilterChain이름을 가진 빈을 찾습니다.
+2. FilterChainProxy가 빈을 등록할 때 이름을 springSecurityFilterChain으로 등록합니다. 그럼 DelegatingFilterProxy는 요청을 위임합니다.
+3. FilterChainProxy는 본인이 가지고 있는 모든 필터들을 하나씩 보안처리를 하고, DispatcherServlet과 같은 Spring MVC로 요청을 보내 오청을 처리합니다.
+
+### 필터 초기화와 다중 보안 설정
+#### 필터 초기화와 다중 설정 클래스
+- 설정클래스 별로 보안 기능이 각각 작동하도록 지원됩니다.
+- 설정 클래스 별로 RequestMatcher 설정합니다.
+    - SecurityConfig 1에서 http.antMatcher("/admin/**")를 설정했다면 사용자가 /admin으로 접근 하려 한다면 1번의 인가 정책에 따릅니다.
+    - 만약 Config 2번에서 설정되 있는 인가 정책이 있다면 2번의 인가 정책을 따릅니다.
+- 설정클래스 별로 필터가 생성되 독립적으로 운용됩니다.
+- FilterChainProxy 가 각기 다른 SecurityConfg에서 생성된 각각의 SecurityFilterChain를 가지고 있습니다.
+- 사용자의 요청에 따라 RequestMatcher와 매칭되는 SecurityFilterChain을 작동하도록 합니다.
+
+#### 실제 코드
+{% highlight Spring %}
+```java
+@Configuration
+@EnableWebSecurity
+@Order(0)
+public class SecurityConfig {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .antMatcher("/admin/**")
+                .authorizeRequests()
+                .anyRequest().authenticated()
+                .and()
+                .httpBasic();
+
+        return http.build();
+    }
+}
+@Configuration
+@Order(1)
+class SecurityConfig2 {
+    @Bean
+    public SecurityFilterChain filterChain2(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
+                .anyRequest().permitAll()
+                .and()
+                .formLogin();
+
+        return http.build();
+    }
+}
+```
+{% endhighlight %}
+위의 코드에서처럼 Config를 2개 만들어 필터 값들의 작동을 확인해 보겠습니다.<br><br>
+아래의 사진은 Config에서 설정한 2개의 보안 설정이 잘 적용되었는지 FilterChainProxy에 블록을 걸어 값을 확인해 보았습니다.
+![필터 체인이 가지고 있는 값 확인](:/inflearn_spring_security_learn/2s/6/filter_chains.jpg){:data-align="center"}
+사진을 보면 requestMatcher에 두 값들이 정상적으로 들어가 있는 것을 확인할 수 있고, 각각의 보안 정책의 차이에 따라 필터의 개수도 다른것을 확인할 수 있습니다.<br>
+![13개의 filterchain 값](:/inflearn_spring_security_learn/2s/6/securityconfig1.jpg){:data-align="center"}
+위는 처음 SecurityConfig의 필터들입니다. 베이직 인증을 도입해 베이직 필터가 있는 모습을 확인할 수 있습니다.<br>
+![15개의 filterchain 값](:/inflearn_spring_security_learn/2s/6/securityconfig2.jpg){:data-align="center"}
+위는 SecurityConfig2의 필터들입니다. formLogin 정책으로 인해 Basic 필터 대신 필터 6, 7, 8번에 formLogin관련 필터가 있는 것을 확인할 수 있습니다.<br>
+![루트 페이지로의 이동](:/inflearn_spring_security_learn/2s/6/root_page.jpg){:data-align="center"}
+루트 페이지로 이동 시 모든 사용자의 접근을 허용했기 때문에 자연스럽게 결과가 출력되는 것을 확인할 수 있습니다.<br>
+![어드민 페이지 접근시 Basic 인증 출력](:/inflearn_spring_security_learn/2s/6/admin_page.jpg){:data-align="center"}
+어드민 페이지 접근 시 인증된 사용자 접근만 허용했고, Basic 인증을 적용했기 때문에 Basic 로그인 화면이 출력되는 것을 확인할 수 있습니다.<br>
+![어드민 페이지 정상 접근](:/inflearn_spring_security_learn/2s/6/admin_page.jpg){:data-align="center"}
+인증을 완료하면 정상적으로 화면 출력이 됩니다.
+
+### Authentication
+#### Authentication이란?
+사용자가 누구인지를 증명하는 것입니다.
+
+
 ### 참고
-#### 
+#### Order 순서 설정의 중요성
+{% highlight Spring %}
+```java
+@Configuration
+@EnableWebSecurity
+@Order(1)
+public class SecurityConfig {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        // 위의 코드와 동일
+    }
+}
+@Configuration
+@Order(0)
+class SecurityConfig2 {
+    @Bean
+    public SecurityFilterChain filterChain2(HttpSecurity http) throws Exception {
+        // 위 코드와 동일
+    }
+}
+```
+{% endhighlight %}
+필터 초기화와 다중 보안 설정의 실제 코드를 보시면 Config가 0순위로 설정 되있고, Config2가 1순위로 선택이 되어 있는 것을 확인하실 수 있습니다.<br>
+하지만 이를 위 코드와 같이 변경할 경우 모든 경로에 관해 모든 요청을 수락한다는 코드가 /admin/** 보안 설정보다 앞에 있으므로 /admin/**에 설정된 인가 정책을 무시하고, 모든 경로에 대해 모든 요청을 수락하게 됩니다.<br>
+이는 인가 정책 설정의 작은 범위에 경로를 더 위에 둬야 인가 정책이 정상적으로 처리 되는 것과 동일한 것입니다.
 
 
 ### 출처

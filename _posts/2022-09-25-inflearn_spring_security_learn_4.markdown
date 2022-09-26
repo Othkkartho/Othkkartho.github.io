@@ -11,7 +11,7 @@ category: spring security learn
 # multiple tag entries are possible
 tags: [Spring, inflearn, spring security learn]
 # thumbnail image for post
-img: ":/inflearn_spring_security_learn/post_spring_security.PNG"
+img: ":/inflearn_spring_security_learn/post_spring_security.png"
 # disable comments on this page
 #comments_disable: true
 
@@ -69,11 +69,13 @@ date: 2022-09-25 20:00:00 +0900
 
 #### 실행 코드
 {% highlight Spring %}
+```java
 http.sessionManagement()            // 1
     .maximumSessions(1)             // 2
     .maxSessionsPreventsLogin(ture) // 3
     .invalidSessionUrl("/invalid")  // 4
     .expiredUrl("/expired")         // 5
+```
 {% endhighlight %}
 1. 세션 관리 기능을 작동시킵니다.
 2. 최대 허용 가능 세션 수를 설정합니다. -1을 입력할 경우 무제한 로그인 세션을 허용합니다.
@@ -100,8 +102,10 @@ http.sessionManagement()            // 1
 
 #### 실행 코드
 {% highlight Spring %}
+```java
 http.sessionManagement()
     .sessionFixation().changeSessionId()    // 1
+```
 {% endhighlight %}
 1. 세션 고정 보호를 사용하는 기본값입니다.
     - changeSessionId는 Servlet 3.1 이상에서 기본값입니다. 사용자가 인증에 성공하면 세션은 그대로 두고, 세션 아이디만 변경됩니다.
@@ -113,9 +117,10 @@ http.sessionManagement()
 
 #### 실제 공격 시뮬레이션
 {% highlight Spring %}
-http
-        .sessionManagement()
-        .sessionFixation().none();
+```java
+http.sessionManagement()
+    .sessionFixation().none();
+```
 {% endhighlight %}
 실제 코드를 적용해 만약 세션 고정 보호가 되지 않는다면 어떤 일이 일어나는지 실제로 확인하도록 하겠습니다.<br>
 먼저 각 브라우저의 세션 쿠키를 확인해보겠습니다.<br>
@@ -136,8 +141,10 @@ http
 ### 세션 정책
 #### 실행 코드
 {% highlight Spring %}
+```java
 http.sessionManagement()
     .sessionCreationPolicy(SessionCreationPolicy.If_Required)   // 1
+```
 {% endhighlight %}
 1. 스프링 시큐리티의 세션 정책옵션을 설정할 수 있습니다.
     - Always는 스프링 시큐리티가 항상 세션을 생성합니다.

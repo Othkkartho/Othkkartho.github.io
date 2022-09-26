@@ -11,7 +11,7 @@ category: spring security learn
 # multiple tag entries are possible
 tags: [Spring, inflearn, spring security learn]
 # thumbnail image for post
-img: ":/inflearn_spring_security_learn/post_spring_security.PNG"
+img: ":/inflearn_spring_security_learn/post_spring_security.png"
 # disable comments on this page
 #comments_disable: true
 
@@ -51,12 +51,14 @@ date: 2022-09-24 10:00:00 +0900
 
 ##### 로그아웃 API 설정
 {% highlight Spring %}
+```java
 http.logout()                                       // 1
     .logoutUrl("/logout")                           // 2
     .logoutSuccessUrl("/login")                     // 3
     .deleteCookies("JESSIONID", "remember-me")      // 4
     .addLogoutHandler("logoutHandler()")            // 5
     .logoutSuccessHandler("logoutSuccessHandler")   // 6
+```
 {% endhighlight %}
 1. 로그아웃 처리를 진행합니다.
 2. 로그아웃 처리를 할 때 로그아웃을 요청할 URL을 설정합니다.
@@ -68,6 +70,7 @@ http.logout()                                       // 1
 ##### 실제 코드
 우선 로그아웃은 POST 방식으로 요청을 보냅니다. 따라서 GET 방식으로 로그아웃 할 수도 있지만, 원칙적으로는 POST 방식으로 logout을 설정해야합니다.
 {% highlight Spring %}
+```java
 http
     .logout()
     .logoutUrl("/logout")
@@ -86,6 +89,7 @@ http
         }
     })
     .deleteCookies("remember-me");  // 1
+```
 {% endhighlight %}
 위 코드는 실제 코드입니다. 받는 파라미터는 request, response, authentication을 받습니다.
 
@@ -116,11 +120,13 @@ Remember Me는 세션이 만료되거나, 웹 브라우저가 종료된 후에�
 
 #### Remember Me 인증 API
 {% highlight Spring %}
+```java
 http.rememberMe()                               // 1
     .rememberMeParameter("remember")            // 2
     .tokenValiditySeconds(3600)                 // 3
     .alwaysRemember(true)                       // 4
     .userDetails Service(userDetailsService)    // 5
+```
 {% endhighlight %}
 위에 작성된 코드가 RememberMe 설정 코드입니다.
 1. Remember Me의 처리를 진행합니다.
@@ -131,6 +137,7 @@ http.rememberMe()                               // 1
 
 #### 실제 코드
 {% highlight Spring %}
+```java
 @Bean
 public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     private final UserDetailsService userDetailsService;
@@ -148,6 +155,7 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
     return http.build();
 }
+```
 {% endhighlight %}
 간단히 코드를 살펴보면 먼저 Remember Me를 선언해 주고, 파라미터명을 remember로 변경시켰습니다.<br>
 쿠키의 유지 기간은 3600초 = 1시간 이고, UserDetailService를 Security에 선언된 것을 받아와 사용했습니다.
@@ -201,8 +209,9 @@ Autowired는 스프링 DI에서 사용되는 어노테이션입니다. 스프링
 
 ##### Field injection is not recommended 오류
 {% highlight Spring %}
-@Autowired
-UserDetailsService userDetailsService
+```java
+@Autowired UserDetailsService userDetailsService
+```
 {% endhighlight %}
 위의 방식을 Field Injection 방식이라고 합니다. 이 방식은 setter기반과 마찬가지로 빈 생성이 완료된 이후 주입되며, final로 선언할 수 없습니다.<br>
 보기에는 매우 간결합니다. 하지만 IDE에서의 워닝과 같이 몇 가지 단점이 있습니다.<br>
