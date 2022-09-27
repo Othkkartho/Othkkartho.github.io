@@ -43,7 +43,7 @@ date: 2022-09-27 10:00:00 +0900
 ---------------------------------------------------------------
 
 출처는 인프런의 스프링 시큐리티 - [Spring Boot 기반으로 개발하는 Spring Security](https://www.inflearn.com/course/%EC%BD%94%EC%96%B4-%EC%8A%A4%ED%94%84%EB%A7%81-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0)강의를 바탕으로 이 포스트를 작성하고 있습니다.<br>
-강의의 세션 2의 1,2번 강의내용에 대한 정리입니다.
+강의의 세션 2의 1,2,3,4번 강의내용에 대한 정리입니다.
 
 <!-- outline-end -->
 
@@ -139,8 +139,104 @@ class SecurityConfig2 {
 
 ### Authentication
 #### Authentication이란?
-사용자가 누구인지를 증명하는 것입니다.
+- 사용자의 인증 정보를 저장하는 토큰 개념으로 사용됩니다.
+- 인증 시 ID와 password를 담고 인증 검증을 위해 전달되어 사용됩니다.
+- 인증 후 최종 인증 결과 (user 객체, 권한정보)를 담고 SecurityContext에 저장되어 전역적으로 참조가 가능합니다.
+    - Authentication authentication = SecurityContexHolder.getContext().getAuthentication() 의 구문을 통해 인증 결과를 사용하고, 참조할 수 있습니다.
+- 구조
+    1. principal은 사용자 아이디 혹은 User 객체를 저장합니다.
+    2. credentials는 사용자 비밀번호를 저장합니다.
+    3. authorities는 인증된 사용자의 권한 정보를 저장합니다.
+    4. details는 인증의 부가 정보입니다.
+        - 사용자가 가진 인증 정보 외에 더 참조할 값을 저장합니다.
+    5. Authenticated는 인증 여부를 boolean 값으로 저장합니다.
 
+#### Authentication의 활용 순서도
+1. 사용자가 ID+password를 입력해 로그인을 시도합니다.
+2. UsernamePasswordAuthenticationFilter가 그 정보를 받아 Authentication 객체를 생성하고, 아이디, 페스워드를 전달합니다.
+3. AuthenticationManager가 인증 객체를 가지고 인증처리를합니다. 인증이 성공하면 Authentication 객체를 만들고 아이디, 권한, 인증 성공 여부 같은 최종 인증 결과를 저장합니다.
+4. SecurityContextHolder안에 SecurityContext안에 Authentication을 저장하고, 이 인증 객체를 전역적으로 사용할 수 있게 됩니다.
+
+### 인증 저장소 - SecurityContextHolder, SecurityContext
+- **SecurityContext**
+    - Authentication 객체가 저장되는 보관소로 필요 시 언제든지 Authentication 객체를 꺼내 쓸 수 있도록 제공되는 클레스입니다.
+        - 즉 SecurityContext 안에 Authentication이 Authentication 객체 안에 User 객체가 있다는 의미입니다.
+    - ThreadLocal에 저장되어 아무 곳에서나 참조가 가능하도록 설계되어있습니다.
+    - 인증이 완료되면 HttpSession에 저장되어 어플리케이션 전반에 결쳐 전역적인 참조가 가능합니다.
+- **SecuritycontextHolder**
+    - SecurityContext 객체 저장 방식은
+        - MODE_THREADLOCAL은 스레드당 Securitycontext 객체를 할당하는 방법입니다. 이 방식이 기본값입니다.
+        - MODE_INHERITABLETHREADLOCAL은 메인 스레드와 자식 스레드에 관해 동일한 SecurityContext를 유지합니다.
+        - MODE_GLOBAL은 응용 프로그램에서 단 하나의 SecurityContext를 저장합니다.
+    - SecurityContextHolder.clearContext()는 Securitycontext의 기존 정보를 초기화합니다.
+
+#### 인증 저장소 작동 순서도
+1. 로그인을 시도하면 서버에서 하나의 스레드를 생성하고, 그 스레드에는 ThreadLocal이 할당됩니다.
+2. 인증 객체에 사용자의 로그인 정보와 비밀번호를 저장해 인증을 시도합니다.
+    - 인증에 실패하면 SecurityContextHolder.clearContext()를 실행해 SecurityContext 객체를 null로 초기화 합니다.
+3. 인증에 성공하면 SecurityContextHolder안에 SecurityContext 객체 안에 Authentication 객체를 만들어 유저 객체, 권한 정보와 같은 인증 성공 결과를 저장합니다.
+    - SecurityContextHolder가 ThreadLocal 객체를 가지고 있고, ThreadLocal이 SecurityContext를 담고 있습니다.
+4. 최종적으론 SecurityContext가 HttpSession에 "SPRING_SECURITY_CONTEXT"라는 이름으로 저장이 됩니다.
+
+#### 실제 코드와 화면
+**SecurityController.java**{:data-align="center"}
+```java
+@GetMapping("/")
+public String index(HttpSession session) {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();                                             // 1
+    SecurityContext context = (SecurityContext) session.getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY); // 2
+    Authentication authentication1 = context.getAuthentication();
+
+    return "home";
+}
+
+@GetMapping("/thread")
+public String thread() {
+    new Thread(
+            new Runnable() {
+                @Override
+                public void run() {
+                    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();                             // 3
+                }
+            }
+    ).start();
+    return "thread";
+}
+```
+위의 코드는 Authentication 객체에 사용자 인증 성공 결과가 잘 저장이 되는지 확인합니다.<br>
+**Authentication 값 확인**{:data-align="center"}
+![Authentication 값 확인](:/inflearn_spring_security_learn/2s/6/authentication.jpg){:data-align="center"}
+사진은 주석 1번의 authentication 객체에 저장된 값들입니다.<br>
+**context의 Authentication 값 확인**{:data-align="center"}
+![context의 Authentication 값 확인](:/inflearn_spring_security_learn/2s/6/context_authentication.jpg){:data-align="center"}
+사진은 주석 2번의 authentication 객체에 저장된 값들입니다.<br>
+위 2개의 사진을 확인해 보면 값이 같다는 것을 확인할 수 있습니다. 이는 같은 스레드에 있어 같은 ThreadLocal을 사용하기 때문임을 알 수 있습니다.<br>
+**직접 실행해 본 Authentication 값 확인**{:data-align="center"}
+![직접 실행해 본 Authentication 값 확인](:/inflearn_spring_security_learn/2s/6/evaluate_authentication.jpg){:data-align="center"}
+사진은 Break시 Evaluate에서 확인해본 authentication 객체의 정보입니다.<br>
+위의 2개의 사진을 확인해 보면 @ 뒤의 숫자가 같은 것을 확인할 수 있습니다. 이로써 2개의 코드가 다르더라도 불러온 객체가 완전히 동일한 것임을 알 수 있습니다.
+**thread 메소드의 Authentication 값 확인**{:data-align="center"}
+![thread 메소드의 Authentication 값 확인](:/inflearn_spring_security_learn/2s/6/thread_evaluate_authentication.jpg){:data-align="center"}
+사진은 /thread 경로로 들어가 확인해본 authentication 객체 정보입니다. 스레드가 다르기 때문에 정보가 null임을 확인할 수 있습니다.
+
+**SecurityConfig.java**{:data-align="center"}
+```java
+@Bean
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http
+            .authorizeRequests()
+            .anyRequest().authenticated();
+    http
+            .formLogin();
+    SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
+
+    return http.build();
+}
+```
+**Config에서 Strategy이름 변경 후 thread 메소드 Authentication 값 재확인**{:data-align="center"}
+![Config에서 Strategy이름 변경 후 thread 메소드 Authentication 값 재확인](:/inflearn_spring_security_learn/2s/6/thread_evaluate_authentication_2.jpg){:data-align="center"}
+위 사진은 Config 코드를 위와 같이 변경하고, 다시 Authentication 객체의 값을 확인해 본 것입니다.<br>
+**MODE_INHERITABLETHREADLOCAL** 는 메인 스레드와 자식 스레드에 관해 동일한 SecurityContext를 유지하기 때문에 스레드가 다름에도 정상적으로 authentication 값이 출력되는 것을 확인할 수 있습니다.
 
 ### 참고
 #### Order 순서 설정의 중요성
@@ -168,6 +264,11 @@ class SecurityConfig2 {
 하지만 이를 위 코드와 같이 변경할 경우 모든 경로에 관해 모든 요청을 수락한다는 코드가 /admin/** 보안 설정보다 앞에 있으므로 /admin/**에 설정된 인가 정책을 무시하고, 모든 경로에 대해 모든 요청을 수락하게 됩니다.<br>
 이는 인가 정책 설정의 작은 범위에 경로를 더 위에 둬야 인가 정책이 정상적으로 처리 되는 것과 동일한 것입니다.
 
+#### ThreadLocal 이란?
+쓰레드 단위로 로컬 변수를 할당하는 기능을 제공하는 클래스입니다.<br>
+메소드 안에서 선언된 로컬 변수는 메소드가 끝날 때 변수 사용이 종료되고, 리턴하거나 파라미터로 전달해 주지 않으면 다른 메소드에서 사용할 수 없습니다.<br>
+하지만 ThreadLocal은 쓰레드 범위로 데이터가 저장되어 같은 쓰레드라면 다른 메소드에서도 데이터 사용이 가능합니다. 또한 다른 쓰레드에서 해당 값을 접근하거나, 변경하지 않는 것을 보장합니다.
 
 ### 출처
 1. [학습중인 강의](https://www.inflearn.com/course/%EC%BD%94%EC%96%B4-%EC%8A%A4%ED%94%84%EB%A7%81-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0)
+2. [기록이 곧 발전이다 - (Java) ThreadLocal 이란? 테스트 코드, 사용 예시](https://lion-king.tistory.com/entry/Java-ThreadLocal-what-is)
