@@ -168,27 +168,27 @@ USER 권한이 잘 설정되어 있는 것을 확인할 수 있고, /user 경로
 ![총 정리 PPT 사진](:/inflearn_spring_security_learn/2s/8/ppt.jpg){:data-align="center"}
 위 사진의 출처는 강의 자료입니다. 강의의 출처는 강의 관련 포스트의 서론과 출처 란에 있습니다.<br><br>
 간단한 설명과 함께 자세한 내용의 포스트를 링크로 만들었습니다.
-1. [WebSecurityConfigurerAdapter](/_posts/2022-09-20-inflearn_spring_security_learn_1.markdown/#스프링-26-이전의-securityconfig)
-    - SecurityConfig 제작시 extends하는 클래스이지만 현재 Deprecated가 되어 상속받지는 않는 클래스입니다. 현재는 [Bean](/_posts/2022-09-20-inflearn_spring_security_learn_1.markdown/#스프링-27-이후의-securityconfig) 형태로 HttpSecurity를 생성합니다.
-2. [DelegatingFilterProxy](/_posts/2022-09-27-inflearn_spring_security_learn_6.markdown/#delegatingfilterproxy의-간단한-설명)
+1. [WebSecurityConfigurerAdapter](/posts/2022-09-20-inflearn_spring_security_learn_1#스프링-26-이전의-securityconfig)
+    - SecurityConfig 제작시 extends하는 클래스이지만 현재 Deprecated가 되어 상속받지는 않는 클래스입니다. 현재는 [Bean](/_posts/2022-09-20-inflearn_spring_security_learn_1.markdown#스프링-27-이후의-securityconfig) 형태로 HttpSecurity를 생성합니다.
+2. [DelegatingFilterProxy](/posts/2022-09-27-inflearn_spring_security_learn_6#delegatingfilterproxy의-간단한-설명)
     - 서블릿 필터로 부터 받은 요청을 DelegatingFilterProxy는 Spring Bean에게 요청을 위임하고, 스프링 시큐리티는 필터 기반으로 보안처리를 하고, 스프링의 기술도 사용할 수 있게 됩니다.
-3. [FilterChainProxy](/_posts/2022-09-27-inflearn_spring_security_learn_6.markdown/#filterchainproxy-설명)
+3. [FilterChainProxy](/posts/2022-09-27-inflearn_spring_security_learn_6#filterchainproxy-설명)
     - DelegatingFilterProxy로 부터 요청을 위임받고, 실제 보안 처리를 합니다.
-4. [SecurityContextPersistenceFilter](/_posts/2022-09-28-inflearn_spring_security_learn_7.markdown/#인증-저장소-필터---securitycontextpersistencefilter)
+4. [SecurityContextPersistenceFilter](/posts/2022-09-28-inflearn_spring_security_learn_7#인증-저장소-필터---securitycontextpersistencefilter)
     - **SecurityContext 객체의 생성, 저장, 조회.** 를 하는 필터입니다.
-5. [LogoutFilter](/_posts/2022-09-24-inflearn_spring_security_learn_3.markdown/#logoutfilter)
+5. [LogoutFilter](/posts/2022-09-24-inflearn_spring_security_learn_3#logoutfilter)
     - 클라이언트가 로그아웃 요청을 하면, 서버는 세션 무효화, 인증토큰 삭제, 쿠키정보 삭제, 로그인 페이지로 리이렉트 시킵니다.
-6. [UsernamePasswordAuthenticationFilter](/_posts/2022-09-22-inflearn_spring_security_learn_2.markdown/#인증-api---usernamepasswordauthenticationfilter)
+6. [UsernamePasswordAuthenticationFilter](/_posts/2022-09-22-inflearn_spring_security_learn_2#인증-api---usernamepasswordauthenticationfilter)
     - Filter는 사용자가 로그인 후의 인증처리를 담당하고, 관련 요청을 처리하는 필터입니다.
-7. [concurrentSessionFilter](/_posts/2022-09-25-inflearn_spring_security_learn_4.markdown/#concurrentsessionfilter)
+7. [concurrentSessionFilter](/posts/2022-09-25-inflearn_spring_security_learn_4#concurrentsessionfilter)
     - ConcurrentSessionFilter는 매 요청 마다 현재 사용자의 세션 만료 여부를 체크하고, 만약 세션이 만료되었을 경우 즉시 만료 처리를 합니다.
-8. [RememberMeAuthenticationFilter](/_posts/2022-09-24-inflearn_spring_security_learn_3.markdown/#remembermeauthenticationfilter)
+8. [RememberMeAuthenticationFilter](/posts/2022-09-24-inflearn_spring_security_learn_3#remembermeauthenticationfilter)
     - 필터는 인증을 받은 사용자가 세션이 만료되었거나, 사용하던 브라우저가 종료되어 세션이 끊겨 세션이 활성화되지 않아 인증 객체를 세션에서 찾지 못하는 경우 자동적으로 사용자의 인증을 유지하기 위해 필터가 인증을 시도해 다시 인증을 받게 만들어 그 사용자가 서버에 인증이 유지된채 접근이 가능하도록 합니다.
-9. [AnaonyMousAuthenticationFilter](/_posts/2022-09-25-inflearn_spring_security_learn_4.markdown/#인증-api---anonymousauthenticationfilter)
+9. [AnaonyMousAuthenticationFilter](/posts/2022-09-25-inflearn_spring_security_learn_4#인증-api---anonymousauthenticationfilter)
     - 이 필터는 인증을 받지 않은 사용자를 null로 처리하는 것이 아니라 익명 사용자용 인증 객체를 만들어 처리합니다.
-10. [SessionManagementFilter](/_posts/2022-09-25-inflearn_spring_security_learn_4.markdown/#sessionmanagementfilter)
+10. [SessionManagementFilter](/posts/2022-09-25-inflearn_spring_security_learn_4/#sessionmanagementfilter)
     - 세션 관리는 인증 시 사용자의 세션정보를 등록, 조회, 삭제 등의 세션 이력을 관리합니다.
-11. [ExceptionTranslationFilter](/_posts/2022-09-26-inflearn_spring_security_learn_5.markdown/#인증인가-api---exceptiontranslationfilter)
+11. [ExceptionTranslationFilter](/posts/2022-09-26-inflearn_spring_security_learn_5#인증인가-api---exceptiontranslationfilter)
     - 인증, 인가 예외 처리
 12. [FilterSecurityInterceptor](#인가-필터의-이해---filtersecurityinterceptor)
     - 인증객체 없이 보호자원에 접근을 시도할 경우 AuthenticationException(인증 오류)을 발생시킵니다.
