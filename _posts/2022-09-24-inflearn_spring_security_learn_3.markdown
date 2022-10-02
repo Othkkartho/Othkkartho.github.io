@@ -39,7 +39,7 @@ date: 2022-09-24 10:00:00 +0900
 
 <!-- outline-start -->
 
-Logout 처리, LogoutFilter, Remember Me 인증과 필터인 RememberMeAuthenticationFilter에 관한 포스트입니다.
+[Logout 처리](#인증-api---logout), [LogoutFilter](#logoutfilter), [Remember Me 인증](#인증-api---remember-me-인증)과 필터인 [RememberMeAuthenticationFilter](#remembermeauthenticationfilter)에 관한 포스트입니다.
 ------------------------------------------------------------------------------------------------------
 
 출처는 인프런의 스프링 시큐리티 - [Spring Boot 기반으로 개발하는 Spring Security](https://www.inflearn.com/course/%EC%BD%94%EC%96%B4-%EC%8A%A4%ED%94%84%EB%A7%81-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0)강의를 바탕으로 이 포스트를 작성하고 있습니다.<br>
@@ -47,7 +47,7 @@ Logout 처리, LogoutFilter, Remember Me 인증과 필터인 RememberMeAuthentic
 
 <!-- outline-end -->
 
-### 인증 API - Logout, LogoutFilter
+### 인증 API - Logout
 #### Logout
 1. 클라이언트가 /logout으로 로그아웃 요청을 합니다.
 2. 서버는 세션 무효화, 인증토큰 삭제, 쿠키정보 삭제, 로그인 페이지로 리이렉트 시킵니다.
@@ -138,9 +138,10 @@ http.rememberMe()                               // 1
 ```java
 @Bean
 public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    private final UserDetailsService userDetailsService;
+    private UserDetailsService userDetailsService;
 
-    public SecurityConfig(UserDetailsService userDetailsService) {
+    @Autowired
+    public setSecurityConfig(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
@@ -189,7 +190,7 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     - 5, 6번에서 오류가 난다면 Exception 처리를 합니다.
 
 ### 참고
-#### rememberMe 코드에서 private final 선언에 관해
+#### rememberMe 코드에서 Setter Based Injection 사용에 관해
 원래 강의에서는 Autowired 어노테이션을 사용했습니다. 하지만 Field injection is not recommended 오류가 확인되었습니다. 사실 Error 메시지가 아닌 Warning 메시지라 무시해도 되지만, 해결할 수 있는 것은 해결하고 싶었기 때문에 private final로 변경해 코드를 작성했습니다.<br>
 
 ##### DI

@@ -39,11 +39,11 @@ date: 2022-10-02 10:00:00 +0900
 
 <!-- outline-start -->
 
-사용자 DB 등록 및 PasswordEncoder
+[사용자 DB 등록 및 PasswordEncoder](#사용자-db-등록-및-passwordencoder), DB 연동 인증 처리 - [CustomUserDetailsService](#db-연동-인증-처리---customuserdetailsservice), [CustomAuthenticationProvider](#db-연동-인증-처리---customauthenticationprovider) 정리 포스트입니다.
 --------------------------------------
 
 출처는 인프런의 스프링 시큐리티 - [Spring Boot 기반으로 개발하는 Spring Security](https://www.inflearn.com/course/%EC%BD%94%EC%96%B4-%EC%8A%A4%ED%94%84%EB%A7%81-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0)강의를 바탕으로 이 포스트를 작성하고 있습니다.<br>
-강의의 세션 3의 3번 강의내용에 대한 정리입니다.<br><br>
+강의의 세션 3의 3,4,5번 강의내용에 대한 정리입니다.<br><br>
 
 github에 브렌치를 추가했으므로, import와 같은 코드는 포스트에서 추가하지 않겠습니다.
 
@@ -66,10 +66,11 @@ github에 브렌치를 추가했으므로, import와 같은 코드는 포스트�
 #### 실제 DB 등록 코드 및 비밀번호 암호화 코드
 **Usercontroller.java**{:data-align="center"}
 ```java
-private final UserService userService;                                              // 1
-private final PasswordEncoder passwordEncoder;                                      // 1
+private UserService userService;                                                    // 1
+private PasswordEncoder passwordEncoder;                                            // 1
 
-public UserController(UserService userService, PasswordEncoder passwordEncoder) {   // 2
+@Autowired
+public setUserController(UserService userService, PasswordEncoder passwordEncoder) {   // 2
     this.userService = userService;
     this.passwordEncoder = passwordEncoder;
 }
@@ -152,9 +153,10 @@ UserService를 구현과 캡슐화를 위해 생성한 인터페이스입니다.
 ```java
 @Service("userService")
 public class UserServiceImpl implements UserService {
-    private final UserRepository userRepository;
+    private UserRepository userRepository;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    @Autowired
+    private void setUserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -173,7 +175,7 @@ public class UserServiceImpl implements UserService {
 public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
             .authorizeRequests()
-            .antMatchers("/", "/users").permitAll()
+            .antMatchers("/", "/users", "/user/login/**").permitAll()
             .antMatchers("/mypage").hasRole("USER")
             .antMatchers("/messages").hasRole("MANAGER")
             .antMatchers("/config").hasRole("ADMIN")
@@ -185,6 +187,204 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 }
 ```
 /users 경로를 permitAll 해주지 않으면 회원가입을 로그인 해야 할 수 있는 참사가 발생하기 때문에 Config에서는 그 부분만 수정하였습니다. 
+
+#### 결과
+**회원가입 화면**{:data-align="center"}
+![회원가입 화면](:/inflearn_spring_security_learn/3s/9/register_html.jpg){:data-align="center"}
+먼저 회원가입 화면에 모든 정보를 입력하고, 가입하기를 누릅니다.
+
+**회원가입 입력 문자가 AccountDto에 정상적으로 저장됨**{:data-align="center"}
+![회원가입 입력 문자가 AccountDto에 정상적으로 저장됨](:/inflearn_spring_security_learn/3s/9/user_accountdto.jpg){:data-align="center"}
+회원가입 정보가 정보를 저장하는 Dto에 정상적으로 저장되었음을 확인할 수 있습니다.
+
+**AccountDto의 값이 Account에 정상 저장됨**{:data-align="center"}
+![AccountDto의 값이 Account에 정상 저장됨](:/inflearn_spring_security_learn/3s/9/user_account.jpg){:data-align="center"}
+**비밀번호 인코딩이 완료된 후 Account**{:data-align="center"}
+![비밀번호 인코딩이 완료된 후 Account](:/inflearn_spring_security_learn/3s/9/password_encode_account.jpg){:data-align="center"}
+AccountDto의 값을 Account에 넣고, 비밀번호가 정상적으로 passwordEncoder를 통해 암호화 된 모습입니다.
+
+**Account 객체가 정상적으로 DB에 저장된 모습**{:data-align="center"}
+![Account 객체가 정상적으로 DB에 저장된 모습](:/inflearn_spring_security_learn/3s/9/account_db.jpg){:data-align="center"}
+그 후 연결한 DB에 값이 정상적으로 저장된 모습을 확인할 수 있습니다.
+
+### DB 연동 인증 처리 - CustomUserDetailsService
+#### 실제 코드 및 코드 설명
+**UserRepository.java**{:data-align="center"}
+```java
+Account findByUsername(String username);
+```
+User 정보를 저장하는 Repository 인터페이스에 사용자 아이디를 찾는 메소드를 만들었습니다.
+
+**AccountContext.java**{:data-align="center"}
+```java
+public class AccountContext extends User {
+    private final Account account;
+
+    public AccountContext(Account account, Collection<? extends GrantedAuthority> authorities) {
+        super(account.getUsername(), account.getPassword(), authorities);
+        this.account = account;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+}
+```
+권한 정보나 비밀번호와 같은 유저 정보를 불러오는 등의 사용자 정보를 참조하는 UserDetails 인터페이스를 스프링 시큐리티가 구현한 구현체인 User를 상속받아 AccountContext가 유저 정보를 참조할 수 있게 만들었습니다.<br>
+
+
+**CustomeUserDetailsService.java**{:data-align="center"}
+```java
+@Service("userDetailsService")                                                  // 1
+public class CustomUserDetailsService implements UserDetailsService {
+    private UserRepository userRepository;
+
+    @Autowired
+    private void setCustomUserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Account account = userRepository.findByUsername(username);              // 2
+
+        if (account == null) {
+            throw new UsernameNotFoundException("UsernameNotFoundException");   // 5
+        }
+
+        List<GrantedAuthority> roles = new ArrayList<>();                       // 3
+        roles.add(new SimpleGrantedAuthority(account.getRole()));               // 3
+
+        return new AccountContext(account, roles);                              // 4
+    }
+}
+```
+1. CustomUserDetailsService를 userDetailsService로 빈 등록을 합니다.
+2. 데이터 계층으로 부터 입력받은 유저 아이디에 맞는 account 객체를 얻어옵니다.
+3. 권한 정보를 저장할 List를 만들고, 그 리스트에서 DB에 저장된 유저 권한 정보를 가져와 저장합니다.
+4. 주석 1번에서 유저 정보가 저장된 account 객체와, 주석 2번에서 얻어온 유저 권한 정보를 AccountContext어 넣어 그 정보를 반환합니다.
+5. 만약 유저정보가 없다면 UsernameNotFoundException를 던집니다.
+
+**SecurityConfig.java**{:data-align="center"}
+```java
+private UserDetailsService userDetailsService;
+
+@Autowired
+public setSecurityConfig(UserDetailsService userDetailsService) {
+    this.userDetailsService = userDetailsService;
+}
+
+@Bean
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);   // 변경점
+    authenticationManagerBuilder.userDetailsService(userDetailsService);                                                    // 변경점
+
+    http
+            .authorizeRequests()
+            .antMatchers("/", "/users", "/user/login/**").permitAll()
+            .antMatchers("/mypage").hasRole("USER")
+            .antMatchers("/messages").hasRole("MANAGER")
+            .antMatchers("/config").hasRole("ADMIN")
+            .anyRequest().authenticated()
+            .and()
+            .formLogin();
+
+    return http.build();
+}
+```
+주석 변경점은 UserDetailsService가 스프링 자체 Service가 아닌 제가 위에 만든 CustomUserDetailsService가 작동되게 설정했습니다.<br>
+위 코드는 아래의 강의 코드를 현재 스프링과 스프링 시큐리티 버전에 맞춰 바꾼 것입니다.
+
+**강의의 SecurityConfig.java 코드**{:data-align="center"}
+```java
+@Autowired
+private UserDetailsService userDetailsService;
+
+@Override
+protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    auth.userDetailsService(userDetailsService);
+}
+```
+
+#### 실제 결과
+**만든 CustomUserDetailsService로 작동하는 모습**{:data-align="center"}
+![만든 UserDetailsService가 작동하는 모습](:/inflearn_spring_security_learn/3s/9/customuserdetailsservice_break.jpg){:data-align="center"}
+로그인 시 CustomeUserDetailsService 클레스의 loadUserByUsername 메소드의 첫번째 코드에 걸어둔 BreakPoint가 정상적으로 작동하는 것을 볼 수 있습니다.
+
+**로그인시 저장된 Account와 유저 권한 정보**{:data-align="center"}
+![로그인시 저장된 Account와 유저 권한 정보](:/inflearn_spring_security_learn/3s/9/login_account.jpg){:data-align="center"}
+loadUserByUsername 메소드에 코드들이 데이터를 정상적으로 전달받고, 저장된 모습입니다.
+
+### DB 연동 인증 처리 - CustomAuthenticationProvider
+Autowired에 대한 코드가 바뀌어 있습니다. 기존 방식이 오류는 나오지 않지만 잘못 사용한 것을 알게 되어 코드를 변경했고, 전에 포스트에서도 나온 것을 다 변경할 예정입니다.<br>
+즉, 2022년 10월 03일 이후로 포스트를 보시는 분들은 신경 쓰지 않으셔도 됩니다.
+#### 실제 코드 및 설명
+**CustomAuthenticationProvider.java**{:data-align="center"}
+```java
+@Component                                                                      // 5
+public class CustomAuthenticationProvider implements AuthenticationProvider {
+    private UserDetailsService userDetailsService;
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private void setCustomAuthenticationProvider(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+        this.userDetailsService = userDetailsService;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @Override
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException {                      // 1
+        String username = authentication.getName();
+        String password = (String) authentication.getCredentials();
+
+        AccountContext accountContext = (AccountContext)userDetailsService.loadUserByUsername(username);                    // 3
+
+        if (!passwordEncoder.matches(password, accountContext.getAccount().getPassword())) {                                 // 3
+            throw new BadCredentialsException("BadCredentialsException");
+        }
+
+        return new UsernamePasswordAuthenticationToken(accountContext.getAccount(), null, accountContext.getAuthorities()); // 4
+    }
+
+    @Override
+    public boolean supports(Class<?> authentication) {                                                                      // 2
+        return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
+    }
+}
+```
+CustomUserDetailsService가 accountContext를 최종적으로 반환한 객체를 받아 추가적인 검정을 진행하는 클레스입니다.<br>
+1. 검정을 위한 구현입니다.
+2. 파라미터로 전달되는 authentication 클레스의 타입과 CustomAuthenticationProvider가 사용하고자 하는 토큰의 타입과 일치할 때 Provider가 인증 처리를 할 수 있도록 합니다.
+3. 사용자가 입력한 정보를 찾아 accountContext에 저장하고, DB에 저장된 비밀번호와 받은 비밀번호가 일치하는지 확인하고, 일치하지 않는다면 BadCredentialsException를 던집니다.
+4. 인증이 완료되면 토큰을 만들고, 넘깁니다. 이 토큰의 생성자는 2개가 있습니다.
+    - `Object principal, Object credentials` 를 받는 생성자는 사용자가 처음 로그인 해 인증을 시도할 때 인증 필터가 사용자의 아이디와 비밀번호 정보를 AuthenticationManager에게 전달할 때 사용합니다.
+    - 따라서 현재 CustomProvider를 구현할 때는 `Object principal, Object credentials, Collection<? extends GrantedAuthority> authorities` 를 받는 생성자를 사용하면 됩니다.
+5. @Autowired를 사용하기 위해 클레스에 Bean 설정을 해주기 위한 어노테이션입니다.
+
+**SecurityConfig.java**{:data-align="center"}
+```java
+// 1. 사라진 UserDetailsService
+@Bean
+public AuthenticationProvider authenticationProvider() {                            // 2
+    return new CustomAuthenticationProvider();
+}
+
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
+    authenticationManagerBuilder.authenticationProvider(authenticationProvider());  // 2
+
+    http.
+    // 이하 동일
+}
+```
+1. 이번에 제작한 CustomAuthenticationProvider가 제가 생성한 UserDetailsService를 사용하고 있기 때문에 SecurityConfig에서는 삭제했습니다.
+2. 스프링이 가지고 있는 Provider 대신 제가 제작한 CustomAuthenticationProvider를 사용하도록 만듭니다.
+
+#### 실제 실행
+**실제 생성한 Provider에 로그인 정보와 account객체**{:data-align="center"}
+![실제 생성한 Provider로 인증 정보가 정상적으로 들어옴](:/inflearn_spring_security_learn/3s/9/login_account_customprovider.jpg){:data-align="center"}
+생성한 Provider에 사용자의 로그인 정보인 유저이름과 비밀번호가 정상적으로 저장이 되었고, DB에 저장된 사용자 정보가 accountContext에 정상적으로 저장이 된것을 확인할 수 있습니다.<br>
+따로 사진은 찍지 않았지만 비밀번호 매칭과, 토큰 생성 및 Return도 정상적으로 작동하고, 마지막으로 마이페이지 접근까지 정상적으로 되는것을 확인했습니다.
 
 ### 참고
 #### 암호화 방식의 종류와 설명
