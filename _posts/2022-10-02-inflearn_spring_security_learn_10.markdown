@@ -1,7 +1,7 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
 lng_pair: springlearn
-title: 인프런 스프링 시큐리티 강의 학습-9
+title: 인프런 스프링 시큐리티 강의 학습-10
 
 # post specific
 # if not specified, .name will be used from _data/owner/[language].yml
@@ -190,21 +190,21 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
 #### 결과
 **회원가입 화면**{:data-align="center"}
-![회원가입 화면](:/inflearn_spring_security_learn/3s/9/register_html.jpg){:data-align="center"}
+![회원가입 화면](:/inflearn_spring_security_learn/3s/10/register_html.jpg){:data-align="center"}
 먼저 회원가입 화면에 모든 정보를 입력하고, 가입하기를 누릅니다.
 
 **회원가입 입력 문자가 AccountDto에 정상적으로 저장됨**{:data-align="center"}
-![회원가입 입력 문자가 AccountDto에 정상적으로 저장됨](:/inflearn_spring_security_learn/3s/9/user_accountdto.jpg){:data-align="center"}
+![회원가입 입력 문자가 AccountDto에 정상적으로 저장됨](:/inflearn_spring_security_learn/3s/10/user_accountdto.jpg){:data-align="center"}
 회원가입 정보가 정보를 저장하는 Dto에 정상적으로 저장되었음을 확인할 수 있습니다.
 
 **AccountDto의 값이 Account에 정상 저장됨**{:data-align="center"}
-![AccountDto의 값이 Account에 정상 저장됨](:/inflearn_spring_security_learn/3s/9/user_account.jpg){:data-align="center"}
+![AccountDto의 값이 Account에 정상 저장됨](:/inflearn_spring_security_learn/3s/10/user_account.jpg){:data-align="center"}
 **비밀번호 인코딩이 완료된 후 Account**{:data-align="center"}
-![비밀번호 인코딩이 완료된 후 Account](:/inflearn_spring_security_learn/3s/9/password_encode_account.jpg){:data-align="center"}
+![비밀번호 인코딩이 완료된 후 Account](:/inflearn_spring_security_learn/3s/10/password_encode_account.jpg){:data-align="center"}
 AccountDto의 값을 Account에 넣고, 비밀번호가 정상적으로 passwordEncoder를 통해 암호화 된 모습입니다.
 
 **Account 객체가 정상적으로 DB에 저장된 모습**{:data-align="center"}
-![Account 객체가 정상적으로 DB에 저장된 모습](:/inflearn_spring_security_learn/3s/9/account_db.jpg){:data-align="center"}
+![Account 객체가 정상적으로 DB에 저장된 모습](:/inflearn_spring_security_learn/3s/10/account_db.jpg){:data-align="center"}
 그 후 연결한 DB에 값이 정상적으로 저장된 모습을 확인할 수 있습니다.
 
 ### DB 연동 인증 처리 - CustomUserDetailsService
@@ -308,11 +308,11 @@ protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
 #### 실제 결과
 **만든 CustomUserDetailsService로 작동하는 모습**{:data-align="center"}
-![만든 UserDetailsService가 작동하는 모습](:/inflearn_spring_security_learn/3s/9/customuserdetailsservice_break.jpg){:data-align="center"}
+![만든 UserDetailsService가 작동하는 모습](:/inflearn_spring_security_learn/3s/10/customuserdetailsservice_break.jpg){:data-align="center"}
 로그인 시 CustomeUserDetailsService 클레스의 loadUserByUsername 메소드의 첫번째 코드에 걸어둔 BreakPoint가 정상적으로 작동하는 것을 볼 수 있습니다.
 
 **로그인시 저장된 Account와 유저 권한 정보**{:data-align="center"}
-![로그인시 저장된 Account와 유저 권한 정보](:/inflearn_spring_security_learn/3s/9/login_account.jpg){:data-align="center"}
+![로그인시 저장된 Account와 유저 권한 정보](:/inflearn_spring_security_learn/3s/10/login_account.jpg){:data-align="center"}
 loadUserByUsername 메소드에 코드들이 데이터를 정상적으로 전달받고, 저장된 모습입니다.
 
 ### DB 연동 인증 처리 - CustomAuthenticationProvider
@@ -382,7 +382,7 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
 #### 실제 실행
 **실제 생성한 Provider에 로그인 정보와 account객체**{:data-align="center"}
-![실제 생성한 Provider로 인증 정보가 정상적으로 들어옴](:/inflearn_spring_security_learn/3s/9/login_account_customprovider.jpg){:data-align="center"}
+![실제 생성한 Provider로 인증 정보가 정상적으로 들어옴](:/inflearn_spring_security_learn/3s/10/login_account_customprovider.jpg){:data-align="center"}
 생성한 Provider에 사용자의 로그인 정보인 유저이름과 비밀번호가 정상적으로 저장이 되었고, DB에 저장된 사용자 정보가 accountContext에 정상적으로 저장이 된것을 확인할 수 있습니다.<br>
 따로 사진은 찍지 않았지만 비밀번호 매칭과, 토큰 생성 및 Return도 정상적으로 작동하고, 마지막으로 마이페이지 접근까지 정상적으로 되는것을 확인했습니다.
 
