@@ -317,7 +317,7 @@ public Authentication authenticate(Authentication authentication) throws Authent
 ```
 1. ID, PW외 파라미터를 저장하는 formWebAuthenticationDetails 형태로 인증 객체에게 Details 객체를 받습니다
 2. 저장된 객체 중 SecretKey를 꺼내 저장합니다.
-3. 
+3. 불러온 secretKey와 전달받아야 하는 키를 비교합니다.
 4. 만약 secret가 다르다면 오류를 던집니다.
 
 ##### 오류발생
