@@ -330,7 +330,91 @@ FormAuthenticationProvider 클레스 주석 1번에 BreakPoint를 걸고 진행�
 그래서 throw lastException로 넘어가지 않고, if (result != null) 조건에 걸려 이후 절차를 수행하는 것을 확인했습니다. 그 후 정상적으로 로그인이 됩니다. 이 오류에 관해 해결하지 못해, 일단 세션 3의 남은 강의들을 진행하면서 오류를 지속적으로 고쳐보도록 하겠습니다.
 
 ### 참고
-#### 오류 해결 시 작성 예정
+#### InsufficientAuthenticationException의 오류 해결
+우선 이 코드 문제를 해결해주신 강좌 강사님께 감사드립니다.<br>
+
+이전 버전에서는 CustomAuthenticationProvider 를 만들게 되면 ProviderManager 의 parent 속성에 DaoAuthenticationProvider 가 생성되지 않은 것으로 알고 있는데 지금은 내부 로직이 약간 달라져서 parent 속성에 DaoAuthenticationProvider 가 생성되는 바람에 CustomAuthenticationProvider 에서 예외를 던지더라도 ProviderManager 에서 예외를 잡기는 하지만 parent 속성에 있는 DaoAuthenticationProvider 를 다시 호출해서 인증처리를 하고 있습니다.<br><br>
+
+**실제 parent의 providers 속성의 DaoAuthenticationProvider**{:data-align="center"}
+![실제 parent의 providers 속성](:/inflearn_spring_security_learn/3s/11/parent_providers.jpg){:data-align="center"}
+
+DaoAuthenticationProvider 는 아이디와 패스워드만 일치하면 인증처리가 되기 때문에 CustomAuthenticationProvider 의 결과에 상관없이 인증이 성공하게 됩니다.<br>
+
+**변경 전 SecurityConfig.java**{:data-align="center"}
+```java
+private AuthenticationDetailsSource authenticationDetailsSource;
+
+@Autowired
+private void setSecurityConfig(AuthenticationDetailsSource authenticationDetailsSource) {
+    this.authenticationDetailsSource = authenticationDetailsSource;
+}
+
+@Bean
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
+    authenticationManagerBuilder.authenticationProvider(authenticationProvider());      // 1
+
+    http
+            // 전 코드와 동일
+            .and()
+            .formLogin()
+            .loginPage("/login")
+            .loginProcessingUrl("/login_proc")
+            .authenticationDetailsSource(authenticationDetailsSource)
+            .defaultSuccessUrl("/")
+            .permitAll();
+
+    return http.build();
+}
+```
+**변경 후 SecurityConfig.java**{:data-align="center"}
+```java
+private AuthenticationDetailsSource authenticationDetailsSource;
+
+@Autowired
+private void setSecurityConfig(AuthenticationDetailsSource authenticationDetailsSource) {
+    this.authenticationDetailsSource = authenticationDetailsSource;
+}
+
+@Bean
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
+    authenticationManagerBuilder.authenticationProvider(authenticationProvider());
+    authenticationManagerBuilder.parentAuthenticationManager(null);                     // 1
+
+    http
+            // 전 코드와 동일
+            .and()
+            .formLogin()
+            .loginPage("/login")
+            .loginProcessingUrl("/login_proc")
+            .authenticationDetailsSource(authenticationDetailsSource)
+            .defaultSuccessUrl("/")
+            .permitAll();
+
+    return http.build();
+}
+```
+1. ProviderManager 의 parent 속성을 제거해서 DaoAuthenticationProvider 가 다시 실행하지 않도록 합니다.
+
+***
+
+##### 코드 변경 전 예외 진행
+Transactional 어노테이션으로 인해 진행되는 과정을 제외하고, ProviderManager의 진행 위주로 설명하겠습니다.
+1. 먼저 CustomAuthenticationProvider가 던진 예외를 ProviderManager의 `catch (AuthenticationException ex)` 가 잡습니다.
+2. 그렇게 예외가 lastException으로 진행하고 나면, AuthenticationProvider provider : getProviders() 반복을 진행하다가 빠져나오게 됩니다.
+3. 그 후 `result == null && this.parent != null` 조건문에서 result 값도 없고, parent는 활성화되있기 때문에 둘 다 true가 되 if문으로 진입하게 됩니다.
+4. try ~ catch 문으로 진입하는데 그 `parentResult = this.parent.authenticate(authentication);` 문에서 parent가 가지고 있는 DaoAuthenticationProvider로 로그인을 다시 시도합니다.
+5. 비밀번호와 아이디만 가지고 로그인을 진행하기 때문에 로그인이 완료되고, result의 값도 채워지게됩니다.
+6. 다음 result != null 조건문에서 result가 저장되었기 때문에 true가 되 result 값을 UsernamePasswordAuthenticationFilter 클래스의 `return this.getAuthenticationManager().authenticate(authRequest);` 문에 넘기게 됩니다.
+7. 그 후에는 정상적인 로그인 문이 진행되며 로그인이 완료되게 됩니다.
+
+##### 코드 변경 후 예외 진행
+1. 위 변경 전 예외 진행과 1, 2번은 똫같이 진행됩니다.
+2. 하지만 이번에는 parent속성을 SecurityConfig 에서 parent속성을 null로 설정했기 때문에 `result == null && this.parent != null` 조건문에서 this.parent 값이 null이라 false가 나와 조건문에 진입하지 않습니다.
+3. 그렇게 result != null 조건문과 lastException == null 조건문이 false가 나오고, throw lastException를 통해 정상적으로 오류가 던져지게 됩니다.
+
+이 오류는 저를 힘들게 했지만 덕분에 코드에 BreakPoint를 걸어 오류가 발생했을 때 Breakpoint를 통해 코드의 진행을 명확히 파악하는 방식을 알게 되어 좋은 공부가 되었습니다.
 
 ### 출처
 1. [학습중인 강의](https://www.inflearn.com/course/%EC%BD%94%EC%96%B4-%EC%8A%A4%ED%94%84%EB%A7%81-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0)

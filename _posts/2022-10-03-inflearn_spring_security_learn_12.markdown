@@ -223,6 +223,26 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 2. failureHandler를 구동하도록 설정합니다.
 비밀번호 잘못 입력시 정상적으로 구동하는 것을 확인했습니다. 하지만 이 테스트를 할 당시 InsufficientAuthenticationException 오류가 제대로 던져지지 않고, 로그인이 되는 에러가 있어 그 부분은 확인하지 못했습니다.
 
+#### 실제 실행 화면
+**FailureHandler의 BadCredentialsException 관련 메세지 저장**{:data-align="center"}
+![FailureHandler의 BadCredentialsException 관련 메세지 저장](:/inflearn_spring_security_learn/3s/12/FailureHandler_bad.jpg){:data-align="center"}
+
+<br>
+
+**BadCredentialsException 메세지 정상 출력**{:data-align="center"}
+![BadCredentialsException 메세지 정상 출력](:/inflearn_spring_security_learn/3s/12/page_passowrd_error.jpg){:data-align="center"}
+FailureHandler에서 BadCredentialsException를 정상적으로 인식해 에러 메세지를 URL로 보내고 오류를 받은 프론트에서 에러 메세지를 정상 출력하는 것을 확인하실 수 있습니다.
+
+**FailureHandler의 InsufficientAuthenticationException 관련 메세지 저장**{:data-align="center"}
+![FailureHandler의 InsufficientAuthenticationException 관련 메세지 저장](:/inflearn_spring_security_learn/3s/12/FailureHandler_insufficient.jpg){:data-align="center"}
+
+<br>
+
+**InsufficientAuthenticationException 메세지 정상 출력**{:data-align="center"}
+![InsufficientAuthenticationException 메세지 정상 출력](:/inflearn_spring_security_learn/3s/12/page_secretKey_error.jpg){:data-align="center"}
+FailureHandler에서 InsufficientAuthenticationException를 정상적으로 인식해 에러 메세지를 URL로 보내고 오류를 받은 프론트에서 에러 메세지를 정상 출력하는 것을 확인하실 수 있습니다.
+
+
 ### 인증 거부 처리 - Access Denied
 #### 실제 코드 및 설명
 **CustomAccessDeniedHandler.java**{:data-align="center"}
@@ -336,8 +356,65 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 ```
 인가 예외시 뜨는 화면의 html 코드입니다. 역시 코드의 출처는 [강의의 깃허브](https://github.com/onjsdnjs/corespringsecurity)입니다.
 
+#### 실제 실행 화면
+**denied url이 정상적으로 저장됨**{:data-align="center"}
+![denied url이 저장됨](:/inflearn_spring_security_learn/3s/12/deniedurl.jpg){:data-align="center"}
+user 권한으로 메시지 링크로 접속하여, 인가 예외를 발생시키고, 인가 예외 url이 정상적으로 저장되는 사진입니다.
+
+**인가 예외 페이지 정상 출력 화면**{:data-align="center"}
+![인가 예외 페이지 정상 출력](:/inflearn_spring_security_learn/3s/12/page_denied.jpg){:data-align="center"}
+인가 예외 링크가 제대로 전달되 화면에 출력되는 사진입니다.
+
 ### 참고
-#### 오류 해결 시 작성 예정
+#### CustomAuthenticationSuccessHandler 오류 해결
+**변경 전**{:data-align="center"}
+```java
+@Component
+public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+    private RequestCache requestCache = new HttpSessionRequestCache();
+    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {  // 1
+        setDefaultTargetUrl("/");
+
+        SavedRequest savedRequest = requestCache.getRequest(request, response);
+
+        if (savedRequest != null) {
+            String targetUrl = savedRequest.getRedirectUrl();
+            redirectStrategy.sendRedirect(request, response, targetUrl);
+        }
+        else {
+            redirectStrategy.sendRedirect(request, response, getDefaultTargetUrl());
+        }
+    }
+}
+```
+**변경 후**{:data-align="center"}
+```java
+@Component
+public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+    private RequestCache requestCache = new HttpSessionRequestCache();
+    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {  // 1
+        setDefaultTargetUrl("/");
+
+        SavedRequest savedRequest = requestCache.getRequest(request, response);
+
+        if (savedRequest != null) {
+            String targetUrl = savedRequest.getRedirectUrl();
+            redirectStrategy.sendRedirect(request, response, targetUrl);
+        }
+        else {
+            redirectStrategy.sendRedirect(request, response, getDefaultTargetUrl());
+        }
+    }
+}
+```
+
+1. Override하는 메소드가 정확하지 않아 시스템이 부모 클래스로 가 정보를 처리해 만든 핸들러가 작동하지 않았습니다.
 
 ### 출처
 1. [학습중인 강의](https://www.inflearn.com/course/%EC%BD%94%EC%96%B4-%EC%8A%A4%ED%94%84%EB%A7%81-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0)
