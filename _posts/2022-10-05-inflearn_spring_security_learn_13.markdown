@@ -269,14 +269,120 @@ Header에 X-Requested-With 이름으로 있는 값을 정상적으로 꺼내오�
 **ProviderManager에 있는 Provider**{:data-align="center"}
 ![ProviderManager에 있는 Provider](:/inflearn_spring_security_learn/3s/13/prividerManager.JPG){:data-align="center"}
 ProviderManager가 본인이 가지고 있는 Provider를 반복해서 확인하며 인증에 사용할 수 있는 Provider를 찾습니다.<br>
-하지만 사진에서 보시다시피 DaoProvider밖에 없기 때문에 모든 if문에 들어가지 못하고, 예외를 보냅니다.
+하지만 사진에서 보시다시피 DaoProvider밖에 없기 때문에 인증을 찾지 못하고, 예외를 보냅니다.
 
 **인증이 등록되있지 않기 때문에 오류 발생**{:data-align="center"}
 ![인증이 등록되있지 않기 때문에 오류 발생](:/inflearn_spring_security_learn/3s/13/request.JPG){:data-align="center"}
 인증이 되지 않고, 오류가 난 모습입니다.
 
 ### 인증 처리자 - AjaxAuthenticationProvider
+#### 실제 코드
+**AjaxAuthenticationProvider.java**{:data-align="center"}
+```java
+@Component
+public class AjaxAuthenticationProvider implements AuthenticationProvider {
+    private UserDetailsService userDetailsService;
+    private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private void setAjaxAuthenticationProvider(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+        this.userDetailsService = userDetailsService;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @Override
+    @Transactional
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        AccountContext accountContext = FormAuthenticationProvider.authenticationIf(authentication, userDetailsService, passwordEncoder);   // 1
+
+        return new AjaxAuthenticationToken(accountContext.getAccount(), null, accountContext.getAuthorities()); // 1
+    }
+
+    @Override
+    public boolean supports(Class<?> authentication) {
+        return authentication.equals(AjaxAuthenticationToken.class);        // 2
+    }
+}
+
+```
+기본적으로 FormAuthenticationProvider과 하는 것은 모두 같습니다.
+1. authenticate 메소드가 사용하는 코드가 비슷하기 때문에 아래 나오는 authenticationIf 메소드로 만들어 값을 전달하고, AccountContext를 반환받아 사용하도록 했습니다.
+2. authentication에서 받은 객체의 클래스 타입이 AjaxAuthenticationToken와 같다면 이 Provider를 실행하게 합니다.
+
+**FormAuthenticationProvider.java**{:data-align="center"}
+```java
+static AccountContext authenticationIf(Authentication authentication, UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+    String username = authentication.getName();
+    String password = (String) authentication.getCredentials();
+
+    AccountContext accountContext = (AccountContext) userDetailsService.loadUserByUsername(username);
+
+    if (!passwordEncoder.matches(password, accountContext.getAccount().getPassword())) {
+        throw new BadCredentialsException("BadCredentialsException");
+    }
+
+    FormWebAuthenticationDetails formWebAuthenticationDetails = (FormWebAuthenticationDetails) authentication.getDetails();
+    String secretKey = formWebAuthenticationDetails.getSecretKey();
+    if (!"secret".equals(secretKey)) {
+        throw new InsufficientAuthenticationException("InsufficientAuthenticationException");
+    }
+
+    return accountContext;
+}
+```
+CustomAuthenticationProvider를 FormAuthenticationProvider로 이름을 바꾸고, AjaxAuthenticationProvider도 사용하는 위 코드를 메소드로 묶어 사용했습니다.
+
+**AjaxSecurityConfig.java**{:data-align="center"}
+```java
+@Configuration
+@Order(0)                           // 1
+public class AjaxSecurityConfig {
+    private AuthenticationConfiguration authenticationConfiguration;
+
+    @Autowired
+    private void setAjaxSecurityConfig(AuthenticationConfiguration authenticationConfiguration) {
+        this.authenticationConfiguration = authenticationConfiguration;
+    }
+
+    @Bean
+    public AuthenticationProvider ajaxAuthenticationProvider() {                                    // 2
+        return new AjaxAuthenticationProvider();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
+
+    @Bean
+    public SecurityFilterChain ajaxFilterChain(HttpSecurity http) throws Exception {
+        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder.authenticationProvider(ajaxAuthenticationProvider());          // 2
+
+        http
+                .antMatcher("/api/**")                                                              // 3
+                .authorizeRequests()
+                .anyRequest().authenticated()
+                .and()
+                .addFilterBefore(ajaxLoginProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        http.csrf().disable();
+
+        return http.build();
+    }
+
+    @Bean
+    public AjaxLoginProcessingFilter ajaxLoginProcessingFilter() throws Exception {
+        AjaxLoginProcessingFilter ajaxLoginProcessingFilter = new AjaxLoginProcessingFilter();
+        ajaxLoginProcessingFilter.setAuthenticationManager(authenticationManager(authenticationConfiguration));
+        return ajaxLoginProcessingFilter;
+    }
+}
+```
+SecurityConfig가 너무 설정하는 것들이 많아져 유지보수와 가독성이 떨어져 AjaxSecurityConfig를 다시 만들었습니다.
+1. SecurityConfig가 2개이기 때문에 어노케이션을 이용해 우선순위를 지정해 줘야 합니다. AjaxSecurityConfig가 0으로 먼저 실행되고, SecurityConfig가 1로 두번째 실행되게 만들었습니다.
+2. AjaxAuthenticationProvider를 Bean에 등록하고, Provider를 추가합니다.
+3. /api 로 시작하는 모든 경로에 아래 설정을 적용합니다.
 
 ### 참고
 #### Ajax 인증과 Form 인증의 차이점
@@ -286,6 +392,14 @@ Ajax 인증은 비동기적인 방식이 차이점입니다. (자세한 내용 �
 #### 직렬화
 - 자바 시스템 내부에서 사용되는 Object나 Data를 외부의 자바 시스템에서도 사용할 수 있도록 byte 형태로 데이터를 변환하는 기술이면서
 - JVM의 메모리에 상주되어 있는 객체 데이터를 바이트 형태로 변환하는 기술입니다.
+
+#### AjaxAuthenticationProvider 객체가 등록이 되지 않는 오류
+##### 오류 상황
+AjaxAuthenticationFilter는 정상적으로 FilterChainProxy에 등록이 됩니다. Config가 정상 작동 한다는 의미입니다.<br>
+하지만 Filter가 ProviderManager로 이동하니 ProviderManager에 등록되어 있는 providers가 DaoAuthenticationProvider 1개밖에 존재하지 않습니다.<br><br>
+
+##### 오류 해결
+해결 후 작성 요망
 
 ### 출처
 1. [학습중인 강의](https://www.inflearn.com/course/%EC%BD%94%EC%96%B4-%EC%8A%A4%ED%94%84%EB%A7%81-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0)
