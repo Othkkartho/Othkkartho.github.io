@@ -170,7 +170,7 @@ public class AjaxAuthenticationToken extends AbstractAuthenticationToken {
 }
 ```
 form인증에 사용되는 usernamePasswordAuthenticationToken.java를 참조해 제작되었습니다. 따라서 모든 기능은 동일합니다.
-1. 
+1. 주석이 달린 필드 또는 메소드가 Java Object Serialization Specification에 의해 정의된 직렬화 메커니즘의 일부임을 나타냅니다. 이 어노테이션은 직렬화 관련 선언의 컴파일 시간 검사를 허용하기 위한 것입니다. 직렬화 가능 클래스는 컴파일러가 잘못 선언된 직렬화 관련 필드 및 메서드나 감지가 어려울 수 있는 잘못된 선언을 포착하는데 도움이 되도록 이 어노테이션 사용이 권장됩니다.
 2. 마찬가지로 위에 있는 생성자가 실제 인증을 받기 전 사용자가 입력한 로그인 정보를 담는 생성자고, 두번째 생성자가 인증 후 인증 결과를 담는 생성자입니다.
 
 **SecurityConfig.java**{:data-align="center"}
@@ -224,7 +224,22 @@ public class SecurityConfig {
     - addFilterAt은 기존 필터의 위치를 추가하는 필터가 대체하고자 할 때 사용합니다.
 2. 기본은 csrf가 작동을 하도록 되어 있는데 http로 전달하는 post에 csrf가 없기 때문에 임시로 비활성화 시켜놨습니다. 
 3. ajaxLoginProcessingFilter를 사용하기 위해 Bean 설정을 합니다.
-4. Override authenticationManagerBean을 대체하는 클래스 설정입니다.
+4. Override authenticationManagerBean을 대체하는 클래스 설정입니다. 아래에 강의 코드를 남기겠습니다.
+
+**강의 코드**{:data-align="center"}
+```java
+@Override
+public AuthenticationManager authenticationManagerBean() throws Exception {  // 4
+    return super.authenticationMangerBean();
+}
+
+@Bean
+public AjaxLoginProcessingFilter ajaxLoginProcessingFilter() throws Exception { // 3
+    AjaxLoginProcessingFilter ajaxLoginProcessingFilter = new AjaxLoginProcessingFilter();
+    ajaxLoginProcessingFilter.setAuthenticationManager(authenticationManagerBean());
+    return ajaxLoginProcessingFilter;
+}
+```
 
 **ajax.http**{:data-align="center"}
 ```
@@ -238,6 +253,28 @@ X-Requested-With: XMLHttpRequest
 }
 ```
 
+#### 실제 실행 화면
+**Header에 값을 정상적으로 가져옴**{:data-align="center"}
+![Header에 값을 정상적으로 가져옴](:/inflearn_spring_security_learn/3s/13/isAjax_request.JPG){:data-align="center"}
+Header에 X-Requested-With 이름으로 있는 값을 정상적으로 꺼내오는 보여줍니다.
+
+**유저의 로그인 입력 정보를 저장**{:data-align="center"}
+![유저의 로그인 입력 정보를 저장](:/inflearn_spring_security_learn/3s/13/accountDto.JPG){:data-align="center"}
+유저가 로그인시 입력했던 정보를 가져와 저장한 결과입니다. 정상적으로 저장되어 있는것을 확인할 수 있습니다.
+
+**값을 보내기 위해 Token을 생성함**{:data-align="center"}
+![값을 보내기 위해 Token을 생성함](:/inflearn_spring_security_learn/3s/13/ajaxAuthenticationToken.JPG){:data-align="center"}
+인증을 위임하며 인증에 필요한 값을 보내기 위해 Token을 생성하고, 정상적으로 로그인이 된 것을 확인할 수 있습니다.
+
+**ProviderManager에 있는 Provider**{:data-align="center"}
+![ProviderManager에 있는 Provider](:/inflearn_spring_security_learn/3s/13/prividerManager.JPG){:data-align="center"}
+ProviderManager가 본인이 가지고 있는 Provider를 반복해서 확인하며 인증에 사용할 수 있는 Provider를 찾습니다.<br>
+하지만 사진에서 보시다시피 DaoProvider밖에 없기 때문에 모든 if문에 들어가지 못하고, 예외를 보냅니다.
+
+**인증이 등록되있지 않기 때문에 오류 발생**{:data-align="center"}
+![인증이 등록되있지 않기 때문에 오류 발생](:/inflearn_spring_security_learn/3s/13/request.JPG){:data-align="center"}
+인증이 되지 않고, 오류가 난 모습입니다.
+
 ### 인증 처리자 - AjaxAuthenticationProvider
 
 
@@ -246,5 +283,10 @@ X-Requested-With: XMLHttpRequest
 Form 인증 방식은 동기적인 방식의 인증이고,
 Ajax 인증은 비동기적인 방식이 차이점입니다. (자세한 내용 찾아서 넣어놓고, 없으면 위로 올려놓을것.) 
 
+#### 직렬화
+- 자바 시스템 내부에서 사용되는 Object나 Data를 외부의 자바 시스템에서도 사용할 수 있도록 byte 형태로 데이터를 변환하는 기술이면서
+- JVM의 메모리에 상주되어 있는 객체 데이터를 바이트 형태로 변환하는 기술입니다.
+
 ### 출처
 1. [학습중인 강의](https://www.inflearn.com/course/%EC%BD%94%EC%96%B4-%EC%8A%A4%ED%94%84%EB%A7%81-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0)
+2. [고코딩 - Java의 직렬화(Serialize)란?](https://go-coding.tistory.com/101)
