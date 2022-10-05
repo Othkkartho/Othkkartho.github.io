@@ -220,7 +220,7 @@ public String logout(HttpServletRequest request, HttpServletResponse response) {
 **FormWebAuthenticationDetails.java**{:data-align="center"}
 ```java
 public class FormWebAuthenticationDetails extends WebAuthenticationDetails {
-    private String secretKey;
+    private final String secretKey;
 
     public FormWebAuthenticationDetails(HttpServletRequest request) {
         super(request);

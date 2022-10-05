@@ -53,11 +53,11 @@ date: 2022-10-03 22:00:00 +0900
 ```java
 @Component
 public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
-    private RequestCache requestCache = new HttpSessionRequestCache();                              // 1
-    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();                      // 2
+    private final RequestCache requestCache = new HttpSessionRequestCache();                              // 1
+    private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();                      // 2
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException {
         setDefaultTargetUrl("/");                                                                   // 4
 
         SavedRequest savedRequest = requestCache.getRequest(request, response);                     // 1
@@ -255,7 +255,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     private String errorPage;
 
     @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
+    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException {
         String deniedUrl = errorPage + "?exception=" + accessDeniedException.getMessage();  // 1
         response.sendRedirect(deniedUrl);
     }
@@ -371,11 +371,11 @@ user 권한으로 메시지 링크로 접속하여, 인가 예외를 발생시�
 ```java
 @Component
 public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
-    private RequestCache requestCache = new HttpSessionRequestCache();
-    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+    private final RequestCache requestCache = new HttpSessionRequestCache();
+    private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {  // 1
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException {  // 1
         setDefaultTargetUrl("/");
 
         SavedRequest savedRequest = requestCache.getRequest(request, response);
@@ -394,11 +394,11 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 ```java
 @Component
 public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
-    private RequestCache requestCache = new HttpSessionRequestCache();
-    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+    private final RequestCache requestCache = new HttpSessionRequestCache();
+    private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {  // 1
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {  // 1
         setDefaultTargetUrl("/");
 
         SavedRequest savedRequest = requestCache.getRequest(request, response);
