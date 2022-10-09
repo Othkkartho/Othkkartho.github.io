@@ -399,7 +399,36 @@ AjaxAuthenticationFilter는 정상적으로 FilterChainProxy에 등록이 됩니
 하지만 Filter가 ProviderManager로 이동하니 ProviderManager에 등록되어 있는 providers가 DaoAuthenticationProvider 1개밖에 존재하지 않습니다.<br><br>
 
 ##### 오류 해결
-해결 후 작성 요망
+AuthenticationManager 는 초기화 때 생성되어 기본적으로 DaoAuthenticationProvider 와 같은 객체를 가지고 있습니다. 그리고 UsernamePasswordAuthenticationFilter 와 같은 클래스에서 참조하고 있습니다.<br><br>
+
+그렇다면 ajaxAuthenticationProvider 도 초기화때 생성된 AuthenticationManager 에서 추가해 주어야 합니다.
+```java
+AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
+authenticationManagerBuilder.authenticationProvider(ajaxAuthenticationProvider());
+```
+
+위 코드가 초기화 때 생성된 AuthenticationManager 입니다. 그런데 실제 AjaxLoginProcessingFilter 를 생성하는 코드를 보면 초기화 때 생성된 동일한 AuthenticationManager 가 아닌 다른 AuthenticationManager 를 참조하고 있습니다. <br>
+
+즉 authenticationConfiguration.getAuthenticationManager(); 에서 참조하고 있는 AuthenticationManager 와 authenticationManagerBuilder.authenticationProvider(ajaxAuthenticationProvider()); 를 통해 참조되는 AuthenticationManager 는 동일한 객체가 아닙니다.<br><br>
+
+그렇기 때문에 AjaxLoginProcessingFilter 에서 참조하고 있는 AuthenticationManager 에 ajaxAuthenticationProvider 를 추가해 주어야 정상동작하게 됩니다. 위 코드로 수정한 후에 디버깅해 보시면 AuthenticationManager 가 서로 다른 두개의 객체가 생성되어 있음을 알게 됩니다.<br><br>
+
+출처는 [인프런 질문 게시판](https://www.inflearn.com/questions/667022)입니다.
+
+***
+
+제가 이해한 내용을 정리하면 다음과 같습니다.<br><br>
+
+AuthenticationManager는 초기화 때 생성됩니다. 그래서 ajaxAuthenticationProvider도 초기화때 생성된 AuthenticationManager에서 추가되어야 작동을 합니다.<br>
+하지만 위 코드의 `authenticationManagerBuilder.authenticationProvider(ajaxAuthenticationProvider());` 와 `ajaxLoginProcessingFilter.setAuthenticationManager(authenticationManager(authenticationConfiguration));` 는 다른 AuthenticationManager를 참조하고 있으므로, 실행을 해 봤을 때는 기본 생성된 DaoAuthenticationProvider만 가지고 검사됩니다.<br>
+이 참조되는 AuthenticationManager을 같게 하기 위해 ajaxLoginProcessingFilter가 AuthenticationManager를 set하기 위해 가져가는 authenticationManager(authenticationConfiguration) 의 안에서 Provider를 추가해야 서로 같은 Manager 객체가 되어 Provider가 추가되게 됩니다.<br><br>
+오류 수정을 진행할 때 그냥 SecurityConfig에서 provider가 정상적으로 생성되는 이유는 AuthenticationManager가 filterChain에서만 생성되기 때문이었습니다.<br>
+
+**오류 시 ProviderManager가 확인한 Provider**{:data-align="center"}
+![Dao Provider만 있는 모습](:/inflearn_spring_security_learn/3s/13/error_providers.jpg){:data-align="center"}
+
+**오류 해결 흐 ProviderManager가 확인한 Provider**{:data-align="center"}
+![Ajax Provider과 Dao Provider이 있는 모습](:/inflearn_spring_security_learn/3s/13/after_providers){:data-align="center"}
 
 ### 출처
 1. [학습중인 강의](https://www.inflearn.com/course/%EC%BD%94%EC%96%B4-%EC%8A%A4%ED%94%84%EB%A7%81-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0)
