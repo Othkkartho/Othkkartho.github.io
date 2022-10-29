@@ -42,5 +42,5 @@ img: ":home-heading.jpg"
 ***
 
 {{ website_info_text_second }}
-> This is a blog that writes down projects of Spring and Node.js of college students aspiring to backend programming.
+> This is a blog that writes down projects of Spring and Node.js of college students aspiring to programming.
 > Occasionally, Python also comes up.
