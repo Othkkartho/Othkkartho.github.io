@@ -11,12 +11,12 @@ category: 데이터베이스 설계
 # multiple tag entries are possible
 tags: [학교 공부 정리, 데이터베이스 설계]
 # thumbnail image for post
-img: ":/inflearn_spring_security_learn/post_spring_security.png"
+img: ":/school/database_design_1280.png"
 # disable comments on this page
 #comments_disable: true
 
 # publish date
-date: 2022-09-31 22:00:00 +0900
+date: 2022-10-31 22:00:00 +0900
 
 # seo
 # if not specified, date will be used.

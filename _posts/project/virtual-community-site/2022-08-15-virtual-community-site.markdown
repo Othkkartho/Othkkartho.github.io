@@ -11,7 +11,7 @@ category: 버츄얼 유튜버 커뮤니티 제작
 # multiple tag entries are possible
 tags: [Spring, Spring 프로젝트, 버츄얼 유튜버 커뮤니티 제작]
 # thumbnail image for post
-img: ":post_virtual_pic1.jpg"
+img: ":/virtual_community_site/post_virtual_pic1.jpg"
 # disable comments on this page
 #comments_disable: true
 
@@ -220,7 +220,7 @@ date: 2022-08-15 10:00:00 +0900
 
 
 #### 데이터베이스 스키마
-![DB 스키마 사진](:/virtual_post/DB_design.jpg){:data-align="center"}
+![DB 스키마 사진](:/virtual_community_site/1/DB_design.jpg){:data-align="center"}
 
 #### BCNF
 
