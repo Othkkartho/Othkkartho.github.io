@@ -9,9 +9,9 @@ author: Othkkartho's Workshop
 # multiple category is not supported
 category: 버츄얼 유튜버 커뮤니티 제작
 # multiple tag entries are possible
-tags: [Spring, 버츄얼 유튜버 커뮤니티 제작]
+tags: [Spring, Spring 프로젝트, 버츄얼 유튜버 커뮤니티 제작]
 # thumbnail image for post
-img: ":post_virtual_pic1.jpg"
+img: ":/virtual_community_site/post_virtual_pic1.jpg"
 # disable comments on this page
 #comments_disable: true
 
@@ -79,8 +79,13 @@ date: 2022-08-15 10:00:00 +0900
 1. 마이페이지에는 내 글/댓글 확인, 정보수정, 스크랩 게시글 정보, 팔로우 인원 및 구독한 채널 리스트, 최근 들어간 게시글, 추천한 게시글로 가는 버튼을 띄움
 2. 마이페이지에 출력되는 정보는 내 정보, 레벨, 가지고 있는 역할, 닉네임을 보여줄 예정
 3. 정보 수정시 비밀번호 인증을 거치게 제작할 예정
+<<<<<<< HEAD:_posts/2022-08-15-virtual-community-site.markdown
 4. 게시글 알람과 구독한 커뮤니티의 특정 게시판이 갱신되면 알람을 받는 것을 키고 끌 수 있는 기능을 제공 
 5. 최근 게시글 접속 기록에 경우 켜고 끌 수 있는 버튼 제공
+=======
+4. 게시글 알람과 구독한 커뮤니티의 특정 게시판이 갱신되면 알람을 받는 것을 키고 끌 수 있는 기능을 제공
+5. 사용자는 프로필 사진을 등록할 수 있음
+>>>>>>> b2d8781c7e0386bce3307858397a5172329340e6:_posts/project/virtual-community-site/2022-08-15-virtual-community-site.markdown
 
 #### 문의
 1. 문의는 크게 일반 문의와 홍보 문의로 나눠지며 권한은 모든 가입 유저들이 등록, 수정, 삭제할 수 있음
@@ -96,6 +101,7 @@ date: 2022-08-15 10:00:00 +0900
 4. 게시글 작성은 기본적으로 누구나 가능하며, 게시판의 하위 게시판 개시글의 조회, 생성, 삭제, 수정 등의 연산은 채널 관리자가 설정할 수 있음
 5. 게시글의 검색은 제목, 작성자, 제목/내용, 제목/내용/댓글로 검색 할 수 있도록 만들 예정
 6. 게시글 작성시 각 게시판의 하위 게시판을 선택하고, 게시글 제목과, 내용을 선택할 수 있음. 첨부는 링크와 사진만 가능. 동영상은 링크로만 첨부 가능
+    - 게시판 베너 사진을 설정하면 게시글 작성 위에 베너가 보이거나, 게시판 상단에 베너가 보이도록 작성
 7. 게시판의 구독을 가능하게 해 구독한 게시판으로 쉽게 이동할 수 있는 기능 제공
 8. 게시판을 만드는 것은 관리자만 가능함, 게시판의 하위 게시판은 게시판 관리자가 생성, 수정이 가능하고, 게시글의 삭제, 사용자 제재가 가능함
     - 게시판 삭제는 게시글들의 존재 때문에 삭제 게시판 관리자가 삭제할 수 없게 만들 예정
@@ -370,7 +376,7 @@ date: 2022-08-15 10:00:00 +0900
 
 
 #### 데이터베이스 스키마
-![DB 스키마 사진](:/virtual_post/DB_design.jpg){:data-align="center"}
+![DB 스키마 사진](:/virtual_community_site/1/DB_design.jpg){:data-align="center"}
 
 #### BCNF
 

@@ -7,9 +7,9 @@ title: 인프런 스프링 시큐리티 강의 학습-12
 # if not specified, .name will be used from _data/owner/[language].yml
 author: Othkkartho's Workshop
 # multiple category is not supported
-category: 인프런 스프링 시큐리티 강의 정리
+category: Spring Security 공부
 # multiple tag entries are possible
-tags: [Spring, 인프런 스프링 시큐리티 강의 정리]
+tags: [Spring, Spring Security 공부, 강의 정리]
 # thumbnail image for post
 img: ":/inflearn_spring_security_learn/post_spring_security.png"
 # disable comments on this page

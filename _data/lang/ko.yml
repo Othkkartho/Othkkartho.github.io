@@ -120,7 +120,7 @@ post-list:
     msg:
       property_list:
         # keys need to match with /query/post-query.json
-        tags: 테그
+        tags: 태그
         category: 카테고리
         year: 년
       # you can use these wildcards, {property} {value} {thumb}
