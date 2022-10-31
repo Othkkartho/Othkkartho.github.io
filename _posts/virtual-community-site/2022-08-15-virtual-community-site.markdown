@@ -7,7 +7,7 @@ title: 버츄얼 유튜버 커뮤니티 사이트 요구분석 및 설계
 # if not specified, .name will be used from _data/owner/[language].yml
 author: Othkkartho's Workshop
 # multiple category is not supported
-category: Spring 프로젝트
+category: 버츄얼 유튜버 커뮤니티 제작
 # multiple tag entries are possible
 tags: [Spring, Spring 프로젝트, 버츄얼 유튜버 커뮤니티 제작]
 # thumbnail image for post
