@@ -379,3 +379,13 @@ date: 2022-08-15 10:00:00 +0900
 
 ### API 명세서
 ![추후 업로드 예정]()
+
+
+<script src="https://utteranc.es/client.js"
+        repo="Othkkartho/Othkkartho.github.io"
+        issue-term="pathname"
+        label="utterances"
+        theme="github-dark"
+        crossorigin="anonymous"
+        async>
+</script>
