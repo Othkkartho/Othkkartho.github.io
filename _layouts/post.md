@@ -20,26 +20,23 @@ layout: default
 {% endif -%}
 
 {% if site.data.conf.posts.comments.enable and page.comments_disable != true %}
-    {% if site.data.conf.main.color_scheme_dark == true -%}
-      <script src="https://utteranc.es/client.js"
-            repo="Othkkartho/Othkkartho.github.io"
-            issue-term="pathname"
-            label="utterances"
-            if (colorScheme.mode.dark)
-              theme="github-dark"
-            else
-              theme="github-light"
-            crossorigin="anonymous"
-            async>
-      </script>
-    {% elseif site.data.conf.main.color_scheme_dark != true -%}
-      <script src="https://utteranc.es/client.js"
-            repo="Othkkartho/Othkkartho.github.io"
-            issue-term="pathname"
-            label="utterances"
-            theme="github-light"
-            crossorigin="anonymous"
-            async>
-      </script>
-    {% endif -%}
+  {% if site.data.conf.main.color_scheme_dark == true -%}
+    <script src="https://utteranc.es/client.js"
+          repo="Othkkartho/Othkkartho.github.io"
+          issue-term="pathname"
+          label="utterances"
+          theme="github-dark"
+          crossorigin="anonymous"
+          async>
+    </script>
+  {% elseif site.data.conf.main.color_scheme_dark != true -%}
+    <script src="https://utteranc.es/client.js"
+          repo="Othkkartho/Othkkartho.github.io"
+          issue-term="pathname"
+          label="utterances"
+          theme="github-light"
+          crossorigin="anonymous"
+          async>
+    </script>
   {% endif -%}
+{% endif -%}
