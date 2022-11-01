@@ -39,7 +39,7 @@ date: 2022-10-10 10:00:00 +0900
 
 <!-- outline-start -->
 
-[인증 및 인가 예외 처리](#인증-및-인가-예외-처리---ajaxloginurlauthenticationentrypoint-ajaxaccessdeniedhandler), [Ajax Custom DSLs 구현하기](#ajax-custom-dsls-구현하기)를 정리한 포스트입니다.
+[Ajax Custom DSLs 구현하기](#ajax-custom-dsls-구현하기), [Ajax 로그인 구현 & CSRF 설정](#ajax-custom-dsls-구현하기-ajax-로그인-구현--csrf-설정를-정리한-포스트입니다)를 정리한 포스트입니다.
 --------------------------------------
 
 출처는 인프런의 스프링 시큐리티 - [Spring Boot 기반으로 개발하는 Spring Security](https://www.inflearn.com/course/%EC%BD%94%EC%96%B4-%EC%8A%A4%ED%94%84%EB%A7%81-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0)강의를 바탕으로 이 포스트를 작성하고 있습니다.<br>
@@ -47,10 +47,10 @@ date: 2022-10-10 10:00:00 +0900
 
 <!-- outline-end -->
 
-### 인증 및 인가 예외 처리 - AjaxLoginUrlAuthenticationEntryPoint, AjaxAccessDeniedHandler
-
-
 ### Ajax Custom DSLs 구현하기
+
+
+### Ajax 로그인 구현 & CSRF 설정
 
 ### 출처
 1. [학습중인 강의](https://www.inflearn.com/course/%EC%BD%94%EC%96%B4-%EC%8A%A4%ED%94%84%EB%A7%81-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0)
