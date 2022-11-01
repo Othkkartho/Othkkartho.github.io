@@ -71,7 +71,7 @@ date: 2022-10-10 22:00:00 +0900
 2. SecurityInterceptor가 얻은 정보를 AccessDecisionManager에게 전달합니다.
 
 **ExpressionBasedFilterInvocationSecurityMetadataSource에서 저장된 Map 객체**{:data-align="center"}
-![정상적으로 권한에 대한 Map 객체가 전달됨](:/inflearn_spring_security_learn/5s/15/requestMap.jpg){:data-align="center"}
+![정상적으로 권한에 대한 Map 객체가 전달됨](:/inflearn_spring_security_learn/5s/16/requestMap.jpg){:data-align="center"}
 위 사진은 FilterInvocationSecurityMetadataSource의 구현체 중 하나인 ExpressionBasedFilterInvocationSecurityMetadataSource 클레스에서 전달된 인가 정보 가 key와 value의 map 객체로 저장되 있는 것을 확인하실 수 있습니다.<br>
 그 후 위 클래스에서 부모 클래스인 DefaultFilterInvocationSecurityMetadataSource에게 Map 객체를 전달해 그곳에서 requestMap 객체에 저장해 놓습니다.<br><br>
 
@@ -214,15 +214,15 @@ public FilterInvocationSecurityMetadataSource urlFilterInvocationSecurityMetadat
 
 ##### 실제 실행 화면
 **FilterChainProxy에 추가된 FilterSecurityInterceptor**{:data-align="center"}
-![Interceptor가 2개 있는 것을 보면 정상적으로 추가 된것을 알 수 있음](:/inflearn_spring_security_learn/5s/15/additionalFilters.jpg){:data-align="center"}
+![Interceptor가 2개 있는 것을 보면 정상적으로 추가 된것을 알 수 있음](:/inflearn_spring_security_learn/5s/16/additionalFilters.jpg){:data-align="center"}
 FilterChainProxy에 FilterSecurityInterceptor가 2개 있는 것을 확인할 수 있습니다. 원래 있던 필터와 추가한 필터입니다. 즉 정상적으로 필터 등록이 완료된 것을 확인할 수 있습니다.
 
 **Metadata에 저장되어 있는 맵 객체**{:data-align="center"}
-![저장한 맵 객체가 정상적으로 들어있는 것을 확인할 수 있음](:/inflearn_spring_security_learn/5s/15/securityMetadataSource.jpg){:data-align="center"}
+![저장한 맵 객체가 정상적으로 들어있는 것을 확인할 수 있음](:/inflearn_spring_security_learn/5s/16/securityMetadataSource.jpg){:data-align="center"}
 생성한 FilterSecurityInterceptor 안에 생성한 메타 데이터인  UrlFilterInvocationSecurityMetadataSource가 정상적으로 등록이 되어 있고, 맵 객체의 값이 정상적으로 저장되어 있는 것을 확인할 수 있습니다.
 
 **requestMap에 권한 목록을 추가한 뒤 조건문의 작동**{:data-align="center"}
-![조건문이 정상적으로 작동함](:/inflearn_spring_security_learn/5s/15/result.jpg){:data-align="center"}
+![조건문이 정상적으로 작동함](:/inflearn_spring_security_learn/5s/16/result.jpg){:data-align="center"}
 requestMap에 권한 정보를 추가한 후 실제 조건문이 작동함으로써 정상적으로 클라이언트 요청을 Match하는 것을 알 수 있습니다.
 
 #### FilterInvocationSecurityMetadataSource - 2
@@ -353,11 +353,11 @@ public UrlFilterInvocationSecurityMetadataSource(LinkedHashMap<RequestMatcher, L
 
 ##### 실제 실행 장면
 **DB에 저장된 자원/권한 정보를 가저옴**{:data-align="center"}
-![DB에 저장되어 있는 권한과 자원 정보가 정상적으로 저장됨](:/inflearn_spring_security_learn/5s/15/resourcesList.jpg){:data-align="center"}
+![DB에 저장되어 있는 권한과 자원 정보가 정상적으로 저장됨](:/inflearn_spring_security_learn/5s/16/resourcesList.jpg){:data-align="center"}
 DB에 저장되어 있는 자원/권한 정보가 List에 정상적으로 저장되었고, 아래에 보시면 result에도 정상적으로 매핑 된 것을 확인할 수 있습니다.
 
 **가져온 정보를 매핑해 저장함**{:data-align="center"}
-![DB에 있던 정보가 모두 매핑되어 있는 것을 확인할 수 있습니다.](:/inflearn_spring_security_learn/5s/15/resourcesList_result.jpg){:data-align="center"}
+![DB에 있던 정보가 모두 매핑되어 있는 것을 확인할 수 있습니다.](:/inflearn_spring_security_learn/5s/16/resourcesList_result.jpg){:data-align="center"}
 
 ### 출처
 1. [학습중인 강의](https://www.inflearn.com/course/%EC%BD%94%EC%96%B4-%EC%8A%A4%ED%94%84%EB%A7%81-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0)

@@ -126,7 +126,7 @@ UrlFilterInvocationSecurityMetadataSource의 초기화시 입력 변수값이 �
 
 #### 실제 실행화면
 **인가 정보 수정시 Map에 저장된 정보**{:data-align="center"}
-![정상적으로 권한에 대한 Map 객체가 변경됨](:/inflearn_spring_security_learn/5s/16/mapping_data.jpg){:data-align="center"}
+![정상적으로 권한에 대한 Map 객체가 변경됨](:/inflearn_spring_security_learn/5s/17/mapping_data.jpg){:data-align="center"}
 위 사진은 /messages의 값을 Manager 권한에서 User 권한으로 내렸을 때, UrlFilterInvocationSecurityMetadataSource 클래스에서 발생한 Map 정보입니다.   
 우선 원래 저장되어 있는 값인 requestMap에는 정상적으로 ROLE_MANAGER가 등록이 되어 있고, 새로운 DB 값인 reloadedMap에는 ROLE_USER가 등록되어 있는 것을 알 수 있습니다.   <br>
 실제로 실행해 보면 User가 정상적으로 /messages 자원에 접근하는 것을 확인할 수 있습니다.
@@ -224,11 +224,11 @@ public PermitAllFilter customFilterSecurityInterceptor() throws Exception {
 
 #### 실제 실행 화면
 **permitAllRequestMatcher에 저장되있는 정보들**{:data-align="center"}
-![permitAllRequestMatcher에 정상적으로 저장되어 있음](:/inflearn_spring_security_learn/5s/16/permitAllRequestMatcher.jpg){:data-align="center"}
+![permitAllRequestMatcher에 정상적으로 저장되어 있음](:/inflearn_spring_security_learn/5s/17/permitAllRequestMatcher.jpg){:data-align="center"}
 permitAllRequestMatcher에 인가, 권한 처리가 필요 없는 리스트들이 정상적으로 저장되어 있는 모습입니다.
 
 **/에 접근시 permitAll**{:data-align="center"}
-![permitAll이 true가 되 null을 리턴함](:/inflearn_spring_security_learn/5s/16/permitAll.jpg){:data-align="center"}
+![permitAll이 true가 되 null을 리턴함](:/inflearn_spring_security_learn/5s/17/permitAll.jpg){:data-align="center"}
 /에 접근시 permitAll이 true가 되 null을 리턴하는 모습입니다.
 
 ### 계층 권한 적용하기 - RoleHierachy
@@ -377,15 +377,15 @@ DB로 부터 Role 정보를 가져와 포맷팅 된 결과값을 RoleHierarchyIm
 
 #### 실제 실행 화면
 **SecurityInitializer에서 DB에 저장된 정보를 불러옴**{:data-align="center"}
-![rolesHierarchy에 정상적으로 3개의 권한과 그 하위 권한이 저장되어 있음](:/inflearn_spring_security_learn/5s/16/rolesHierarchy.jpg){:data-align="center"}
+![rolesHierarchy에 정상적으로 3개의 권한과 그 하위 권한이 저장되어 있음](:/inflearn_spring_security_learn/5s/17/rolesHierarchy.jpg){:data-align="center"}
 rolesHierarchy에 DB에 저장되어 있는 정보들이 정상적으로 각각의 권한과 그 하위 권한으로 저장되어 있습니다.
 
 **role_hierarchy 테이블**{:data-align="center"}
-![미리 설정했던 값들이 정상적으로 들어가 있음](:/inflearn_spring_security_learn/5s/16/role_hierarchy.jpg){:data-align="center"}
+![미리 설정했던 값들이 정상적으로 들어가 있음](:/inflearn_spring_security_learn/5s/17/role_hierarchy.jpg){:data-align="center"}
 위 rolesHierarchy에 저장되어 있는 값과 동일한 정보가 DB에 저장되어 있습니다.
 
 **모든 처리가 끝나고, concatedRoles**{:data-align="center"}
-![모두 설정한대로 저장됨](:/inflearn_spring_security_learn/5s/16/concatedRoles.jpg){:data-align="center"}
+![모두 설정한대로 저장됨](:/inflearn_spring_security_learn/5s/17/concatedRoles.jpg){:data-align="center"}
 concatedRoles에 위에 설정했던 권한 상하위 정보들이 정해진 규칙대로 저장되었습니다.
 
 ### 아이피 접속 제한하기 - CustomIpAddressVoter
@@ -555,15 +555,15 @@ IP가 허용되지 않으면 바로 오류를 던져 심의를 종료해야 하�
 
 #### 실제 실행 화면
 **저장되어 있는 심의 정보**{:data-align="center"}
-![IpAddressVoter와 RoleHierachyImpl가 모두 정상적으로 저장되어 있음](:/inflearn_spring_security_learn/5s/16/voter.jpg){:data-align="center"}
+![IpAddressVoter와 RoleHierachyImpl가 모두 정상적으로 저장되어 있음](:/inflearn_spring_security_learn/5s/17/voter.jpg){:data-align="center"}
 SecurityConfig에서 저장한 IpAddressVoter와 RoleHierachyImpl가 모두 정상적으로 저장되어 있음을 볼 수 있습니다.
 
 **remoteAddress와 accessIpList**{:data-align="center"}
-![둘 모두 정상적으로 값이 저장되어 있습니다](:/inflearn_spring_security_learn/5s/16/remoteAddress.jpg){:data-align="center"}
+![둘 모두 정상적으로 값이 저장되어 있습니다](:/inflearn_spring_security_learn/5s/17/remoteAddress.jpg){:data-align="center"}
 DB에 저장되어 있는 허용 주소는 accessIpList에, 접근 주소는 remoteAddress에 정상적으로 저장되어 있습니다.
 
 **서로 비교**{:data-align="center"}
-![정상적으로 비교되 보류를 return함](:/inflearn_spring_security_learn/5s/16/abstain.jpg){:data-align="center"}
+![정상적으로 비교되 보류를 return함](:/inflearn_spring_security_learn/5s/17/abstain.jpg){:data-align="center"}
 둘 모두 같은 값이기 때문에 보류를 정상적으로 return 함을 알 수 있습니다.
 
 ### 완료
