@@ -29,7 +29,7 @@ layout: default
           crossorigin="anonymous"
           async>
     </script>
-  {% elseif site.data.conf.main.color_scheme_dark != true -%}
+  {% elsif site.data.conf.main.color_scheme_dark != true -%}
     <script src="https://utteranc.es/client.js"
           repo="Othkkartho/Othkkartho.github.io"
           issue-term="pathname"
