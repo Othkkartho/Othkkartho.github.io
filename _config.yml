@@ -129,5 +129,5 @@ analytics:
   provider               : "google-gtag" 
                           # false (default), "google", "google-universal", "google-gtag", "custom"
   google:
-    tracking_id          : "G-KBBNNBJMB9"
+    tracking_id          : "G-MXCMHTCXL1"
     anonymize_ip         : # true, false (default)
