@@ -1,7 +1,7 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
 lng_pair: springlearn
-title: 인프런 스프링 시큐리티 강의 학습-16
+title: 인프런 스프링 시큐리티 강의 학습-17
 
 # post specific
 # if not specified, .name will be used from _data/owner/[language].yml
