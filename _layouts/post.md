@@ -19,6 +19,13 @@ layout: default
   {% endif -%}
 {% endif -%}
 
-{% if site.data.conf.posts.comments.enable and site.data.conf.posts.comments.disqus.enable and page.comments_disable != true %}
-  {% include post/disqus.html %}
+{% if site.data.conf.posts.comments.enable and page.comments_disable != true %}
+  <script src="https://utteranc.es/client.js"
+        repo="Othkkartho/Othkkartho.github.io"
+        issue-term="pathname"
+        label="utterances"
+        theme="github-dark"
+        crossorigin="anonymous"
+        async>
+  </script>
 {% endif %}
