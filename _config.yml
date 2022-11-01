@@ -30,6 +30,7 @@ defaults:
     values:
       layout: "post"
       permalink: /posts/:path
+      comments: true
 
   # for multilingual posts
   - scope:
@@ -123,6 +124,13 @@ sass:
 ###########################################################
 exclude: ["Gemfile*", "README*", "LICENSE", "docs"]
 
+# _config.yml, 32line 코드
+comments:
+  provider    : "disqus"                                # comment 처리 사이트 명칭 기재
+              # false (default), "disqus", "discourse", "facebook"
+              # "staticman", "staticman_v2", "utterances", "custom"
+  disqus:
+    shortname : "https-othkkartho-github-io"
 
 # Analytics
 analytics:
