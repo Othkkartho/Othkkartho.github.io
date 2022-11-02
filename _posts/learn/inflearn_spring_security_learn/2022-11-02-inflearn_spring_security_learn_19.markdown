@@ -60,10 +60,14 @@ Spring이 인가 처리를 위해 초기화 과정은 먼저 DefaultAdvisorAutoP
 
 ### AOP Method 기반 DB 연동 - MapBasedSecurityMetadataSource
 #### 개요
-User가 메서드 접근을 요청하면 MethodSecurityInterceptor가 MethodSecurityMetadataSource라는 구현체에게 요청해 권한 정보를 반환받고, 구현체는 DB로 부터 자원과 권한들을 매핑해 맵 객체를 저장하고 있다가 그 요청에 해당하는 키 값의 자원 정보를 반한합니다. 그럼 Interceptor는 AccessDecisionManager에게 권한 정보를 전달합니다.   
+User가 메서드 접근을 요청하면 MethodSecurityInterceptor가 MethodSecurityMetadataSource라는 구현체에게 요청해 권한 정보를 반환받고, 구현체는 DB로 부터 자원과 권한들을 매핑해 맵 객체를 저장하고 있다가 그 요청에 해당하는 키 값의 자원 정보를 반한합니다. 그럼 Interceptor는 AccessDecisionManager에게 권한 정보를 전달합니다.   <br>
+
+MapBasedSecurityMetadataSource는 MethodSecurityMetadataSource를 구현하고, SecurityMetadataSource 최상위 클래스를 상속합니다.
+1. 어노테이션 설정 방식이 아닌 맵 기반으로 권한을 설정합니다.
+2. 기본적인 구현이 완성되어 있고 DB로 부터 자원과 권한 정보를 매핑한 데이터를 전달하면 메소드 방식의 인가처리가 이루어지는 클래스입니다.
 
 #### 실제 실행
-**DelegatingMethodSecurityMetadataSource가 가지고 있는 권한 정보**
+**DelegatingMethodSecurityMetadataSource가 가지고 있는 권한 정보**{:data-align="center"}
 ![정상적으로 설정한 권한을 가져 옴](:/inflearn_spring_security_learn/5s/18/abstract_attrs.JPG){:data-align="center"}
 ```java
 @Override
@@ -76,9 +80,137 @@ public void order() {
 
 다 실행을 해 보면 Url 방식과 Method 방식의 처리 방식은 Method의 경우 마지막에 메소드를 호출해 주는 부분을 제외하곤 모두 동일합니다.
 
-####
+#### Map 기반 DB 연동의 진행 방식
+1. 유저가 권한이 설정되어 있는 메소드를 요청하면 요청한 메소드의 어드바이스인 MethodSecurityInterceptor를 호출하며 인가처리를 시작합니다.
+2. Interceptor는 MapBasedMethodSecurityMetadataSource에게 권한 정보를 요청합니다.
+3. MetadataSource 자체적으로 MethodMap을 가지고 있고, 이를 통해 메소드 정보와 매칭되는 권한정보를 추출합니다.
+4. 권한목록이 존재하면 decide(Authentication, MethodInvocation, List<ConfigAttribute>) 를 통해 AccessDecisionManager에 정보를 전달해 실질적인 인가처리를 합니다.
+
+#### 실제 코드
+**MethodSecurityConfig.java**{:data-align="center"}
+```java
+@Configuration
+@EnableGlobalMethodSecurity // 1
+public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {   // 2
+    private SecurityResourceService securityResourceService;
+
+    @Autowired
+    private void setMethodSecurityConfig(SecurityResourceService securityResourceService) {
+        this.securityResourceService = securityResourceService;
+    }
+
+    @Override
+    protected MethodSecurityMetadataSource customMethodSecurityMetadataSource() {   // 3
+        return mapBasedMethodSecurityMetadataSource();
+    }
+
+    @Bean
+    public MapBasedMethodSecurityMetadataSource mapBasedMethodSecurityMetadataSource() {
+        return new MapBasedMethodSecurityMetadataSource(Objects.requireNonNull(methodResourcesMapFactoryBean().getObject()));
+    }
+
+    @Bean
+    public MethodResourcesFactoryBean methodResourcesMapFactoryBean() {
+        MethodResourcesFactoryBean methodResourcesFactoryBean = new MethodResourcesFactoryBean();
+        methodResourcesFactoryBean.setSecurityResourceService(securityResourceService);
+
+        return methodResourcesFactoryBean;
+    }
+}
+```
+1. 이제는 맵 방식으로 진행을 하기 때문에 따로 값을 지정하지는 않습니다.
+2. 메서드 보안이 활성화되고, 관련 초기화 작업들이 이루어 지는 클래스를 상속받습니다.
+3. 맵 기반으로 메서드 인가처리를 할 수 있는 클래스를 생성해 return합니다.
+
+**MethodResourcesFactoryBean.java**{:data-align="center"}
+```java
+public class MethodResourcesFactoryBean implements FactoryBean<LinkedHashMap<String, List<ConfigAttribute>>> {
+    private SecurityResourceService securityResourceService;
+    private LinkedHashMap<String, List<ConfigAttribute>> resourceMap;
+
+    public void setSecurityResourceService(SecurityResourceService securityResourceService) {
+        this.securityResourceService = securityResourceService;
+    }
+
+    @Override
+    public LinkedHashMap<String, List<ConfigAttribute>> getObject() {
+        if (resourceMap == null) {
+            init();
+        }
+
+        return resourceMap;
+    }
+
+    private void init() {
+        resourceMap = securityResourceService.getMethodResourceList();
+    }
+
+    @Override
+    public Class<?> getObjectType() {
+        return LinkedHashMap.class;
+    }
+
+    @Override
+    public boolean isSingleton() {
+        return FactoryBean.super.isSingleton();
+    }
+}
+```
+
+**ResourcesRepository.java**{:data-align="center"}
+```java
+@Query("select r from Resources r join fetch r.roleSet where r.resourceType = 'method' order by r.orderNum desc")
+    List<Resources> findAllMethodResources();
+```
+DB로 부터 메서드 방식으로 저장한 방식을 가져오는 Query문입니다.
+
+**SecurityResourceService.java**{:data-align="center"}
+```java
+public LinkedHashMap<String, List<ConfigAttribute>> getMethodResourceList() {
+    LinkedHashMap<String, List<ConfigAttribute>> result = new LinkedHashMap<>();
+    List<Resources> resourcesList = resourcesRepository.findAllMethodResources();
+
+    resourcesList.forEach(re -> {
+        List<ConfigAttribute> configAttributeList = new ArrayList<>();
+        re.getRoleSet().forEach(role -> {
+            configAttributeList.add(new SecurityConfig(role.getRoleName()));
+        });
+        result.put(re.getResourceName(), configAttributeList);
+    });
+
+    return result;
+}
+```
 
 ### AOP Method 기반 DB 연동 - ProtectPointcutPostProcessor
+
+
+### 참고
+#### customMethodSecurityMetadataSource()
+**GlobalMethodSecurityConfiguration.java**{:data-align="center"}
+```java
+protected MethodSecurityMetadataSource customMethodSecurityMetadataSource() {
+    return null;
+}
+```
+
+**GlobalMethodSecurityConfiguration.java**{:data-align="center"}
+```java
+if (customMethodSecurityMetadataSource != null) {
+    sources.add(customMethodSecurityMetadataSource);
+}
+```
+
+**MethodSecurityConfig.java**{:data-align="center"}
+```java
+@Override
+protected MethodSecurityMetadataSource customMethodSecurityMetadataSource() {
+    return mapBasedMethodSecurityMetadataSource();
+}
+```
+원래는 null을 return하기 때문에 2번째 코드가 실행되지 않지만, MethodSecurityConfig에서 customMethodSecurityMetadataSource를 Override해 null이 아닌 값을 return함으로 조건문이 실행됩니다.
+
+#### JPQA
 
 
 ### 출처
