@@ -5,4 +5,4 @@ layout: robot
 ---
 User-agent: *
 Allow: /
-Sitemap: https://othkkartho.github.io/sitemap.xml
+Sitemap: https://othkkartho.github.io/assets/sitemap.xml
