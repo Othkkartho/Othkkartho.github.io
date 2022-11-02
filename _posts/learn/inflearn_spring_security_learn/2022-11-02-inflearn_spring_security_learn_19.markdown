@@ -39,13 +39,15 @@ date: 2022-11-02 22:00:00 +0900
 
 <!-- outline-start -->
 
-[MapBasedSecurityMetadataSource](), [ProtectPointcutPostProcessor]()를 정리한 포스트입니다.
+[주요 아키텍처 이해](#aop-method-기반-db-연동---주요-아키텍처-이해) [MapBasedSecurityMetadataSource](#aop-method-기반-db-연동---mapbasedsecuritymetadatasource), [ProtectPointcutPostProcessor](#aop-method-기반-db-연동---protectpointcutpostprocessor)를 정리한 포스트입니다.
 --------------------------------------
 
 출처는 인프런의 스프링 시큐리티 - [Spring Boot 기반으로 개발하는 Spring Security](https://www.inflearn.com/course/%EC%BD%94%EC%96%B4-%EC%8A%A4%ED%94%84%EB%A7%81-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0)강의를 바탕으로 이 포스트를 작성하고 있습니다.<br>
-강의의 세션 6의 4,5,6,7번 강의내용에 대한 정리입니다.<br><br>
+강의의 세션 6의 2,4,5,6,7번 강의내용에 대한 정리입니다.<br><br>
 
 <!-- outline-end -->
+
+### AOP Method 기반 DB 연동 - 주요 아키텍처 이해
 
 ### AOP Method 기반 DB 연동 - MapBasedSecurityMetadataSource
 
