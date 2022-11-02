@@ -1,8 +1,8 @@
 ---
 layout: robot
-User-agent: *
-Allow: /
-Sitemap: https://othkkartho.github.io/sitemap.xml
 # to disable this page, simply set published: false or delete this file
 #published: false
 ---
+User-agent: *
+Allow: /
+Sitemap: https://othkkartho.github.io/sitemap.xml
