@@ -297,7 +297,7 @@ google:
     ignore: production
   site_verification:
     # disable this feature entirely for development or production env.
-    ignore: production
+    ignore: development
 
 ###########################################################
 #                Cookie consent
