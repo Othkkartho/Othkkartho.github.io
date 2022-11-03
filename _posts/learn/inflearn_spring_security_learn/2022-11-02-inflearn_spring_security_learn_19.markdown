@@ -233,12 +233,7 @@ public String methodSecured(Model model) {
 }
 ```
 
-**home.html**{:data-align="center"}
-```html
-<a th:href="@{/methodSecured}" style="margin:5px;" class="nav-link text-primary">메소드보안</a>
-```
-
-**method.html**{:data-align="center"}
+**home.html && method.html**{:data-align="center"}
 ```html
 <a th:href="@{/methodSecured}" style="margin:5px;" class="nav-link text-primary">메소드보안</a>
 ```
@@ -270,13 +265,164 @@ SecurityResourceService에서 만든 Map 객체가 MapBasedMethodSecurityMetadat
 **AopSecurityController의 Service 객체**{:data-align="center"}
 ![Interceptor로 저장되어 있는 값들을 확인할 수 있음](:/inflearn_spring_security_learn/5s/19/aopmethodservice.JPG){:data-align="center"}
 AopmethodService 객체에 저장되어 있는 값들이 프록시로 저장되어 있어 Map에 저장한 객체가 Advice에 등록 되었다는 사실을 확인할 수 있습니다.   <br>
-실제로 접속해 보면 모든 인가 처리의 작업들이 잘 일어나는 것을 확인할 수 있습니다.
+실제로 접속해 보면 모든 인가 처리의 작업들이 잘 일어나는 것을 확인할 수 있습니다.   <br>
+위 코드는 [깃허브](https://github.com/Othkkartho/SpringSecurityLearn/tree/ch6.5%2C6)에 있습니다. 
 
 ### AOP Method 기반 DB 연동 - ProtectPointcutPostProcessor
+#### ProtectPointcutPostProcessor 설명
+1. 메소드 방식의 인가처리를 위한 자원 및 권한정보 설정 시 자원에 [포인트 컷](#포인트컷) 표현식을 사용할 수 있도록 지원하는 클래스입니다.
+2. 설정 클래스에서 빈 생성시 접근제한자가 package 범위로 되어 있기 때문에 리플렉션을 이용해 생성합니다.
+3. 해당 방식은 `execution(*com.example.springsecuritylearn.*Service.*(..)).ROLE_USER` 과 같이 사용저장됩니다.
+4. DB에서 전달받은 자원을 매핑시키고, ResourceMap에 저장합니다. 이 저장된 Map 객체를 ProtectPointcutPostProcessor의 PointcutMap이라는 객체에 전달합니다.
+5. 그리고 만약 포인트컷에 해당하는 빈들이 있으면 TargetClass, Method, ConfigAttribute를 추출해서, MapBaseMethodSecurityMetadataSource의 methodMap에 저장되고, 이후는 Method 처리 방식과 동일합니다.
+
+#### 실제 코드
+**MethodSecurityConfig.java**{:data-align="center"}
+```java
+@Bean
+public MethodResourcesFactoryBean pointcutResourcesMapFactoryBean() {
+    MethodResourcesFactoryBean methodResourcesFactoryBean = new MethodResourcesFactoryBean();
+    methodResourcesFactoryBean.setSecurityResourceService(securityResourceService);
+    methodResourcesFactoryBean.setResourceType("pointcut");     // Method 방식과 다른 점
+
+    return methodResourcesFactoryBean;
+}
+
+@Bean
+public ProtectPointcutPostProcessor protectPointcutPostProcessor(){
+    ProtectPointcutPostProcessor protectPointcutPostProcessor = new ProtectPointcutPostProcessor(mapBasedMethodSecurityMetadataSource());
+    protectPointcutPostProcessor.setPointcutMap(pointcutResourcesMapFactoryBean().getObject());
+
+    return protectPointcutPostProcessor;
+}
+
+//    @Bean
+//    @Profile("pointcut")
+//    BeanPostProcessor protectPointcutPostProcessor() throws Exception {
+//        Class<?> clazz = Class.forName("org.springframework.security.config.method.ProtectPointcutPostProcessor");
+//        Constructor<?> declaredConstructor = clazz.getDeclaredConstructor(MapBasedMethodSecurityMetadataSource.class);
+//        declaredConstructor.setAccessible(true);
+//        Object instance = declaredConstructor.newInstance(mapBasedMethodSecurityMetadataSource());
+//        Method setPointcutMap = instance.getClass().getMethod("setPointcutMap", Map.class);
+//        setPointcutMap.setAccessible(true);
+//        setPointcutMap.invoke(instance, pointcutResourcesMapFactoryBean().getObject());
+//
+//        return (BeanPostProcessor)instance;
+//    }
+```
+메서드 유형과 내부 로직은 setResourceType이 pointcut으로 바뀐것을 제외하곤 동일합니다.   
+위 코드의 주석 부분은 오류가 나는데 강의에서는
+> 설정클래스에서 람다 형식으로 선언된 빈이 존재할 경우 에러가 발생해 스프링 빈과 동일한 클래스를 생성하여 약간 수정함
+이라고 나와있습니다. 프로젝트를 하고, 제 실럭이 더 쌓이면 한번 확인해볼 가치가 있다고 판단합니다.
+
+**MethodResourcesFactoryBean.java**{:data-align="center"}
+```java
+@Override
+public LinkedHashMap<String, List<ConfigAttribute>> getObject() {
+    if ("method".equals(resourceType)) {
+        resourceMap = securityResourceService.getMethodResourceList();
+    }
+    else if ("pointcut".equals(resourceType)) { // Method 방식과 다른 점
+        resourceMap = securityResourceService.getPointcutResourceList();
+    }
+
+    return resourceMap;
+}
+```
+MethodResourcesFactoryBean 또한 pointcut과 같은지를 확인하는 조건문이 추가되었습니다.
+
+**SecurityResourceService.java**{:data-align="center"}
+```java
+@Override
+public LinkedHashMap<String, List<ConfigAttribute>> getMethodResourceList() {
+    LinkedHashMap<String, List<ConfigAttribute>> result = new LinkedHashMap<>();
+    List<Resources> resourcesList = resourcesRepository.findAllMethodResources();
+
+    return setResourceList(result, resourcesList);
+}
+
+public LinkedHashMap<String, List<ConfigAttribute>> getPointcutResourceList() {
+    LinkedHashMap<String, List<ConfigAttribute>> result = new LinkedHashMap<>();
+    List<Resources> resourcesList = resourcesRepository.findAllPointcutResources(); // 2
+
+    return setResourceList(result, resourcesList);
+}
+
+private LinkedHashMap<String, List<ConfigAttribute>> setResourceList(LinkedHashMap<String, List<ConfigAttribute>> result, List<Resources> resourcesList) {  // 1
+    resourcesList.forEach(re -> {
+        List<ConfigAttribute> configAttributeList = new ArrayList<>();
+        re.getRoleSet().forEach(role -> {
+            configAttributeList.add(new SecurityConfig(role.getRoleName()));
+        });
+        result.put(re.getResourceName(), configAttributeList);
+    });
+
+    return result;
+}
+```
+1. 포인트컷과 메서드 방식의 코드가 동일해 관련 코드를 함수로 만들었습니다.
+2. 메서드 방식과 다른점은 Repository에서 pointcut type을 찾는다는 것만 다릅니다.
+
+**ResourcesRepository.java**{:data-align="center"}
+```java
+@Query("select r from Resources r join fetch r.roleSet where r.resourceType = 'pointcut' order by r.orderNum desc")
+List<Resources> findAllPointcutResources();
+```
+
+**AopPointcutService.java**{:data-align="center"}
+```java
+@Service
+public class AopPointcutService {
+    public void pointcutSecured() {
+        System.out.println("pointcutSecured");
+    }
+
+    public void notSecured() {
+        System.out.println("notSecured");
+    }
+}
+```
+해당 포인트컷의 확인을 위해 pointcutSecured는 Aop의 대상이 되는 메서드로 만들고, notSecured는 대상이 되지 않는 메서드로 제작합니다.
+
+**AopSecurityController.java**{:data-align="center"}
+```java
+@GetMapping("/pointcutSecured")
+public String pointcutSecured(Model model) {
+    aopPointcutService.notSecured();
+    aopPointcutService.pointcutSecured();
+    model.addAttribute("pointcut", "Success PointcutSecured");
+
+    return "/aop/method";
+}
+```
+인가처리를 불러오기 위해 Controller에 메서드를 생성했습니다.
+
+**home.html && method.html**{:data-align="center"}
+```html
+<a th:href="@{/pointcutSecured}" style="margin:5px;" class="nav-link text-primary">포인트컷보안</a>
+```
+포인트컷 실행을 위한 html입니다.
+
+#### 실제 실행 장면
+**resources table**{:data-align="center"}
+![각 데이터가 table에 다 적제가 되어있음](:/inflearn_spring_security_learn/5s/19/resources_table.jpg){:data-align="center"}
+해당 값을 보여드리는 이유는 이번 구현을 할 때 반드시 table에 자원에 대한 값들이 설정이 되어있어야 합니다. 그렇지 않으면 `configAttributes cannot be empty` 라는 오류를 띄웁니다.
+
+**ProtectPointcutPostProcessor에서 attemptMatch 메서드 실행 값**{:data-align="center"}
+![DB에서 pointcut 변수를 찾고, 맵 등록까지 정상적으로 마침](:/inflearn_spring_security_learn/5s/19/attemptMatch.jpg){:data-align="center"}
+*ProtectPointcutPostProcessor의 attemptMatch 메서드에서 pointcut 방식이 있는지 확인하고, Map도 정상적으로 등록 되어있는 것을 확인할 수 있습니다.
+
+**AopSecurityController의 aopPointcutService 값**{:data-align="center"}
+![프록시가 정상적으로 등록되어 있음](:/inflearn_spring_security_learn/5s/19/pointcut_aopPointcutService.jpg){:data-align="center"}
+프록시가 정상적으로 저장되어 있는 것을 확인할 수 있습니다.   <br>
+이후 실제로 실행해 보면 로그인을 안했을 시 notSecured는 불러오지만, pointcutSecured는 불러오지 못합니다.   
+하지만 USER 권한으로 접근을 시도하면 두 메서드 모두 불러옴을 확인할 수 있습니다.   <br>
+위 코드는 [깃허브](https://github.com/Othkkartho/SpringSecurityLearn/tree/ch6.7)에 있습니다. 
 
 ### 참고
 #### JPQA
 
+#### 포인트컷
 
 ### 출처
 1. [학습중인 강의](https://www.inflearn.com/course/%EC%BD%94%EC%96%B4-%EC%8A%A4%ED%94%84%EB%A7%81-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0)
