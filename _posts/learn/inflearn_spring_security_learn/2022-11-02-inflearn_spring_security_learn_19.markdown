@@ -68,7 +68,7 @@ MapBasedSecurityMetadataSource는 MethodSecurityMetadataSource를 구현하고, 
 
 #### 실제 실행
 **DelegatingMethodSecurityMetadataSource가 가지고 있는 권한 정보**{:data-align="center"}
-![정상적으로 설정한 권한을 가져 옴](:/inflearn_spring_security_learn/5s/18/abstract_attrs.JPG){:data-align="center"}
+![정상적으로 설정한 권한을 가져 옴](:/inflearn_spring_security_learn/5s/19/abstract_attrs.JPG){:data-align="center"}
 ```java
 @Override
 @Secured("ROLE_USER")
@@ -105,12 +105,12 @@ public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {   
     }
 
     @Bean
-    public MapBasedMethodSecurityMetadataSource mapBasedMethodSecurityMetadataSource() {
+    public MapBasedMethodSecurityMetadataSource mapBasedMethodSecurityMetadataSource() {    // 4
         return new MapBasedMethodSecurityMetadataSource(Objects.requireNonNull(methodResourcesMapFactoryBean().getObject()));
     }
 
     @Bean
-    public MethodResourcesFactoryBean methodResourcesMapFactoryBean() {
+    public MethodResourcesFactoryBean methodResourcesMapFactoryBean() { // 5
         MethodResourcesFactoryBean methodResourcesFactoryBean = new MethodResourcesFactoryBean();
         methodResourcesFactoryBean.setSecurityResourceService(securityResourceService);
 
@@ -121,6 +121,9 @@ public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {   
 1. 이제는 맵 방식으로 진행을 하기 때문에 따로 값을 지정하지는 않습니다.
 2. 메서드 보안이 활성화되고, 관련 초기화 작업들이 이루어 지는 클래스를 상속받습니다.
 3. 맵 기반으로 메서드 인가처리를 할 수 있는 클래스를 생성해 return합니다.
+4. DB로 부터 얻은 권한 정보와 자원 정보를 Map 형태로 전달할 클래스입니다.
+5. DB로 부터 가지고 오는 resourceMap을 전달합니다.
+6. 이외에는 Url 방식과 비슷한 방식으로 처리됩니다.
 
 **MethodResourcesFactoryBean.java**{:data-align="center"}
 ```java
@@ -156,6 +159,8 @@ public class MethodResourcesFactoryBean implements FactoryBean<LinkedHashMap<Str
     }
 }
 ```
+Url과 거의 동일한 방법으로 Bean 클래스를 만듭니다.
+1. LinkedHashMap의 키 값이 String으로 변경하면 됩니다.
 
 **ResourcesRepository.java**{:data-align="center"}
 ```java
@@ -181,11 +186,8 @@ public LinkedHashMap<String, List<ConfigAttribute>> getMethodResourceList() {
     return result;
 }
 ```
+DB에서 값을 받아와 맵으로 만드는 방식도 Url 방식과 매우 유사합니다.
 
-### AOP Method 기반 DB 연동 - ProtectPointcutPostProcessor
-
-
-### 참고
 #### customMethodSecurityMetadataSource()
 **GlobalMethodSecurityConfiguration.java**{:data-align="center"}
 ```java
@@ -210,6 +212,69 @@ protected MethodSecurityMetadataSource customMethodSecurityMetadataSource() {
 ```
 원래는 null을 return하기 때문에 2번째 코드가 실행되지 않지만, MethodSecurityConfig에서 customMethodSecurityMetadataSource를 Override해 null이 아닌 값을 return함으로 조건문이 실행됩니다.
 
+**AopMethodService.java**{:data-align="center"}
+```java
+@Service
+public class AopMethodService {
+    public void methodSecured() {
+        System.out.println("methodSecured");
+    }
+}
+```
+
+**AopSecurityController.java**{:data-align="center"}
+```java
+@GetMapping("/methodSecured")
+public String methodSecured(Model model) {
+    aopMethodService.methodSecured();
+    model.addAttribute("method", "Success MethodSecured");
+
+    return "/aop/method";
+}
+```
+
+**home.html**{:data-align="center"}
+```html
+<a th:href="@{/methodSecured}" style="margin:5px;" class="nav-link text-primary">메소드보안</a>
+```
+
+**method.html**{:data-align="center"}
+```html
+<a th:href="@{/methodSecured}" style="margin:5px;" class="nav-link text-primary">메소드보안</a>
+```
+기능이 정상적으로 작동하는지를 확인하는 Service와 Controller. html 코드입니다.
+
+#### 실제 작동 설명
+MethodResourcesFactoryBean에서 자원 정보를 가지고 옵니다.
+
+**SecurityResourceService에서 저장된 데이터값**{:data-align="center"}
+![가져온 값이 정상적으로 List에 저장되있음](:/inflearn_spring_security_learn/5s/19/securityresourceservice_list.JPG){:data-align="center"}
+ResourcesRepository를 통해 DB에서 가지고온 method 권한 정보를 가지고 와 List에 저장되 있음을 확인할 수 있습니다.
+
+**SecurityResourceService에서 만든 Map 정보**{:data-align="center"}
+![List의 객체를 Map에 정상적으로 저장](:/inflearn_spring_security_learn/5s/19/securityresourceservice_result.JPG){:data-align="center"}
+List에 저장되어 있던 정보를 Map으로 바꿔 result에 정상적으로 저장되어 있는 것을 확인할 수 있습니다.   <br>
+이렇게 return된 값은 MethodSecurityConfig에서 MapBasedMethodSecurityMetadataSource에 생성자로 전달됩니다.
+
+**MapBasedMethodSecurityMetadataSource에 저장된 Map 객체**{:data-align="center"}
+![전달한 맵 객체가 정상적으로 전달되 저장되어 있음](:/inflearn_spring_security_learn/5s/19/mapbased_methodmap.JPG){:data-align="center"}
+SecurityResourceService에서 만든 Map 객체가 MapBasedMethodSecurityMetadataSource에 정상적으로 저장되어 있는 것을 확인할 수 있습니다.   <br>
+그럼 이 클래스는 이 문자열을 파싱해 클래스 정보와, 메서드를 따로 때어 냅니다.
+
+**MapBasedMethodSecurityMetadataSource에서 최종적으로 파싱한 형태**{:data-align="center"}
+![최종적인 값을 보면 Key가 String이 아닌 Method 방식으로 저장됨](:/inflearn_spring_security_learn/5s/19/mapbased_this_methodmap.JPG){:data-align="center"}
+최종적인 값을 보면 Key가 String이 아닌 Method 방식으로 저장되어 있고, value에도 권한 정보가 정상적으로 저장되어 있는 것을 확인할 수 있습니다.   <br>
+이 상태는 클래스가 초기화는 되었지만 aop로 등록된 것은 아닙니다. 등록되기 위해선 클래스 객체가 프록시로 생성되어야 하고, 메서드가 Advice로 등록되어야 합니다.   
+그 작업을 위해 Pointcut을 통해 저장한 메서드와 일치하는 빈을 찾고, Interceptor로 등록해 AOP 기반으로 동작할 수 있는 모든 작업이 종료되었습니다.
+
+**AopSecurityController의 Service 객체**{:data-align="center"}
+![Interceptor로 저장되어 있는 값들을 확인할 수 있음](:/inflearn_spring_security_learn/5s/19/aopmethodservice.JPG){:data-align="center"}
+AopmethodService 객체에 저장되어 있는 값들이 프록시로 저장되어 있어 Map에 저장한 객체가 Advice에 등록 되었다는 사실을 확인할 수 있습니다.   <br>
+실제로 접속해 보면 모든 인가 처리의 작업들이 잘 일어나는 것을 확인할 수 있습니다.
+
+### AOP Method 기반 DB 연동 - ProtectPointcutPostProcessor
+
+### 참고
 #### JPQA
 
 
