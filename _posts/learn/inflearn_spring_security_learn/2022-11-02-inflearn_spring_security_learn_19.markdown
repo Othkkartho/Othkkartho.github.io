@@ -420,9 +420,17 @@ public String pointcutSecured(Model model) {
 위 코드는 [깃허브](https://github.com/Othkkartho/SpringSecurityLearn/tree/ch6.7)에 있습니다. 
 
 ### 참고
-#### JPQA
+#### JPA와 JPQL
+JPA는 Java Persistence API, 자바 지속성 API의 약자로 자바 플랫폼를 사용하는 응용프로그램에서 관계형 DB의 관리를 표현하기 위한 자바 API입니다.   <br>
+기존 EJB([엔터프라이즈 자바빈즈](https://ko.wikipedia.org/wiki/%EC%97%94%ED%84%B0%ED%94%84%EB%9D%BC%EC%9D%B4%EC%A6%88_%EC%9E%90%EB%B0%94%EB%B9%88%EC%A6%88))에서 제공되던 Entity Bean을 대체하는 기술입니다.   
+장점은 EJB 3.0 스펙의 일부로 정의가 되어 있지만 EJB 컨테이너에 의존하지 않으며 EJB, 웹 모듈 및 자바 SE 클라이언트에서 모두 사용이 가능합니다. 또한 사용자가 원하는 퍼시스턴스 프로바이더 구현체를 선택해서 사용할 수 있습니다.   <br>
+JPQL은 자바 지속성 쿼리 언어(Java Persistence Query Language)의 약자로, 관계형 데이터베이스에 저장된 엔티티에 대한 쿼리들을 작성합니다. 쿼리들은 구문에서 SQL 쿼리와 유사하지만, 데이터베이스 테이블에 직접적으로 처리하지 않고 엔티티 개체에 대해 처리됩니다.
 
 #### 포인트컷
+포인트컷은 Join Point의 집합입니다.   
+포인트컷은 Advice를 정확히 적용할 위치를 지정해 관심사를 분리하고 비스니스 로직을 모듈화하는데 도움이 됩니다. 일반적으로 클래스 이름이나 메서드 이름을 사용해 지정되는 경우가 많으며 경우에 따라 클래스 또는 메서드 이름과 일치하는 정규식을 사용합니다.
 
 ### 출처
 1. [학습중인 강의](https://www.inflearn.com/course/%EC%BD%94%EC%96%B4-%EC%8A%A4%ED%94%84%EB%A7%81-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0)
+2. [자바 퍼시스턴스 API - 위키백과](https://ko.wikipedia.org/wiki/%EC%9E%90%EB%B0%94_%ED%8D%BC%EC%8B%9C%EC%8A%A4%ED%84%B4%EC%8A%A4_API)
+3. [Pointcut - 위키피디아](https://en.wikipedia.org/wiki/Pointcut)
