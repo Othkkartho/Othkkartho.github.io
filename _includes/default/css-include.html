@@ -17,8 +17,10 @@
 {%- if site.data.conf.posts.post_table_of_contents and page.layout == "post"-%}
   {% if site.data.conf.main.use_cdn_resources_if_available -%}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v0.4.1/dist/bootstrap-toc.min.css">
+    <link rel="stylesheet" href="https://blog.vpm.rocks/assets/css/highlighter/syntax-thankful_eyes.css">
   {%- else %}
     <link href="{{ site.baseurl }}/assets/css/bootstrap-toc.min.css" rel="stylesheet">
+    <link href="{{ site.baseurl }}/assets/css/syntax.css" rel="stylesheet">
   {%- endif %}
 {% endif -%}
 
