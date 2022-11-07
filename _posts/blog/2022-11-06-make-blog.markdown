@@ -73,16 +73,18 @@ github.io 블로그를 만든 과정을 작성합니다.
 
 ### 이외 설정
 #### 포스트 크기 변경을 위한 CSS 변경 및 하이라이트 색깔 설정
-먼저 포스트 크기를 변경을 위해 어떤 css가 크기를 결정하고 있는지 확인할 목적으로 브라우저의 개발자 모드를 사용해 css를 전수조사했습니다.   
-그 결과 main:css의 --main-container-width-limit가 적게 설정되어 있다는 것을 알았고, 이를 현재 나오는 4K 모니터까지 마진이 적은 화면에서 볼 수 있게 값을 2160px로 설정했습니다.   <br>
-코드 부분 하이라이트의 경우 먼저 [Rouge Theme Preview Page](https://spsarolkar.github.io/rouge-theme-preview/)를 통해 가장 마음에 드는 Theme를 골랐습니다.   
-맨 처음에는 thankful_eyes의 하이라이트를 사용하려 했지만 라이트 모드에서 코드의 일부분이 안보인다는 것을 발견하고, 블로그에 모두 사용할 수 있는 템플릿을 찾은 결과 base16.solarized를 사용하면 라이트, 다크 모드 모두에서 잘 보인다는 것을 알았습니다.   
-결국 Theme는 정했고, 코드를 홈페이지에 적용하기 위해 _includes/default 파일의 css-include.html을 아래의 코드로 수정했습니다. 
+1. 포스트 크기를 변경을 위해 어떤 css가 크기를 결정하고 있는지 확인할 목적으로 브라우저의 개발자 모드를 사용해 css를 전수조사했습니다.
+2. 그 결과 main:css의 --main-container-width-limit가 적게 설정되어 있다는 것을 알았고, 이를 현재 나오는 4K 모니터까지 마진이 적은 화면에서 볼 수 있게 값을 2160px로 설정했습니다.
+3. 코드 부분 하이라이트의 경우 먼저 [Rouge Theme Preview Page](https://spsarolkar.github.io/rouge-theme-preview/)를 통해 가장 마음에 드는 Theme를 골랐습니다.
+4. 맨 처음에는 thankful_eyes의 하이라이트를 사용하려 했지만 라이트 모드에서 코드의 일부분이 안보인다는 것을 발견하고, 블로그에 모두 사용할 수 있는 템플릿을 찾은 결과 base16.solarized를 사용하면 라이트, 다크 모드 모두에서 잘 보인다는 것을 알았습니다.   
+5. 결국 Theme는 정했고, rouge 설치를 위해 `gem install rouge` 코드를 입력합니다.
+6. `rougify style base16.solarized > assets/css/syntax.css` 를 이용해 해당 코드를 css에 저장합니다.
+7. css를 홈페이지에 적용하기 위해 _includes/default 파일의 css-include.html을 아래의 코드로 수정했습니다. 
 ```html
 {%- if site.data.conf.posts.post_table_of_contents and page.layout == "post"-%}
   {% if site.data.conf.main.use_cdn_resources_if_available -%}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v0.4.1/dist/bootstrap-toc.min.css">
-    <link rel="stylesheet" href="https://blog.vpm.rocks/assets/css/highlighter/syntax-base16.solarized.css">
+    <link href="{{ site.baseurl }}/assets/css/syntax.css" rel="stylesheet">
   {%- else %}
     <link href="{{ site.baseurl }}/assets/css/bootstrap-toc.min.css" rel="stylesheet">
     <link href="{{ site.baseurl }}/assets/css/syntax.css" rel="stylesheet">
@@ -93,9 +95,8 @@ github.io 블로그를 만든 과정을 작성합니다.
 #### 댓글 설정
 원래 disqus를 이용하려 했지만, 광고가 달린다는 이야기가 있어 어차피 이 블로그는 개발과 관련된 글을 작성하고, V-Log나 여타 글들은 다른 곳에 작성할 계획이기 때문에 utterances 를 사용하기로 결정했습니다.
 
-##### 블로그에 utterances 적용하기
 1. 댓글 Issue가 올라갈 저장소를 정하거나 생성합니다.
-    - 저는 깃허브 블로그 저장소가 public이라 깃허브 블로그 저장소를 선택했습니다.
+    - 깃허브 블로그 저장소를 댓글 이슈로 설정하거나
     - 만약 저장소가 private이라면 댓글 이슈가 올라갈 전용 저장소를 생성하시면 됩니다.
 2. utterance를 [이 링크](https://github.com/apps/utterances) 에서 설치합니다.
 3. 설치가 완료되면 아래 사진과 같은 설정창이 나옵니다.
@@ -108,13 +109,13 @@ github.io 블로그를 만든 과정을 작성합니다.
 ```md
 {% if site.data.conf.posts.comments.enable and page.comments_disable != true %}
   <script src="https://utteranc.es/client.js"
-        repo="Othkkartho/Othkkartho.github.io"
+        repo="Othkkartho/blog_comment"
         issue-term="pathname"
         label="utterances"
         theme="github-light"
         crossorigin="anonymous"
         async>
-  </script>
+    </script>
 {% endif -%}
 ``` 
 5. 마지막으로 댓글의 크기를 포스트의 크기와 맞추기 위해 assets/css 폴더의 main.scss 파일에 https://utteranc.es/client.js 안의 max-width를 오버라이드 할 아래 코드를 작성합니다.
@@ -125,10 +126,19 @@ github.io 블로그를 만든 과정을 작성합니다.
 ```
 
 #### 구글 애널리틱스 연결
+홈페이지의 방문자 수 및 기타 활동들을 저장하기 위해 Google Analytics를 적용합니다. 이 템플릿은 Google Analytics를 지원합니다.
 
+1. [구글 애널리틱스](https://analytics.google.com/analytics/web/provision/#/provision)에 들어갑니다.
+2. 측정 시작을 누릅니다. 그럼 아래와 같은 설정 창이 뜨는데 본인 블로그 실정에 맞게 설정합니다.
+3. 맨 아래 톱니바퀴 모양을 누른다음 데이터 스트림에 들어가면 아래의 사진은 이미 데이터 스트림을 설정했기 때문에 저렇게 나오는 것이고, 처음이라면 웹, 안드로이드 앱, iOS 앱 이 나올겁니다. 그럼 웹을 클릭해 사이트 url과 웹사이트 이름을 적으면 데이터 스트림 설정이 완료됩니다.
+4. 설정된 데이터 스트림을 누르면 여러 정보들과 측정 ID가 나오는 것을 알 수 있습니다. 그럼 측정 ID를 복사해 _data/owner 파일의 각 언어 파일 안의 `google_analytics_id: ""` 설정에 복사 하시고, _data/conf 폴더의 main.yml 파일 안의 google.analytics.ignore 값을 삭제합니다. 그러면 방문자가 혹은 자신이 쿠키 값을 허용했다는 가정 하에 일정 시간이 지나면 정상적으로 데이터 수집이 됩니다.
 
 #### 구글 Search Console 연결
+구글 검색 앤진에 연결되기 위해 Google Search Console을 연결합니다.
 
+1. [구글 Search Console](https://search.google.com/)에 접속하면 아래 자신과 같은 화면이 열립니다.
+2. 제가 도매인을 직접 가지고 하는 것은 아니기 때문에 URL 접두어에 블로그 주소를 작성합니다.
+3. 그러면 연결이 진해
 
 #### 네이버 Search Advisor 연결
 

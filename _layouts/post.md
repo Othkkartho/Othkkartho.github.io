@@ -21,7 +21,7 @@ layout: default
 
 {% if site.data.conf.posts.comments.enable and page.comments_disable != true %}
   <script src="https://utteranc.es/client.js"
-        repo="Othkkartho/Othkkartho.github.io"
+        repo="Othkkartho/blog_comment"
         issue-term="pathname"
         label="utterances"
         theme="github-light"
