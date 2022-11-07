@@ -54,8 +54,90 @@ github.io 블로그를 만든 과정을 작성합니다.
 
 ***
 
-### Jekyll로 홈페이지 꾸미기
-1. 
+### Jekyll 테마로 홈페이지 꾸미기
+1. windows 기준으로 [홈페이지](https://www.ruby-lang.org/en/downloads/) 에서 [RubyInstaller](https://rubyinstaller.org/)를 다운로드 합니다.
+2. 설치 완료 후 cmd 창에서 `ruby -v` 를 입력해서 버전이 보이면 ruby 설치가 성공한 것입니다.
+3. cmd 창에서 `gem install bundle jekyll` 명령을 실행합니다.
+4. 그 후 많은 jekyll 패키지를 모아놓은 사이트들을 돌아다니다가 [Mr.Green](https://github.com/MrGreensWorkshop/MrGreen-JekyllTheme) 템플릿을 적용하기로 결정하고, 다운로드 했습니다.
+5. 위에서 본인이 clone을 진행한 폴더에 들어가서 안의 데이터를 모두 지웁니다.
+6. cmd 창에서 clone을 진행한 곳으로 이동해 `jekyll new ./` 를 입력해 기본 패키지를 다운로드 받습니다.
+7. 위에서 다운로드 받은 Mr.Green 내용을 해당 폴더에 붙여넣습니다.
+8. 그 위치에서 `bundle install`를 입력해 번들을 다운로드 받습니다.
+9. 그 후 `bundle exec jekyll serve` 를 실행하면 로컬에서 홈페이지를 실행해 볼 수 있습니다.
+    - 만약 오류가 발생한다면 404.html, about.markdown, index.markdown을 삭제합니다.
+10. 그리고 root에 있는 _config.yml 파일의 domain과 url을 `domain: "othkkartho.github.io"`, `url: "https://othkkartho.github.io"` 과 같이 본인의 블로그 주소를 작성합니다.
+    - 만약 로컬로 확인을 진행하고 싶다면 domain과 url을 빈칸 그대로 놔두면 됩니다.
+11. 깃허브에 add, commit, push를 진행하고, 시간이 지나면 홈페이지 제작이 완료됩니다.
+
+***
+
+### 이외 설정
+#### 포스트 크기 변경을 위한 CSS 변경 및 하이라이트 색깔 설정
+먼저 포스트 크기를 변경을 위해 어떤 css가 크기를 결정하고 있는지 확인할 목적으로 브라우저의 개발자 모드를 사용해 css를 전수조사했습니다.   
+그 결과 main:css의 --main-container-width-limit가 적게 설정되어 있다는 것을 알았고, 이를 현재 나오는 4K 모니터까지 마진이 적은 화면에서 볼 수 있게 값을 2160px로 설정했습니다.   <br>
+코드 부분 하이라이트의 경우 먼저 [Rouge Theme Preview Page](https://spsarolkar.github.io/rouge-theme-preview/)를 통해 가장 마음에 드는 Theme를 골랐습니다.   
+맨 처음에는 thankful_eyes의 하이라이트를 사용하려 했지만 라이트 모드에서 코드의 일부분이 안보인다는 것을 발견하고, 블로그에 모두 사용할 수 있는 템플릿을 찾은 결과 base16.solarized를 사용하면 라이트, 다크 모드 모두에서 잘 보인다는 것을 알았습니다.   
+결국 Theme는 정했고, 코드를 홈페이지에 적용하기 위해 _includes/default 파일의 css-include.html을 아래의 코드로 수정했습니다. 
+```html
+{%- if site.data.conf.posts.post_table_of_contents and page.layout == "post"-%}
+  {% if site.data.conf.main.use_cdn_resources_if_available -%}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v0.4.1/dist/bootstrap-toc.min.css">
+    <link rel="stylesheet" href="https://blog.vpm.rocks/assets/css/highlighter/syntax-base16.solarized.css">
+  {%- else %}
+    <link href="{{ site.baseurl }}/assets/css/bootstrap-toc.min.css" rel="stylesheet">
+    <link href="{{ site.baseurl }}/assets/css/syntax.css" rel="stylesheet">
+  {% endif -%}
+{% endif -%}
+```
+
+#### 댓글 설정
+원래 disqus를 이용하려 했지만, 광고가 달린다는 이야기가 있어 어차피 이 블로그는 개발과 관련된 글을 작성하고, V-Log나 여타 글들은 다른 곳에 작성할 계획이기 때문에 utterances 를 사용하기로 결정했습니다.
+
+##### 블로그에 utterances 적용하기
+1. 댓글 Issue가 올라갈 저장소를 정하거나 생성합니다.
+    - 저는 깃허브 블로그 저장소가 public이라 깃허브 블로그 저장소를 선택했습니다.
+    - 만약 저장소가 private이라면 댓글 이슈가 올라갈 전용 저장소를 생성하시면 됩니다.
+2. utterance를 [이 링크](https://github.com/apps/utterances) 에서 설치합니다.
+3. 설치가 완료되면 아래 사진과 같은 설정창이 나옵니다.
+![utteranc 설정 사진](:/blog/utteranc_set.jpg){:data-align="center"}
+- repo에 Issue가 올라갈 곳의 저장소 permalink를 작성해 줍니다.
+- Blog Post - Issue Mapping은 댓글 이슈를 댓글 달린 블로그 페이지의 어떤 부분과 매핑 시킬지 Key를 결정합니다.
+    - URL과 title은 변경되어 댓글이 사라질 위험이 있기 때문에 pathname을 가지고 매핑을 진행합니다. 
+![설정이 완료된 코드](:/blog/code.jpg){:data-align="center"}
+4. 설정을 완료하면 위 사진처럼 코드가 생성되는데 해당 블로그는 disqus만을 지원하기 때문에 _config 설정이 되어있지 않아 코드를 넣어야 합니다. 그래서 _layouts 폴더 안에 post.md에 원래 disqus 코드가 들어가는 부분을 아래 코드로 변경해 댓글 기능을 구현했습니다.
+```md
+{% if site.data.conf.posts.comments.enable and page.comments_disable != true %}
+  <script src="https://utteranc.es/client.js"
+        repo="Othkkartho/Othkkartho.github.io"
+        issue-term="pathname"
+        label="utterances"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+  </script>
+{% endif -%}
+``` 
+5. 마지막으로 댓글의 크기를 포스트의 크기와 맞추기 위해 assets/css 폴더의 main.scss 파일에 https://utteranc.es/client.js 안의 max-width를 오버라이드 할 아래 코드를 작성합니다.
+```css
+.utterances {
+  max-width: 100% !important;
+}
+```
+
+#### 구글 애널리틱스 연결
+
+
+#### 구글 Search Console 연결
+
+
+#### 네이버 Search Advisor 연결
+
+
+#### 구글 에드센스 연결(현재 제작자의 구글 에드센스가 유튜브 에드센스로 되어있어 해결 방법을 찾는 중)
 
 ### 참고자료
 1. [SuperMemi - 나만의 블로그 만들기 Git hub blog!! (github.io)](https://supermemi.tistory.com/144)
+2. [별준 - [Ruby] 루비 설치하기(Windows 10/윈도우 10) / 예제 맛보기](https://junstar92.tistory.com/5)
+3. [[Github 블로그] utterances 으로 댓글 기능 만들기 (+ disqus 비추후기)](https://ansohxxn.github.io/blog/utterances/)
+4. 
+5. 

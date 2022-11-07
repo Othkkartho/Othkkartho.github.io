@@ -258,3 +258,7 @@
 {% if projects_page_exist %}
   @import "projects/project-container";
 {% endif %}
+
+.utterances {
+  max-width: 100% !important;
+}
