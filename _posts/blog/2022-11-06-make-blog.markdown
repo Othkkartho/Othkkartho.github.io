@@ -92,6 +92,8 @@ github.io 블로그를 만든 과정을 작성합니다.
 {% endif -%}
 ```
 
+***
+
 #### 댓글 설정
 원래 disqus를 이용하려 했지만, 광고가 달린다는 이야기가 있어 어차피 이 블로그는 개발과 관련된 글을 작성하고, V-Log나 여타 글들은 다른 곳에 작성할 계획이기 때문에 utterances 를 사용하기로 결정했습니다.
 
@@ -125,23 +127,51 @@ github.io 블로그를 만든 과정을 작성합니다.
 }
 ```
 
+***
+
 #### 구글 애널리틱스 연결
 홈페이지의 방문자 수 및 기타 활동들을 저장하기 위해 Google Analytics를 적용합니다. 이 템플릿은 Google Analytics를 지원합니다.
 
 1. [구글 애널리틱스](https://analytics.google.com/analytics/web/provision/#/provision)에 들어갑니다.
 2. 측정 시작을 누릅니다. 그럼 아래와 같은 설정 창이 뜨는데 본인 블로그 실정에 맞게 설정합니다.
+![analytics 설정 사진](:/blog/analytics.jpg){:data-align="center"}
+![analytics 설정 사진](:/blog/analytics2.jpg){:data-align="center"}
+![analytics 설정 사진](:/blog/analytics3.jpg){:data-align="center"}
 3. 맨 아래 톱니바퀴 모양을 누른다음 데이터 스트림에 들어가면 아래의 사진은 이미 데이터 스트림을 설정했기 때문에 저렇게 나오는 것이고, 처음이라면 웹, 안드로이드 앱, iOS 앱 이 나올겁니다. 그럼 웹을 클릭해 사이트 url과 웹사이트 이름을 적으면 데이터 스트림 설정이 완료됩니다.
+![analytics 설정 사진](:/blog/datastream.jpg){:data-align="center"}
 4. 설정된 데이터 스트림을 누르면 여러 정보들과 측정 ID가 나오는 것을 알 수 있습니다. 그럼 측정 ID를 복사해 _data/owner 파일의 각 언어 파일 안의 `google_analytics_id: ""` 설정에 복사 하시고, _data/conf 폴더의 main.yml 파일 안의 google.analytics.ignore 값을 삭제합니다. 그러면 방문자가 혹은 자신이 쿠키 값을 허용했다는 가정 하에 일정 시간이 지나면 정상적으로 데이터 수집이 됩니다.
+
+***
 
 #### 구글 Search Console 연결
 구글 검색 앤진에 연결되기 위해 Google Search Console을 연결합니다.
 
 1. [구글 Search Console](https://search.google.com/)에 접속하면 아래 자신과 같은 화면이 열립니다.
+![analytics 설정 사진](:/blog/google_search_console.jpg){:data-align="center"}
 2. 제가 도매인을 직접 가지고 하는 것은 아니기 때문에 URL 접두어에 블로그 주소를 작성합니다.
-3. 그러면 연결이 진해
+3. 그러면 소유자 확인을 진행하는데 .html을 다운받아 root에 넣거나, html 태그를 복사해 맨 뒤의 값을 _data/owner 폴더의 `google_site_verification: ""`에 넣습니다.
+    - 만약 html 태그를 복사해 넣었다면, _data/conf 폴더의 main.yml 파일 안의 google.site_verification.ignore 값을 삭제해야 합니다.
+4. 그 후 구글 검색 엔진에 블로그 인덱싱을 요청하거나 사이트맵을 추가할 수 있습니다.
+    - 사이트 맵의 경우 블로그 주소/assets/sitemap.xml 에 자동으로 생성됩니다. 하지만 저는 구글이 사이트맵을 확인하지 못했기 때문에 [사이트맵 제작 사이트](https://www.xml-sitemaps.com/)에 등록을 했는데 실패했습니다. 결국 블로그들을 각각 인덱싱을 요청했습니다.
+
+***
 
 #### 네이버 Search Advisor 연결
+1. [네이버 Search Advisor](https://searchadvisor.naver.com/)에 접속합니다.
+2. 로그인 후 웹마스터 도구에 들어가면 사이트 등록을 진행할 수 있습니다. 그곳에 블로그 URL을 등록하고, 들어가면 요청에 사이트맵 제출이 있습니다.
+3. 제가 구글 Search Console에 제출한 사이트맵은 아예 오류로 제출되지 않으므로, 직접 자동화 코드를 짜거나, sitemap을 제작해 제출해야 합니다.
+4. 사이트 관리 옆에 간단체크를 수행할 수도 있습니다.
 
+***
+
+#### robots.txt
+크롤러가 블로그를 잘 돌아다닐 수 있도록 root의 robots.txt에 아래의 코드를 작성합니다.
+```
+User-agent: *
+Allow: /
+Sitemap: https://othkkartho.github.io/assets/sitemap.xml
+```
+위 텍스트는 모든 검색로봇에 대해 수집을 허용하고, 사이트맵의 주소를 알려주는 역할을 합니다.
 
 #### 구글 에드센스 연결(현재 제작자의 구글 에드센스가 유튜브 에드센스로 되어있어 해결 방법을 찾는 중)
 
