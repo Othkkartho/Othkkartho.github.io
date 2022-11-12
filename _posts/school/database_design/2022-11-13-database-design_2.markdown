@@ -16,7 +16,7 @@ img: ":/school/database_design_1280.png"
 #comments_disable: true
 
 # publish date
-date: 2022-10-31 22:00:00 +0900
+date: 2022-11-13 22:00:00 +0900
 
 # seo
 # if not specified, date will be used.
@@ -34,7 +34,7 @@ date: 2022-10-31 22:00:00 +0900
 # exclude from search engines
 #search_engine_exclude: true
 # to disable this page, simply set published: false or delete this file
-# published: false
+published: false
 ---
 
 <!-- outline-start -->
