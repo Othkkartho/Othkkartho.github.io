@@ -39,7 +39,8 @@ date: 2022-12-21 20:00:00 +0900
 
 <!-- outline-start -->
 
-대학교 네트워크보안 수업때 과제로 제출했던 스트림 방식과 버퍼-채널 방식의 보드 게임 제작을 진행하였는데 해당 포스트에서는 스트림 방식의 게임 제작 과정과 코드, 결과, 추가하고 싶은 기능들을 설명드리겠습니다.
+대학교 네트워크보안 수업때 과제로 제출했던 스트림 방식과 버퍼-채널 방식의 보드 게임 제작을 진행하였는데 해당 포스트에서는 스트림 방식의 게임 제작 과정과 코드, 결과, 추가하고 싶은 기능들을 설명드리겠습니다.   
+해당 코드는 [참고](#참고)에 있습니다.
 
 <!-- outline-end -->
 
@@ -418,9 +419,42 @@ public class StreamClient {
 나머지 코드는 서버와 유사합니다.
 
 ### 실행 결과
+#### 진행 설명
+1. 서버를 실행 시키고 1명 이상의 플레이어가 들어와 이름을 등록하면 게임이 진행될 수 있습니다.
+2. 유저가 y를 누른다면 게임은 진행됩니다.
+3. 주사위는 6면체 주사위 1개로 이루어져 있고, 주사위 값을 서버에 전송합니다.
+4. 전송된 값으로 서버는 기존 클라이언트의 거리 값에 해당 주사위 값을 더해 보드판의 위치를 찾습니다.
+5. 해당 위치에 맞는 이벤트가 진행됩니다.
+    - Jump는 해당 주사위의 수 만큼 앞으로 이동합니다.
+    - Back은 해당 주사위의 수 만큼 뒤로 이동합니다.
+    - Skip은 한 턴을 쉬어야 나올 수 있습니다.
+6. 이벤트의 진행 전과 후 catch 이벤트를 조사해 만약 상대편 말을 잡았다면 잡았다는 메시지를 보내고, 상대방 말을 처음 시작위치로 돌려 보냅니다.
+7. catch 이벤트나, Jump, Back 이벤트가 일어난 후에는 Catch 이벤트를 제외한 모든 이벤트가 진행되지 않습니다. 즉 해당 칸의 아이템이 무엇인지 고려하지 않습니다.
+8. 위의 과정을 지속하다가 만약 한 사람이 보드의 크기를 넘게 된다면 해당 인원에게 Win을 보내고, 진 사람에게는 lose를 보내고 세션을 닫습니다.
+
+#### 실제 진행 사진
+![jump 이벤트 발생](:/school/network/s-jump.jpg){:data-align="center"}
+
+![back 이벤트 발생](:/school/network/s-back.jpg){:data-align="center"}
+
+![skip 이벤트 발생](:/school/network/s-skip.jpg){:data-align="center"}
+위 3개의 이벤트 모두 해당 블록을 밟았을 때 이벤트가 정상적으로 발생되는 것을 확인하실 수 있습니다.
+
+![catch 이벤트 발생](:/school/network/s-catch.jpg){:data-align="center"}
+상대편 말을 잡았을 때 해당 이벤트가 정상적으로 작동하고, 상대편 말이 처음으로 돌아간 것을 확인하실 수 있습니다.
+
+![중간 종료 후 정상적으로 종료됨](:/school/network/s-end.jpg){:data-align="center"}
+
+![상대 클라이언트가 종료된 것을 확인할 수 있음](:/school/network/s-end2.jpg){:data-align="center"}
+중간에 종료했을 때 종료한 클라이언트는 종료가 되고, 다른 클라이언트에게 해당 내용이 전달되는 것을 확인하실 수 있습니다.
+
+![게임이 끝났을 때 win 출력](:/school/network/s-win.jpg){:data-align="center"}
+
+![게임이 끝났을 때 lose 출력](:/school/network/s-lose.jpg){:data-align="center"}
+한 클라이언트가 보드 이상의 칸에 도달했을 때 win과 lose에 대한 출력이 정상적으로 이루어 지고, 종료된 것을 확인하실 수 있습니다.
 
 
-### 참고
+### 변경사항
 #### 상대를 잡으면 해당 칸의 이벤트는 무시하게 변경
 사실 상대를 잡으면 해당 턴은 종료되야 jump나 back 후 해당 칸의 이벤트를 무시하는 것이 설명이 된된다고 생각해 변경했습니다.
 
@@ -507,3 +541,9 @@ else if (game.equals("N") || game.equals("n")) {
 1. 게임을 멈추겠다고 사용자가 n을 누르면 break가 실행되며 무한 루프가 깨집니다.
 2. 아래에 socket.close가 동작하며 클라이언트를 종료하게 되고 그와 함께 서버에 -1값이 들어오게 됩니다.
 3. 그럼 그 값을 서버가 잡고, 해당 클라이언트가 나간 것을 알게 되고, 벡터에서 해당 클라이언트를 제거하고, 소켓을 닫습니다.
+
+### 참고
+1. [스트림 서버 과제 제출 코드](https://github.com/Othkkartho/Board_Game_Server/tree/master)
+2. [스트림 서버 과제 제출 이후 변경한 코드](https://github.com/Othkkartho/Board_Game_Server/tree/streamgame_improve)
+3. [스트림 클라이언트 과제 제출 코드](https://github.com/Othkkartho/Board_Game_Client/tree/master)
+4. [스트림 클라이언트 과제 제출 이후 변경한 코드](https://github.com/Othkkartho/Board_Game_Client/tree/streamgame_improve)
