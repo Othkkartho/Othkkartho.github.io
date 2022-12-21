@@ -421,10 +421,89 @@ public class StreamClient {
 
 
 ### 참고
-#### 게임 진행 중 칸의 상황을 명확하게 반영해 움직이지 않는 문제 수정
-즉 만약 jump를 진행하고, 해당 칸에 Jump가 다시 있으면 계속 움직여야 하는데 움직이지 않는 문제가 있습니다.
+#### 상대를 잡으면 해당 칸의 이벤트는 무시하게 변경
+사실 상대를 잡으면 해당 턴은 종료되야 jump나 back 후 해당 칸의 이벤트를 무시하는 것이 설명이 된된다고 생각해 변경했습니다.
+
+**ClientHandler.java run 메소드 부분의 일부**{:data-align="center"}
+```java
+else {
+    this.sum += diceNum;
+
+    checkEnd(board);
+    if (catchs(name, sum, dos)) {
+        msg = "현재 " + this.sum + "칸 입니다.";
+    } else {
+        if (board[this.sum] == 1) {
+            this.sum += diceNum;
+            msg = "Jump!! " + diceNum + "칸을 점프해 현재 " + this.sum + "칸 입니다.";
+        } else if (board[this.sum] == 2) {
+            this.sum -= diceNum;
+            msg = "Back!! " + diceNum + "칸을 후퇴해 현재 " + this.sum + "칸 입니다.";
+        } else if (board[this.sum] == 3) {
+            msg = "현재 " + this.sum + "칸 입니다.\n무인도에 걸려 한턴을 쉽니다.";
+            rest = true;
+        } else {
+            msg = "현재 " + this.sum + "칸 입니다.";
+        }
+    }
+
+    checkEnd(board);
+}
+dos.writeUTF(msg);
+catchs(name, sum, dos);
+
+private static boolean catchs(String name, int sum, DataOutputStream dos) throws IOException {
+    for (ClientHandler handler : StreamServer.clients) {
+        if (handler.name.equals(name))
+            continue;
+        if (sum > 0 && handler.sum > 0 && handler.sum == sum) {
+            handler.sum = 0;
+            dos.writeUTF("상대방의 말을 잡아 상대가 처음으로 돌아갑니다.");
+            handler.dos.writeUTF(name + "에게 말이 잡혀 처음으로 돌아갑니다.");
+            return true;
+        }
+    }
+    return false;
+}
+```
+catch 이벤트가 일어 났는지 아닌지를 확인하기 위해 해당 이벤트 메소드가 boolean 값을 return 하도록 했고, 그 값을 가지고 판단해 메시지를 보내도록 변경했습니다.
 
 #### 무인도에 갇힌 후 잡히면 다시 원래대로 돌아와야 하는데 그러지 않음
+**ClientHandler.java run 부분의 일부**{:data-align="center"}
+```java
+if (rest == true && board[sum] == 3) {
+    msg = "다음 턴에 이동할 수 있습니다.";
+    rest = false;
+} else {
+    this.sum += diceNum;
+    if (rest)
+        rest = false;
 
+    // 아래 코드 생략
+}
+```
+무인도에 갇히면 rest 값이 true가 되는데 잡혀도 rest가 true로 유지되는 문제가 있어서   
+해당 말이 있는 칸을 조사한 후 해당 칸이 무인도 칸이면 원래대로 코드가 진행되고, 만약 아니라면 rest를 false로 변경할 수 있도록 했습니다.
 
 #### 클라이언트가 0을 보내고 접속을 종료하는 것이 아닌 클라이언트가 보내는 조욜 신호를 잡고 서버가 접속 종료를 진행하게 변경
+**ClientHandler.java run 부분의 일부**{:data-align="center"}
+```java
+if (diceNum == -1) {
+    System.out.println(this.name + " is just leaved.");
+    StreamServer.clients.remove(this);
+    this.s.close();
+    informLeave(this);
+    break;
+}
+```
+
+**StreamClient.java sendMessage 부분의 일부**{:data-align="center"}
+```java
+else if (game.equals("N") || game.equals("n")) {
+    break;
+}
+```
+원래 클라이언트가 0을 서버에 보내면 서버가 그 값을 받고 종료를 진행하게 계획했으나 클라이언트가 소켓 종료시 서버에 전달하는 값을 가지고 종료하도록 변경함.
+1. 게임을 멈추겠다고 사용자가 n을 누르면 break가 실행되며 무한 루프가 깨집니다.
+2. 아래에 socket.close가 동작하며 클라이언트를 종료하게 되고 그와 함께 서버에 -1값이 들어오게 됩니다.
+3. 그럼 그 값을 서버가 잡고, 해당 클라이언트가 나간 것을 알게 되고, 벡터에서 해당 클라이언트를 제거하고, 소켓을 닫습니다.
