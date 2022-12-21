@@ -43,7 +43,8 @@ date: 2022-12-20 22:00:00 +0900
 
 <!-- outline-end -->
 ### Stream 기반 게임 제작에 사용된 라이브러리의 자세한 설명
-```java:StreamServer.java
+**StreamServer.java**{:data-align="center"}
+```java
 import java.io.DataInputStream; // 1
 import java.io.DataOutputStream; // 2
 import java.io.IOException; // 3
@@ -63,7 +64,8 @@ import java.util.Vector; // 6
 5. Socket은 클라이언트 소켓을 구현합니다. 실제 작업은 SocketImp 클래스의 인스턴스에 의해 수행됩니다.
 6. ArrayList와 동일한 구조를 가지고있으며, 배열의 크기가 변함에 따라 자동으로 크기가 조절되며, 동기화라는 특징이 있어 여러 클라이언트를 스레드로 실행해야 하는 해당 게임에 사용했습니다.
 
-```java:StreamClient.java
+**StreamClient.java**{:data-align="center"}
+```java
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -75,12 +77,14 @@ import java.util.Scanner;
 - IP 주소를 확인하는 라이브러리입니다.
 
 #### Serversocket의 동작 설명
-```java:StreamServer.java
+**StreamServer.java**{:data-align="center"}
+```java
 ServerSocket server = new ServerSocket(3005);
 ```
 서버가 시작되면 서버를 열 포트를 지정하고, 초기화를 진행합니다.
 
-```java:ServerSocket.java
+**ServerSocket.java**{:data-align="center"}
+```java
 public ServerSocket(int port) throws IOException {  // 1
     this(port, 50, null);
 }
@@ -114,7 +118,8 @@ private static SocketImpl createImpl() {    // 3
 3. 서버 소켓을 만들 SocketImpl를 만듭니다.
 4. 서버 소켓을 특정 주소 (IP 주소 및 포트 번호)에 바인딩합니다.
 
-```java:InetSocketAddress.java
+**InetSocketAddress.java**{:data-align="center"}
+```java
 public InetSocketAddress(InetAddress addr, int port) {
     holder = new InetSocketAddressHolder(
                     null,
@@ -127,12 +132,14 @@ IP 주소와 포트를 전달받아 소켓 주소를 만듭니다.   \n
 위와 같은 작업이 끝나면 서버가 사용자가 지정한 포트로 열리게됩니다.
 
 #### Socket의 동작 설명
-```java:StreamServer.java
+**StreamServer.java**{:data-align="center"}
+```java
 Socket socket = server.accept();
 ```
 서버가 클라이언트의 접속을 block 상태로 기다립니다.
 
-```java:ServerSocket.java
+**ServerSocket.java**{:data-align="center"}
+```java
 public Socket accept() throws IOException {
     if (isClosed())
         throw new SocketException("Socket is closed");
@@ -164,7 +171,8 @@ private static Void checkPermission(SocketImpl impl) {
 새로운 null 값을 가진 소켓을 하나 만들고, 그 소켓을 저장합니다.   
 그리고 주석 2번의 메소드를 호출합니다. 해당 메소드는 아래에 작성되어 있습니다.
 
-```java:ServerSocket.java
+**ServerSocket.java**{:data-align="center"}
+```java
 protected final void implAccept(Socket s) throws IOException {  // 1
     SocketImpl si = s.impl;
 
@@ -234,19 +242,22 @@ private void implAccept(SocketImpl si) throws IOException { // 3
 7. 그렇게 최종적으로 접속한 클라이언트의 소켓이 StreamServer의 socket 변수에 저장됩니다.
 
 #### DataInputStream의 동작 설명
-```java:StreamServer.java
+**StreamServer.java**{:data-align="center"}
+```java
 DataInputStream dis = new DataInputStream(socket.getInputStream());
 ```
 DataInputStream을 클라이언트 소켓의 InputStream을 가져와 초기화를 진행합니다.
 
-```java:DataInputStream.java
+**DataInputStream.java**{:data-align="center"}
+```java
 public DataInputStream(InputStream in) {
     super(in);
 }
 ```
 지정된 기본 InputStream을 사용하는 DataInputStream을 만듭니다.
 
-```java:FilterInputStream.java
+**FilterInputStream.java**{:data-align="center"}
+```java
 protected FilterInputStream(InputStream in) {   // 1
     this.in = in;
 }
@@ -261,19 +272,22 @@ private byte readBuffer[] = new byte[8]; // 2
 
 - - -
 
-```java:StreamServer.java
+**StreamServer.java**{:data-align="center"}
+```java
 String name = dis.readUTF();
 ```
 클라이언트에게 값을 전달받기 위해 readUTF 메소드를 호출합니다.
 
-```java:DataInputStream.java
+**DataInputStream.java**{:data-align="center"}
+```java
 public final String readUTF() throws IOException {
     return readUTF(this);
 }
 ```
 호출된 메소드는 실제 읽는 작업을 진행할 readUTF를 호출하고 해당 메소드에서 클라이언트가 write 작업을 진행할 때까지 Block 상태로 대기합니다.
 
-```java:DataInputStream.java
+**DataInputStream.java**{:data-align="center"}
+```java
 public static final String readUTF(DataInput in) throws IOException {
     int utflen = in.readUnsignedShort();        // 1
     byte[] bytearr = null;
@@ -354,19 +368,22 @@ public static final String readUTF(DataInput in) throws IOException {
 #### DataOutputStream의 동작 설명
 초기화 하는 동작 방식은 Input과 거의 흡사하기 때문에 따로 넣지는 않았습니다.
 
-```java:StreamClient.java
+**StreamClient.java**{:data-align="center"}
+```java
 dos.writeUTF(name);
 ```
 값을 넣으면 해당 메소드가 호출됩니다.
 
-```java:DataOutputStream.java
+**DataOutputStream.java**{:data-align="center"}
+```java
 public final void writeUTF(String str) throws IOException {
     writeUTF(str, this);
 }
 ```
 해당 메소드는 전달할 값과, 초기화 시에 저장해 놓은 DataOutputStream을 입력으로 실제 해당 작업을 할 메소드를 호출합니다.
 
-```java:DataOutputStream.java
+**DataOutputStream.java**{:data-align="center"}
+```java
 static int writeUTF(String str, DataOutput out) throws IOException {
     final int strlen = str.length();    // 1
     int utflen = strlen;
