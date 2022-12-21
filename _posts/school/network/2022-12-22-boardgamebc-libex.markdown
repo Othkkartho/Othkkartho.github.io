@@ -1,13 +1,13 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
-lng_pair: virtual
+lng_pair: network
 title: 버퍼/채널 방식 보드게임 제작에 사용된 라이브러리 정리
 
 # post specific
 # if not specified, .name will be used from _data/owner/[language].yml
 author: Othkkartho's Workshop
 # multiple category is not supported
-category: 네트워크 공부
+category: 네트워크
 # multiple tag entries are possible
 tags: [네트워크, 학교 공부]
 # thumbnail image for post
