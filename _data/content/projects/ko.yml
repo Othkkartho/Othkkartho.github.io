@@ -16,13 +16,17 @@ page_data:
       type: id_library
       color: "gray"
 
+    - title: "linux 명령어 정리"
+      type: id_command
+      color: "black"
+
   list:
     # library
     - type: id_library
       project_name: "전에 사용했던 Spring 라이브러리"
       project_excerpt: "라이브러리"
       img: ":spring_img.jpg"
-      img_title: "spring log"
+      img_title: "spring logo"
       date: "2022-08-15"
       post: |
         
@@ -31,7 +35,7 @@ page_data:
       project_name: "전에 사용했던 Node.js 라이브러리"
       project_excerpt: "라이브러리"
       img: ":node_js_img.jpg"
-      img_title: "node.js log"
+      img_title: "node.js logo"
       date: "2022-08-15"
       post: |
         Node.js의 라이브러리를 정리해 놓은 프로젝트입니다.
@@ -92,7 +96,24 @@ page_data:
       project_name: "전에 사용했던 Python 라이브러리"
       project_excerpt: "라이브러리"
       img: ":python_img.png"
-      img_title: "Python log"
+      img_title: "Python logo"
       date: "2022-08-15"
+      post: |
+
+    # command
+    - type: id_command
+      project_name: "CentOS 7 명령어"
+      project_excerpt: "리눅스 명령어"
+      img: ":centos.avif"
+      img_title: "CentOS Logo"
+      date: "2023-03-12"
+      post: |
+
+    - type: id_command
+      project_name: "Ubuntu 명령어"
+      project_excerpt: "리눅스 명령어"
+      img: ":ubuntu.avif"
+      img_title: "spring logo"
+      date: "2023-03-14"
       post: |
         
