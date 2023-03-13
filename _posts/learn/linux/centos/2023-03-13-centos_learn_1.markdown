@@ -141,17 +141,17 @@ firewall-cmd --reload
 10. `vi /etc/httpd/conf.modules.d/mod_jk.conf`로 설정 파일을 연 후 아래의 내용을 추가합니다.
 ```text
 <IfModule mod_jk.c>
-     # worker configuration file location
-     JkWorkersFile conf/workers.properties
-     # shared memory file location    
-     JkShmFile run/mod_jk.shm     
-     # log location
-     JkLogFile logs/mod_jk.log     
-     # log level setting     
-     JkLogLevel info     
-     # specifies the time format to use for log formatting     
-     JkLogStampFormat "[%y %m %d %H:%M:%S] " 
- </IfModule>
+    # worker configuration file location
+    JkWorkersFile conf/workers.properties
+    # shared memory file location    
+    JkShmFile run/mod_jk.shm     
+    # log location
+    JkLogFile logs/mod_jk.log     
+    # log level setting     
+    JkLogLevel info     
+    # specifies the time format to use for log formatting     
+    JkLogStampFormat "[%y %m %d %H:%M:%S] " 
+</IfModule>
 ```
     - Esc와 :wq를 차레로 눌러 저장하고 빠져 나옵니다.
 

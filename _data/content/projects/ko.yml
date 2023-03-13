@@ -16,10 +16,6 @@ page_data:
       type: id_library
       color: "gray"
 
-    - title: "linux 명령어 정리"
-      type: id_command
-      color: "black"
-
   list:
     # library
     - type: id_library
@@ -98,22 +94,5 @@ page_data:
       img: ":python_img.png"
       img_title: "Python logo"
       date: "2022-08-15"
-      post: |
-
-    # command
-    - type: id_command
-      project_name: "CentOS 7 명령어"
-      project_excerpt: "리눅스 명령어"
-      img: ":centos.avif"
-      img_title: "CentOS Logo"
-      date: "2023-03-12"
-      post: |
-
-    - type: id_command
-      project_name: "Ubuntu 명령어"
-      project_excerpt: "리눅스 명령어"
-      img: ":ubuntu.avif"
-      img_title: "spring logo"
-      date: "2023-03-14"
       post: |
         
