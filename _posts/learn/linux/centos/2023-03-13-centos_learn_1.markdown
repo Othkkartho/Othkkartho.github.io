@@ -20,7 +20,7 @@ date: 2023-03-13 22:00:00 +0900
 
 # seo
 # if not specified, date will be used.
-#meta_modify_date: 2022-02-10 08:11:06 +0900
+meta_modify_date: 2023-03-15 22:00:00 +0900
 # check the meta_common_description in _data/owner/[language].yml
 #meta_description: ""
 
@@ -56,12 +56,17 @@ VMware에 CentOS 7을 올리고, 서버를 동작하는데 필요한 Apache(Web 
 
 ### 목차
 
+0. [CentOS 기본 설명](#centos-기본-설명)
 1. [CentOS 7 설치](#centos-7-설치)
 2. [Apache 설치](#apache-설치)
 3. [Tomcat 설치](#tomcat-설치)
 4. [Apache & Tomcat 연동](#apache와-tomcat-연동)
 5. [Jenkins 설치](#jenkins-설치)
 6. [PostgreSQL 설치](#postgresql-설치)
+
+### CentOS 기본 설명
+CentOS는 CentOS 프로젝트에서 레드햇과의 제휴로 개발한 OS입니다. 페도라 기반인 RHEL(레드햇 엔터프라이즈 리눅스)와 완벽하게 호환되는 무료 기업용 컴퓨팅 플랫폼을 제공할 목적으로 만들어진 리눅스계열 OS입니다.   \n
+2021년, CentOS 8의 지원기간이 2021년 12월 31일까지로 단축되고, 베타격인 CentOS Stream으로 전환이 발표되어 현재는 CentOS 8 이후의 ISO는 공식적으로 없습니다.
 
 ### CentOS 7 설치
 먼저 CentOS 7을 설치할 가상머신을 먼저 만들어 보겠습니다.
@@ -176,4 +181,5 @@ firewall-cmd --reload
 
 
 ### 참고 자료
-1. 
+1. [CentOS - 위키백과](https://ko.wikipedia.org/wiki/CentOS)
+2. 
