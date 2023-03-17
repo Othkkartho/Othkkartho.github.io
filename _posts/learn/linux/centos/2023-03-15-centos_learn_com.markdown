@@ -16,11 +16,11 @@ img: ":/linux/centos/centos.avif"
 #comments_disable: true
 
 # publish date
-date: 2023-03-13 22:00:00 +0900
+date: 2023-03-15 22:00:00 +0900
 
 # seo
 # if not specified, date will be used.
-meta_modify_date: 2023-03-13 22:00:00 +0900
+meta_modify_date: 2023-03-17 22:00:00 +0900
 # check the meta_common_description in _data/owner/[language].yml
 #meta_description: ""
 
