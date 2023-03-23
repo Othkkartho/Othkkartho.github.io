@@ -20,7 +20,7 @@ date: 2023-03-22 22:00:00 +0900
 
 # seo
 # if not specified, date will be used.
-# meta_modify_date: 2023-03-17 13:15:00 +0900
+meta_modify_date: 2023-03-23 11:00:00 +0900
 # check the meta_common_description in _data/owner/[language].yml
 #meta_description: ""
 
@@ -40,16 +40,15 @@ date: 2023-03-22 22:00:00 +0900
 <!-- outline-start -->
 
 학교에서 공부하는 Ubuntu 서버를 정리하는 포스트입니다.
-이번에는 리눅스 셧다운 방법과 가상 콘솔 및 런타임의 이해. gedit, vi 에디터 사용법. 리눅스 마운트의 개념과 설정 방법에 대해 다뤘습니다.
+이번에는 리눅스 셧다운 방법과 가상 콘솔 및 런타임의 이해. 리눅스 마운트의 개념과 설정 방법에 대해 다뤘습니다.
 
 <!-- outline-end -->
 
 * * *
 
 ### 개요
-학교에서 사용하는 Ubuntu 서버의 경우 [리눅스 실습 for Beginner](https://www.hanbit.co.kr/store/books/look.php?p_code=B7654754187)에서 제공하는 학습을 따라가기 때문에 Ubuntu 18.04 Desktop, Server와 Kubuntu 18.04 버전을 사용하지만 포스트에서는 현재 포스트를 쓸 때 최신 버전인 22.04 버전을 기준으로 학교의 수업을 따라 포스트를 작성하겠습니다.   
-만약 학교의 내용과 버전 때문에 다른 점이 있다면 제 PC에서는 22.04를 사용하고, 노트북에서는 18.04로 수업을 따라가고 있기 때문에 참고에서 해당 내용을 다루도록 하겠습니다.   \n
-Ubuntu Desktop, Server 버전의 경우 둘 다 서버로 사용하고, Kubuntu로 클라이언트로 사용할 예정입니다.
+이전 포스트에서 VMware를 이용해 우분투와 쿠분투를 설치해 보았습니다. 이번 포스트에서는 리눅스 셧다운과 가상 콘솔에 대해 알아보고, 런레벨과 리눅스 마운트에 대해 이야기 해보겠습니다.   
+원래는 gedit과 vi 에디터도 이번 포스트에서 다루려고 했으나 gedit은 window의 notepad와 비슷한 동작과 UI를 가지고 있어 설명에서 제외했고, vi의 경우 너무 많은 탄축키가 존재해 다음 포스트 주제로 뺐습니다.
 
 ### 목차
 
@@ -112,8 +111,11 @@ X윈도우의 경우 아래의 사진과 같이 사용자 기준 우측 상단�
     - root root: 소유주와 소유 그룹
     - 16: 파일 사이즈
     - 3월 17 17:11: 생성 날짜
-    - /lib/systemd/system/default.target -> graphical.target: 현재 런레벨 5인 graphical 모드로 기본 설정되어 있다는 것을 의미합니다.
-3. `ln -sf /lib/systemd/system/multi-user.target /lib/systemd/sstem/default.target` 명령을 입력하고, 다시 `ls -l /lib/systemd/system/default.target`를 입력하면
+    - /lib/systemd/system/default.target -> graphical.target: 현재 런레벨 5인 graphical 모드로 기본 설정(링크)되어 있다는 것을 의미합니다.
+3. `ln -sf /lib/systemd/system/multi-user.target /lib/systemd/sstem/default.target` 명령을 입력하고, 다시 `ls -l /lib/systemd/system/default.target`를 입력하면 default.target의 링크가 graphical.target에서 multi-user.target로 변경된 것을 확인할 수 있습니다.
+4. `reboot`를 입력해 재시작 시키면 X윈도우가 아닌 CUI 화면이 나오게 됩니다.
+    - 만약 CUI 상태에서 X윈도우 화면으로 부팅하기 위해선 `startx` 명령을 입력하면 됩니다.
+5. 원래의 X 윈도우 모드로 부팅하기 위해선 Ctrl+Alt+T를 눌러 터미널을 열어 `ln -sf /lib/systemd/system/graphical.target /lib/systemd/sstem/default.target`을 입력한 후 재부팅하면 됩니다.
 
 ### 리눅스 마운트
 
@@ -124,5 +126,9 @@ X윈도우의 경우 아래의 사진과 같이 사용자 기준 우측 상단�
 반면 22.04LST의 경우 F2가 처음 들어간 X윈도우가 구동되고 있는 콘솔이고, F1의 경우 새로운 X윈도우 콘솔입니다. F3~6는 CUI의 가상 콘솔입니다.   
 즉 18.04의 경우 X윈도우 가상 콘솔이 1개이지만 22.04의 경우 X윈도우 가상 콘솔이 2개로 차이가 있음을 확인할 수 있었습니다.
 
-### 참고 자료
-1. 
+#### 도스키 기능을 가능하게 해주는 history 기능
+도스키 기능이란 터미널에서 위, 아래 방향키를 이용해 이전에 실행했던 명령이 나오게 하는 기능을 의미합니다.   
+이전에 사용했던 명령을 모두 보려면 `history` 명령을 입력하고, 기억되었던 명령을 모두 삭제하고 싶다면 `history -c` 명령을 입력하면 됩니다.
+
+### 참고자료
+1. [리눅스 실습 for Beginner](https://www.hanbit.co.kr/store/books/look.php?p_code=B7654754187)
