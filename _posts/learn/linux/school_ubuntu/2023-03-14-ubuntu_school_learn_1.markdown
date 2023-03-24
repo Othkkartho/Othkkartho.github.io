@@ -150,6 +150,24 @@ CUI로 동작하는 Server를 설치합니다.
 3. 입력을 마친 후 ESC를 누르고 :wq를 입력 후 ENTER를 눌러 저장하고 편집기를 종료합니다.
 4. 설정 변경을 모두 완료했으면 `reboot`로 재시작합니다.
 
+#### 망가진 고정 패키지가 있습니다. 오류 해결법
+apt를 이용해 패키지 설치시 오류가 발생했는데 오류 내용은 아래와 같습니다.
+```
+다음 패키지의 의존성이 맞지 않습니다:
+vim : 의존: vim-common(=2:8.0.1454-1ubuntu1) 하지만 ~
+E: 문제를 바로잡을 수 없습니다. 망가진 고정 패키지가 있습니다.
+```
+즉 vim 의존 패키지 중 vim-common이 제대로 설치되지 않았다는 것을 의미합니다. 이런 경우 `apt -y install vim-common=2:8.0.1454-1ubuntu1`을 입력해 직접 의존성 패키지를 설치해 줍니다.   
+그 후 원래 설치하려고 했던 vim을 `apt install vim`을 입력해 다시 설치합니다.   
+\n
+저는 이 단계에서 바로 되었는데 참고한 블로그에서 여전히 오류가 난다면 `apt install vim.*`를 실행한 뒤 다시 위와 같은 과정을 반복하라고 나와 있어 적어놓습니다.
+
+#### apt vs  apt-get
+apt와 apt-get은 어떤걸 써도 내부 동작에 차이는 거의 없습니다.  
+다만 apt-get에서는 옵션들이 많아지다보니 apt에서는 자주 사용하는 옵션들을 추출해 사용자들이 사용하고 보기 편하게 만들어 apt가 더 예쁘고 추가적인 정보를 출력해 준다고 합니다.
+
 ### 참고 자료
 1. [우분투 - 위키백과](https://ko.wikipedia.org/wiki/%EC%9A%B0%EB%B6%84%ED%88%AC)
 2. [쿠분투 - 위키백과](https://ko.wikipedia.org/wiki/%EC%BF%A0%EB%B6%84%ED%88%AC)
+3. [우분투 APT-GET 망가진 고정 패키지가 있습니다 해결방법-dololak](https://dololak.tistory.com/114)
+4. [apt와 apt-get 차이점-나도 개발자다](https://ksbgenius.github.io/linux/2021/01/13/apt-apt-get-difference.html)
