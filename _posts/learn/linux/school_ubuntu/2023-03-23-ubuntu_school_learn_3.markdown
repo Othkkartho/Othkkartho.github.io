@@ -291,7 +291,9 @@ u를 누르면 이전 명령이 취소되고, 전 상태로 되돌립니다.
 
 ### 참고
 #### vi 명령어를 학습하기 위한 문서 만들기
-`men vi > menvi` 으로 vi 메뉴얼을 menvi라는 이름의 파일로 만듦
+`man vi > manvi` 으로 vi 메뉴얼을 menvi라는 이름의 파일로 만듦
+- man 명령어
+    - 체계화된 도움말을 보여주는 명령어입니다.
 
 ### 참고 자료
 1. [리눅스 실습 for Beginner](https://www.hanbit.co.kr/store/books/look.php?p_code=B7654754187)
