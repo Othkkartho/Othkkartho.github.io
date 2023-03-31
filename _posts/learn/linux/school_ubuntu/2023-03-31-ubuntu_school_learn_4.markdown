@@ -205,6 +205,9 @@ tape archive의 약자로, 초기에는 테입 백업 목적으로 순차적 입
 | tar xfz my.tar.gz | gzip 압축을 풀고, tar을 풀기 |
 
 ### 파일 위치 검색
+find 경로 옵션 조건 action 순서로 작성하면 됩니다.   
+- 옵션: -name(이름), -user(소유자), -newer(전, 후), -perm(허가권), -size(크기)
+- action: -print(기본 값), -exec(외부 명령 실행)
 
 | 명령어 | 설명 |
 | :---: | :---: |
