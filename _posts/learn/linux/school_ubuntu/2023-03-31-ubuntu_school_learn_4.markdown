@@ -49,7 +49,8 @@ date: 2023-03-31 22:00:00 +0900
 ### 개요
 기본 명령어와 해당 명령어의 주요 옵션에 대해 간단하게 알아보고, 네트워크와 네트워크 설정을 확인해 보겠습니다.  
 또한 파일 압축, 파일 위치 검색 관련 명령어를 정리합니다.   
-마지막으로 시스템, 네트워크, 방화벽, 서비스(데몬) 설정과 파이프, 필터, 리디렉션의 명령어에 관해 알아봅니다.
+마지막으로 시스템, 네트워크, 방화벽, 서비스(데몬) 설정과 파이프, 필터, 리디렉션의 명령어에 관해 알아봅니다.   
+더 알아가기 역할을 하는 참고에는 ifconfig에서 나오는 정보들의 설명, 시스템 부팅 과정, 권한, 표준 입출력 에러, 패키지 수동 설치 방법에 관해 작성했습니다.
 
 ### 목차
 
@@ -222,6 +223,7 @@ find 경로 옵션 조건 action 순서로 작성하면 됩니다.
 | locate 파일명 | updatedb 명령을 한 번 실행해야 사용 가능, 입력한 파일명의 절대 경로 검색 |
 
 - -exec ~ \; 명령어는 그 안에 있는 명령어를 실행할 때 사용합니다.
+- locate 명령이 설치되지 않았을 경우 `apt install mlocate`나 `apt install plocate`를 통해 패키지를 다운받으시면 됩니다.
 
 ### 시스템, 네트워크, 방화벽, 서비스(데몬), 파이프, 필터, 리디렉션 명령어
 - `gnome-control-center`: 명령으로 설정을 열 수 있습니다.
@@ -229,6 +231,7 @@ find 경로 옵션 조건 action 순서로 작성하면 됩니다.
 - `gufw`, `ufw`: gufw는 GUI 기반의 우분투에서 제공하는 방화벽 기능을 설정하는 명령어이고, ufw는 텍스트 모드의 실행하면 외부에서 접속하는 모든 포트가 닫힙니다.
     - 외부에 서비스를 제공할 때 필요한 포트만 열어주는 방식으로 사용하는 것이 좋습니다.
 - `kcmshell5 kcm_systemd`: 서비스(데몬)의 시작, 중지, 재시작 및 사용 여부를 설정할 때 사용합니다.
+    - 실행 전에 `apt -y install kde-config-systemd kde-cli-tools`를 입력해 패키지를 설치해야 합니다.
 - `ls -l /etc | less`: 파일이 너무 많아 한 페이지에 모두 담을 수 없기 때문에 한 페이지씩 나누어 보겠다는 의미입니다.
     - 파이프는 두 프로그램을 연결하는 연결 통로를 의미하며 '|'를 사용합니다.
 - `ps -ef | grep bash`: 모든 프로세스 번호를 출력하고 bash라는 글자가 들어있는 프로세스만 출력합니다.
@@ -272,6 +275,16 @@ rwx권한은 이진수로 111로 설정되기 때문에 4+2+1로 만약 rwx 권�
 각각 파일 디스크립터를 살펴보면 표준입력(0), 표준출력(1), 표준에러(2) 로 지정되어 있습니다.  
 `ls -l 2 > /dev/null`: ls -l 명령어를 실행했을 때 오류가 났다면 리눅스에서 휴지통 역할을 하는 /dev/null로 보내겠다는 의미입니다.
 
+#### 패키지 다운로드가 안될때 수동 설치 방법(예시: plocate)
+가끔 다운로드를 apt install을 하다보면 분명 [pkgs.org](https://pkgs.org/)나 [ubuntu packages](https://packages.ubuntu.com/)에서 검색이 되는데 Mirror가 이미 적용이 되어 있고, 캐시 갱신을 진행 했지만 패키지가 없다고 나올 때가 있습니다.   
+이럴 경우 패키지 수동 설치를 해야할 수 있는데 간단하게 방법을 알아보겠습니다.
+1. [pkgs.org](https://pkgs.org/)에 들어가 다운로드 받고 싶은 패키지 이름을 검색합니다.
+2. 검색된 패키지 중 본인이 사용하고 있는 버전에 맞는 패키지를 클릭하고, Download 줄까지 페이지를 내립니다.
+3. Download에서 Binary Package 란의 URL을 복사하고, 우분투에 돌아가 `wget http://archive.ubuntu.com/ubuntu/pool/main/p/plocate/plocate_1.1.15-1ubuntu2_amd64.deb`를 입력합니다.
+4. 진행이 완료되 .deb 파일이 저장되면 `dpkg -i plocate_1.1.15-1ubuntu2_amd64.deb`를 입력해 패키지 수동 설치를 진행합니다.
+    - 저는 의존성 문제로 실행이 안되었기 때문에 liburing2 패키지 또한 3, 4번 방법으로 먼저 수동 설치를 진행 하고, 다시 plocate에 대한 수동 설치를 진행했습니다. 이후 locate과 updatedb가 정상적으로 동작합니다.
+    - .deb로 설치한 패키지 또한 일반 패키지 지우는 방식과 동일합니다. `apt remove plocate`
+
 ### 참고 자료
 1. [리눅스 실습 for Beginner](https://www.hanbit.co.kr/store/books/look.php?p_code=B7654754187)
 2. [init - 위키백과](https://ko.wikipedia.org/wiki/Init)
@@ -280,3 +293,4 @@ rwx권한은 이진수로 111로 설정되기 때문에 4+2+1로 만약 rwx 권�
 5. [리눅스 txqueuelen 변경 - 제타위키](https://zetawiki.com/wiki/%EB%A6%AC%EB%88%85%EC%8A%A4_txqueuelen_%EB%B3%80%EA%B2%BD)
 6. [bzip2 - 위키백과](https://ko.wikipedia.org/wiki/Bzip2)
 7. [tar (파일 포맷) - 위키백과](https://ko.wikipedia.org/wiki/Tar_(%ED%8C%8C%EC%9D%BC_%ED%8F%AC%EB%A7%B7))
+8. [수동 설치 - ubuntu help](https://help.ubuntu.com/kubuntu/desktopguide/ko/manual-install.html)
