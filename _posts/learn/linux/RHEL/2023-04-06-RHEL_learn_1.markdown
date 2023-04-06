@@ -1,0 +1,105 @@
+---
+# multilingual page pair id, this must pair with translations of this page. (This name must be unique)
+lng_pair: RHEL
+title: RHEL 서버 구축(1)-가상머신에 리눅스 설치 및 기본 설정
+
+# post specific
+# if not specified, .name will be used from _data/owner/[language].yml
+author: Othkkartho's Workshop
+# multiple category is not supported
+category: RHEL 서버 구축
+# multiple tag entries are possible
+tags: [Linux, RHEL 서버 구축]
+# thumbnail image for post
+img: ":/linux/RHEL/rhel-logo.avif"
+# disable comments on this page
+#comments_disable: true
+
+# publish date
+date: 2023-04-06 22:00:00 +0900
+
+# seo
+# if not specified, date will be used.
+# meta_modify_date: 2023-03-17 13:15:00 +0900
+# check the meta_common_description in _data/owner/[language].yml
+#meta_description: ""
+
+# optional
+# if you enabled image_viewer_posts you don't need to enable this. This is only if image_viewer_posts = false
+#image_viewer_on: true
+# if you enabled image_lazy_loader_posts you don't need to enable this. This is only if image_lazy_loader_posts = false
+#image_lazy_loader_on: true
+# exclude from on site search
+#on_site_search_exclude: true
+# exclude from search engines
+#search_engine_exclude: true
+# to disable this page, simply set published: false or delete this file
+# published: false
+---
+
+<!-- outline-start -->
+
+학교에서 공부하는 우분투 내용을 바탕으로 리눅스 마스터 자격증 대비 공부를 진행합니다.  
+이번 포스트에서는 RHEL의 설명과 리눅스 설치, 기본 설정에 관해 다뤄보겠습니다.
+
+<!-- outline-end -->
+
+* * *
+
+### 개요
+학교에서 하는 우분투 명령어와 같은 역할을 하는 명령어들을 실습하고, 최종적으론 리눅스 마스터 자격증을 따기 위해 공부하는 여정을 담을 예정입니다.  
+이번 포스트에서는 RHEL에 대해 간단히 설명하고, RHEL의 VMware 설치 및 기본 설정(yum 실행을 위한 manager 구독)에 관해 다뤄보겠습니다.
+
+### 목차
+
+1. [RHEL 개요](#ubuntu-kubuntu-기본-설명)
+2. [VMware 설치](#rhel을-가상머신에-설치하기)
+3. [기본 설정](#yum-실행을-위한-manager-구독)
+
+### RHEL 개요
+Red Hat Linux에서 유래하는 버전이지만 현재는 페도라 버전을 활용하고 있는 유닉스 계열 운영체제입니다. 제가 다운로드한 버전은 9버전으로 페도라 34를 기반으로 만들어졌습니다.  
+18~24개월에 한 번씩 새로운 버전이 공개되며 구독 형태로 요금을 지불하는 방식입니다. 기술 지원은 버전마다 출시 시점으로부터 7년 동안 제공됩니다.  
+
+### RHEL을 가상머신에 설치하기
+0. [무료 버전 다운로드 링크](https://developers.redhat.com/products/rhel/download)에서 소규모 개발용으로 ISO를 다운로드합니다.
+1. 맨 처음 화면에서 Install Red Hat Enterprise Linux 9.1을 선택하고, Enter를 누릅니다.
+2. 그 후 언어 선택창에서 언어를 선택하고, 넘어가면 Installation Summary 창이 나옵니다.
+    - 전 영어를 선택했습니다.
+3. 본인이 설정하고 싶은 환경에 맞게 세팅한 후 Begin Installation을 누릅니다.
+    - Keyboard에 한국어(101/104)키보드, 언어 지원에 한국어를 추가하고, 시간대에 한국 시간대를 선택했습니다.
+    - System에 디스크 할당을 자동으로 선택하고, 네트워크가 잘 연결되어있나 확인하고, 루트 비밀번호를 설정했습니다.
+4. 다운로드가 완료되면 Reboot 버튼을 눌러 재시작하고, 유저 등록을 완료하면 RHEL에 접속할 수 있습니다.
+
+### yum 실행을 위한 manager 구독
+0. [redhat-management](https://access.redhat.com/labs/registrationassistant/)에서 subscription management를 활성화하고, rhel로 돌아가 터미널을 켭니다.
+1. `sudo su - root` 루트로 들어간 뒤 `subscription-manager register`을 눌러 서브스크립션에 등록하고, `subscription-manager refresh`를 통해 시스템 정보를 업데이트합니다.
+2. 그 후 `yum repolist` 또는 `yum repolist enabled`를 입력하면 에러만 뿜어내던 yum이 활성 상태의 리포지토리를 표시해줍니다.
+    - 이외에 `yum repolist all` 모든 리포지토리를 표시하고, `yum repolist disabled` 비활성 상태의 리포지토리만 표시하는 명령어가 있습니다.
+    - 리포지토리의 상세 내용을 알기 위해서는 `yum repolist rhel-9-for-x86_64-baseos-rpms -v`와 같이 알고싶은 리포지토리의 이름과 함께 위 명령어를 치면 [확인](#yum-repolist--v의-상세-정보에-관한-설명)할 수 있습니다.
+
+### 참고
+#### yum repolist -v의 상세 정보에 관한 설명
+![yum -v 명령어 결과](:/linux/RHEL/1/yum-v.avif){:data-align="center"}
+
+- Yum version: yum의 버전
+- cachedir: yum이 다운로드한 패키지를 저장하는 디렉터리입니다. 디렉터리를 변경하는 방법은 [이 링크](https://www.thegeekdiary.com/how-to-change-the-default-location-var-cache-yum-of-yum-cache/)에서 소개되어 있습니다.
+- last metadata expiration check: 마지막으로 메타데이터 만료를 확인하고 현재까지 얼마나 시간이 지났는지와 확인한 시간을 보여줍니다.
+- repo-id: 저장소의 id를 보여줍니다.
+- repo-name: 저장소의 이름을 보여줍니다.
+- repo-status: 저장소의 상태를 알려줍니다. (enabled or disabled)
+- repo-revision: <!--(아마 저장소의 (개정)버전 교수님께 여쭤볼 것)--> 
+- repo-updated: 저장소가 업데이트된 날짜를 알려줍니다.
+- Repo-pkgs: 저장소가 가지고있는 패키지 개수입니다.
+- Repo-available-pkgs: 저장소에서 사용할 수 있는 패키지의 개수입니다.
+- Repo-size: 저장소의 용량입니다.
+- Repo-baseurl: 저장소의 기본 URL입니다. 참고로 들어가면 권한 때문에 막힙니다.
+- Repo-expire: <!--(아마 만료 시간? 교수님께 여쭤볼 것)--> 
+- Repo-filename: 저장소들의 정보가 저장되어 있는 파일의 위치를 보여줍니다.
+![redhat.repo의 저장값 중 baseos](:/linux/RHEL/1/yum-v.avif){:data-align="center"}
+- Total packages: 저장소에 있는 총 패키지 개수
+
+
+### 참고 자료
+1. [레드햇 엔터프라이즈 리눅스 - 위키백과](https://ko.wikipedia.org/wiki/%EB%A0%88%EB%93%9C%ED%96%87_%EC%97%94%ED%84%B0%ED%94%84%EB%9D%BC%EC%9D%B4%EC%A6%88_%EB%A6%AC%EB%88%85%EC%8A%A4)
+2. [Red Hat Subscription Manager를 사용해 Reb Hat 고객 포털 시스템에 등록하여 구독하는 방법 - Red Hat Customer Portal](https://access.redhat.com/ko/solutions/1135673)
+3. [How to change the default location (/var/cache/yum) of yum cache - The Geek Diary](https://www.thegeekdiary.com/how-to-change-the-default-location-var-cache-yum-of-yum-cache/)
