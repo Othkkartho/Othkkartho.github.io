@@ -87,13 +87,14 @@ Red Hat Linux에서 유래하는 버전이지만 현재는 페도라 버전을 �
 - repo-id: 저장소의 id를 보여줍니다.
 - repo-name: 저장소의 이름을 보여줍니다.
 - repo-status: 저장소의 상태를 알려줍니다. (enabled or disabled)
-- repo-revision: <!--(아마 저장소의 (개정)버전 교수님께 여쭤볼 것)--> 
+- repo-revision: 저장소의 버전 
 - repo-updated: 저장소가 업데이트된 날짜를 알려줍니다.
 - Repo-pkgs: 저장소가 가지고있는 패키지 개수입니다.
 - Repo-available-pkgs: 저장소에서 사용할 수 있는 패키지의 개수입니다.
 - Repo-size: 저장소의 용량입니다.
 - Repo-baseurl: 저장소의 기본 URL입니다. 참고로 들어가면 권한 때문에 막힙니다.
-- Repo-expire: <!--(아마 만료 시간? 교수님께 여쭤볼 것)--> 
+- Repo-expire: 구글에서 확인하지 못했습니다.
+    - 예상은 마지막 접근 시간으로부터 설정된 만료 시간이 지나면 어떤 것이 만료되는 것
 - Repo-filename: 저장소들의 정보가 저장되어 있는 파일의 위치를 보여줍니다.
 ![redhat.repo의 저장값 중 baseos](:/linux/RHEL/1/yum-v.avif){:data-align="center"}
 - Total packages: 저장소에 있는 총 패키지 개수
