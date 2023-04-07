@@ -1,0 +1,121 @@
+---
+# multilingual page pair id, this must pair with translations of this page. (This name must be unique)
+lng_pair: DB
+title: 데이터베이스 학습(1)-데이터베이스 시스템 기본 이론 이해하기
+
+# post specific
+# if not specified, .name will be used from _data/owner/[language].yml
+author: Othkkartho's Workshop
+# multiple category is not supported
+category: 데이터베이스
+# multiple tag entries are possible
+tags: [데이터베이스]
+# thumbnail image for post
+img: ":/db/db-logo.avif"
+# disable comments on this page
+#comments_disable: true
+
+# publish date
+date: 2023-04-08 22:00:00 +0900
+
+# seo
+# if not specified, date will be used.
+# meta_modify_date: 2023-03-17 13:15:00 +0900
+# check the meta_common_description in _data/owner/[language].yml
+#meta_description: ""
+
+# optional
+# if you enabled image_viewer_posts you don't need to enable this. This is only if image_viewer_posts = false
+#image_viewer_on: true
+# if you enabled image_lazy_loader_posts you don't need to enable this. This is only if image_lazy_loader_posts = false
+#image_lazy_loader_on: true
+# exclude from on site search
+#on_site_search_exclude: true
+# exclude from search engines
+#search_engine_exclude: true
+# to disable this page, simply set published: false or delete this file
+# published: false
+---
+
+<!-- outline-start -->
+
+학교에서 공부하는 데이터베이스 내용을 정리하는 포스트입니다.  
+이번 포스트에서는 데이터베이스 시스템의 기본 이론에 관해 포스트하겠습니다.
+
+<!-- outline-end -->
+
+* * *
+
+### 개요
+학교에서 배운 DB에 대한 내용을 정리하는 포스트입니다.  
+이번에는 데이터베이스 소개를 하고, 여러 용어들을 정리하겠습니다. 그 후 데이터베이스와 DBMS에 대해 더 자세히 알아보고, 데이터베이스를 컨트롤 하도록 만들어진 SQL에 대해서도 알아보겠습니다.  
+
+### 목차
+
+1. [데이터베이스 소개]()
+2. [기본 용어 정의]()
+4. [SQL]()
+5. [3-Level DB]()
+7. [DBMS의 기능]()
+8. [데이터베이스의 주요 특징]()
+9. [데이터베이스의 단점]()
+10. 
+
+### 데이터베이스 소개
+- 과거 각 프로그램들이 자체 데이터를 정의하고 관리할 때 데이터 분리 및 격리, 데이터의 중복, 데이터 종속성, 파일의 비호환성 등의 문제가 발생해 정보의 고급 관리 기술이 필요해졌습니다.
+- 그래서 조직의 정보 요구 사항을 충족하도록 논리적으로 관련된 데이터 공유 모음으로 설계된 데이터베이스가 만들어지게 되었습니다.
+    - 숫자나 문자 데이터베이스와 같은 일반적인 애플리케이션과
+    - 최근에는 따라 실시간 데이터베이스나 멀티미디어 데이터베이스를 사용하는 애플리케이션도 많습니다.
+
+### 기본 용어 정의
+- 데이터: 기록될 수 있고 함축적인 의미를 가지고 있는 알려진 사실
+- 데이터베이스: 관련 데이터의 공유 모음입니다.
+- 데이터베이스 관리 시스템(DBMS): 전산화된 데이터베이스의 생성 및 유지를 용이하게하는 소프트웨어 패키지나 시스템
+- 스키마: 데이터베이스 구조에 대한 전반적인 설명을 제공합니다.
+
+### SQL의 데이터 언어
+- DDL(Data Definition Language): 데이터베이스 스키마 지정(데이터베이스의 구조와 테이블, 뷰, 인덱스와 같은 개체를 정의합니다)
+    - Create(생성), Alter(변경), Drop(삭제)
+- DML(Data Manipulation Language): 데이터를 조작하는 명령어
+    - Delete(삭제), Insert(삽입), Select(검색), Update(갱신)
+- DCL(Data Control  Language): 데이터를 제어하는 명령어
+    - Grant(사용자에게 권한을 부여), Revoke(사용자의 권한을 제거)
+
+### 3-레벨 데이터베이스
+3레벨 데이터베이스 아키텍저와 관련된 3가지의 스키마가 존재합니다.
+- 외부 스키마: 데이터베이스에 대한 개별 사용자 관점
+- 개념적 스키마: 데이터베이스를 사용하는 조직의 관점
+- 내부 스키마: 데이터베이스의 물리적 관점
+
+### 데이터 독립성
+**논리적 데이터 독립성**  
+외부 스키마나 애플리케이션 프로그램을 변경하지 않고 논리 스키마를 변경하는 것을 의미합니다.  
+\n
+**물리적 데이터 독립성**
+논리적 스키마를 변경하지 않고 물리적 스키마를 변경하는 것을 의미합니다.
+
+### 전형적인 DBMS의 기능
+
+
+### 데이터베이스 접근 방식의 주요 특징
+
+
+### 데이터베이스 사용자
+
+
+### 데이터베이스 접근 방식 사용의 이점
+
+
+### 데이터베이스 접근 방식의 다른 의미
+
+
+### 데이터베이스 접근 방식의 단점
+
+
+### 데이터베이스 기술의 발전 역사
+
+
+### DBMS는 어떨때 사용하면 안될까?
+
+### 참고 자료
+1. 학교 보조자료
