@@ -95,7 +95,8 @@ date: 2023-03-31 22:00:00 +0900
 1. 모든 가상머신을 부팅하고, 터미널에서 `ifconfig ens33` 또는 `ifconfig` 명령을 입력합니다. 그럼 여러 정보가 나오는데 inet이 해당 게스트OS의 IP주소가 됩니다.
     - ifconfig 뒤의 ens의 경우 각 OS 버전마다 다를 수 있습니다. 보통은 ens32 또는 ens33 장치가 들어가 있습니다. `ifconfig ens33` 명령이 안될경우 `ifconfig`를 통해 해당 머신에 설치된 장치가 어떤 것인지 확인하시기 바랍니다.
     - 이외에도 `ip addr` 명령으로도 IP 주소를 확인할 수 있습니다.
-2. 게이트웨이 정보의 경우 `ip route`, DNS 정보는 `systemd-resolve --status ens33` 명령으로 확인이 가능합니다.
+2. 게이트웨이 정보의 경우 `ip route`, DNS 정보는 `resolvectl status ens33` 명령으로 확인이 가능합니다.
+    - 18.04의 경우 `systemd-resolve --status ens33`으로 확인하는데 systemd 239에서 systemd-resolve가 resolvectl로 변경되었습니다.
 3. 네트워크 관련 작업을 실행하려면 `nm-connection-editor` 명령으로 설정할 수 있습니다.
     - 자동, 고정 IP 주소 사용 결정
     - IP 주소, 서브넷 마스크, 게이트웨이, DNS 정보 입력
@@ -294,3 +295,4 @@ rwx권한은 이진수로 111로 설정되기 때문에 4+2+1로 만약 rwx 권�
 6. [bzip2 - 위키백과](https://ko.wikipedia.org/wiki/Bzip2)
 7. [tar (파일 포맷) - 위키백과](https://ko.wikipedia.org/wiki/Tar_(%ED%8C%8C%EC%9D%BC_%ED%8F%AC%EB%A7%B7))
 8. [수동 설치 - ubuntu help](https://help.ubuntu.com/kubuntu/desktopguide/ko/manual-install.html)
+9. [systemd-resolve command not found in Ubuntu 22.04 desktop - askUbuntu](https://askubuntu.com/questions/1409726/systemd-resolve-command-not-found-in-ubuntu-22-04-desktop)
