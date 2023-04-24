@@ -20,7 +20,7 @@ date: 2023-04-13 22:00:00 +0900
 
 # seo
 # if not specified, date will be used.
-# meta_modify_date: 2023-03-24 15:00:00 +0900
+meta_modify_date: 2023-04-14 17:00:00 +0900
 # check the meta_common_description in _data/owner/[language].yml
 #meta_description: ""
 
@@ -39,21 +39,22 @@ date: 2023-04-13 22:00:00 +0900
 
 <!-- outline-start -->
 
-
+패키지 설지 명령어인 dpkg와 apt를 알아보고, root 비밀번호를 잊어버렸을 때 응급 복구 방법과 GRUB 부트 로더를 알아보는 포스트입니다.
 
 <!-- outline-end -->
 
 * * *
 
 ### 개요
-
+apt가 나오기 전에 프로그램 설치 명령어로 사용되었던 dpkg를 알아보고, dpkg가 가지고 있던 의존성 문제를 해결한 apt 명령어를 알아보겠습니다.  
+이후 root 비밀번호를 잊어버렸을 때 비밀번호를 바꿀 수 있는 방법과, GRUB 부트 로더를 알아보겠습니다.
 
 ### 목차
 
 1. [dpkg 명령어에 관해](#dpkg-명령어의-정보)
 2. [apt 명령어에 관해](#apt-명령어의-정보)
-3. [응급 복구]()
-4. [GRUB 부트 로더]()
+3. [응급 복구](#root-사용자-비밀번호-분실-시)
+4. [GRUB 부트 로더](#grub-부트-로더)
 
 ### dpkg 명령어의 정보
 #### dpkg 설명
@@ -142,21 +143,106 @@ date: 2023-04-13 22:00:00 +0900
     - 일반 사용자가 `apt install 패키지명`을 실행하면 sources.list에 기록된 사이트에서 자동으로 접속해 다운로드를 진행합니다.
 - /etc/apt/sources.list 파일 구성
     - 각 행은 `deb 우분투패키지저장소url 버전코드명 저장소종류`를 의미합니다.
+        - deb는 바이너리 형태라는 것을 의미하고, 소스 형태는 deb/src라고 작성되어 있습니다.
     - 맨 처음 다운로드 받으면 18.04를 의미하는 bionic으로 버전 코드명이 적혀 있지만, 저는 지금 22.04로 진행하고 있으므로 해당 버전을 의미하는 jammy로 버전 코드명을 변경해 업데이트 했습니다.
     - 만약 무료 제품만 사용하고 싶다면, main과 universe 행만 남기고 나머지는 맨 앞에 #을 붙여 주석 처리를 하면 됩니다.
-    - `jammy`는 우분투 22.04 LTS가 출시된 시점에 제공되는 패키지 버전만 설치하겠다는 것을 의미합니다. 이후 업그래이드된 최신 버전의 패키지를 설치하고 싶다면 `jammy`를 `jammy-updates`로 수정하거나 행에 추가하면 됩니다.
+    - `jammy`는 우분투 22.04 LTS가 출시된 시점에 제공되는 패키지 버전만 설치하겠다는 것을 의미합니다. 이후 업그래이드된 최신 버전의 패키지를 설치하고 싶다면 `jammy`를 `jammy-updates`로 수정하거나 아래 행에 추가하면 됩니다.
 
 #### apt 명령어로 추가 기능 설정하는 실습
 1. 새로운 url로 저장소를 업데이트 합니다.
     1. `vi /etc/apt/sources.list`명령으로 파일을 열어 모두 주석 처리한 뒤 저장한 후 닫습니다.
     2. 터미널을 열고 `apt update`로 설정 내용을 적용하고, `apt install mc`명령으로 패키지를 설치하면 저장소 URL이 없기 때문에 패키지가 없다고 에러 메시지가 나오고 설치되지 않습니다.
-    <!-- 3. [https://launchpad.net/ubuntu/+cdmirrors](https://launchpad.net/ubuntu/+cdmirrors)에서 쓸만한 미러 사이트를 찾습니다.
-    4. 저는 [https://mirror.math.princeton.edu/pub/ubuntu](https://mirror.math.princeton.edu/pub/ubuntu)를 이용했습니다.
+    3. [https://launchpad.net/ubuntu/+cdmirrors](https://launchpad.net/ubuntu/+cdmirrors)에서 쓸만한 미러 사이트를 찾습니다.
+    4. 저는 [http://mirror.aarnet.edu.au/pub/ubuntu/archive/](http://mirror.aarnet.edu.au/pub/ubuntu/archive/)를 이용했습니다.
     5. `vi /etc/apt/sources.list` 명령으로 파일을 열어 주석 아래에 URL 주소만 다르게 작성해 입력하면 됩니다. 설정 파일의 경우 설명 마지막에 사진이 있습니다.
-    6. `apt update` 명령으로 저장소를 업데이트하고, `apt install mc`로 패키지를 설치하려면 설치가  -->
-    <!-- mc 설치 안됨 설치 되는 미러 찾아야 함. -->
+    6. `apt update` 명령으로 저장소를 업데이트하고, `apt remove mc` 후, `apt install mc`로 패키지를 설치하면 정상적으로 설치가 되는 것을 확인할 수 있습니다.
+2. 업데이트된 패키지 설치
+    1. `apt upgrade` 명령으로 전체 시스템을 업그레이드 하려고 하면 업그레이드할 것이 없습니다.
+    2. `vi /etc/apt/sources.list` 명령으로 파일을 열어 각 행을 복사 후 각 아래 행에 복사한 뒤 jammy를 jammy-updates로 변경한 뒤 저장, 종료를 합니다.
+    3. `apt update` 명령으로 sources.list의 수정 내용을 적용하고, `apt upgrade`를 입력하면 업그레이드 항목들이 나오고, 계속하면 업그래에드를 정상적으로 진행하게 됩니다.
 
+<!-- 사진 바꿔야 함 -->
 ![sources.list](:/linux/ubuntu/6/sources_list.avif){:data-align="center"}
+
+### root 사용자 비밀번호 분실 시
+1. 비밀번호 변경 준비하기
+    1. Server(B)를 부팅하자마자 바로 검은 화면에서 마우스를 클릭해 마우스 커서가 없어지면 Server(B) 화면이 선택된 상태입니다. 이 상태에서 Esc를 여러 번 누르게 되면 GRUB의 메뉴 화면이 나타납니다. `*Ubuntu`와 `Advanced options for Ubuntu`중 `*Ubuntu`를 선택한 상태에서 'E'를 누릅니다.
+    2. 아래 화살표를 눌러 맨 아래에서 2번째 줄에서 `init=/bin/bash`를 입력합니다.
+    ```
+    fi
+    linux   /vmlinuz-4.15.5-206~ maybe-ubiquity(nomodeset) init=/bin/bash
+    ```
+    - vmlinuz: 리눅스의 커널 이미지를 압축시켜놨음을 의미
+    - init=/bin/bash: 로그인 작업 없이 바로 부팅 커널을 띄워달라는 것입니다.
+
+2. 비밀번호 변경하기
+    1. 그 후 Ctrl+x나 F10을 눌러서 부팅합니다.
+    2. 별도의 로그인 절차 없이 부팅되고, root@(none):/# 프롬프트가 나타나면 `whoami`로 현재 root 사용자로 로그인 되있는 것을 확인할 수 있습니다.
+    3. root 사용자의 비밀번호를 변경하기 위해 `passwd` 명령을 입력 후 원하는 비밀번호를 설정합니다.
+        - `Authentication token manipulation error`가 일어나며 비밀번호가 바뀌지 않습니다. 비밀번호를 정상적으로 바꾸기 위해 아래와 같이 마운트된 파티션을 읽고 쓰기가 가능하도록 변경해야 합니다.
+    4. 마운트된 파티션을 `mount` 명령을 입력해 끝 부분을 확인해 보면 `/ type ext4 (ro,~)`로 / 파티션이 ro(Read-Only)로 마운트되어 있음을 확인할 수 있습니다.
+    5. 이를 읽고 쓰기가 가능하도록 `mount -o remount,rw /` 명령을 입력해 / 파티션을 읽기/쓰기(rw) 모드로 다시 마운트 합니다.
+    6. mount 명령을 다시 입력하면 읽기/쓰기 모드로 변경된 것을 확인 가능합니다.
+    7. 이후 passwd 명령을 입력해 연재 사용자인 root의 비밀번호를 간단히 변경하면 성공적으로 변경됩니다.
+    8. 이후 시스템을 강제로 재부팅하고, 로그인을 해보면 정상적으로 로그인이 되는 것을 확인할 수 있습니다.
+        - 화면에서 reboot를 하면 `failed to talk to init daemon.` 에러가 나기 때문에 Player -> Power -> Restart Guest로 재시작 해야 합니다.
+
+### GRUB 부트 로더
+**GRUB 부트 로더에 관해**
+- 우분투를 부팅할 때 처음 나오는 선택화면으로 비밀번호를 설정할때와 같이 강제로 불러올 수 있습니다.
+- 부트 정보를 사용자가 임의로 변경하여 부팅할 수 있습니다.
+- 다른 운영체제와 멀티부팅이 가능합니다.
+- 대화형 설정이므로 커널의 경로와 파일 이름만 알면 부팅이 가능합니다.
+- 동적 모듈 로딩이 가능합니다.
+- ISO 이미지를 이용해 바로 부팅이 가능합니다.
+- GRUB의 설정 파일은 /boot/grub/grub.cfg입니다.
+- 전원을 키게되면 먼저 ROM BIOS가 구동을 시작하고, ROM BIOS는 디스크의 0번 섹터에 있는 부트 로더를 켜고 제어권을 넘깁니다. 그럼 부트 로더는 커널 이미지 등 기본적인 사용자 환경을 세팅해줍니다.
+\n
+**/etc/default/grub 파일**
+- grub.cfg 파일은 일반 사용자에게는 읽기 전용이며, root 사용자도 직접 편집해서는 안됩니다.
+- 설정된 내용을 변경하려면 /etc/default/grub 파일과 /etc/grub.d/ 디렉터리의 파일을 수정한 후 grub-mkconfig 명령을 실행해야 합니다.
+\n
+```
+GRUB_DEFAULT=0
+GRUB_TIMEOUT_STYLE=hidden
+GRUB_TIMEOUT=0
+GRUB_DISTRIBUTOR=`lsb_release -i -s 2> /deb/null || echo Debian`
+GRUB_CMDLINE_LINUX_DEFAULT="maybe-ubiquity"
+GRUB_COMDLINE_LINUX=""
+```
+- 1행: GRUB 목록 중에서 0번째가 기본으로 선택되게 합니다.
+    - 0 or 1 대신 saved: 그 전에 실행했던 부팅 OS를 기억해서 실행을 계속해 달라는 의미
+- 2행: 3행의 시간 동안 화면에 GRUB 목록이 보이지 않게 합니다.
+    - manu: 메뉴 화면을 3행의 시간 만큼 보여주겠다는 의미
+    - countdown: 3행의 시간에는 메뉴를 보여주지 않겠다는 의미
+- 3행: 처음 화면이 나오고 자동으로 부팅되는 시간을 초 단위로 설정합니다.
+- 4행: 초기 부팅 화면의 각 엔트리 앞에 붙을 배포판 이름을 추출합니다.
+- 5~6행: 부팅 시 커널에 전파할 파라미터를 지정합니다.
+    - quiet splash: 텍스트 모드로 GRUB 메뉴를 보여줍니다.
+    - splash: 이미지가 보이면서 GRUB 메뉴를 보여줍니다.
+
+#### GRUB 부트로더 변경 및 비밀번호 설정하기
+1. GRUB의 내용을 변경하고 부팅 화면 실행하기
+    1. vi 에디터로 /etc/default/grub 파일을 열어 아래 3개의 행을 변경한 뒤 저장하고 닫습니다.
+    ```
+    GRUB_TIMEOUT_STYLE=countdown    # 부팅 시 대기시간을 보여줌
+    GRUB_TIMEOUT=20     # 부팅 대기 시간을 20초로 변경
+    GRUB_DISTRIBUTOR="OTHKKARTHO LINUX" # 초기 화면의 글자를 변경
+    ```
+    2. 변경한 내용을 적용하기 위해 `update-grub`을 입력합니다.
+    3. reboot 명령으로 재부팅하면 20초 동안 카운트를 합니다. ESC를 누르면 글자가 바뀐 GRUB 초기 화면이 나타납니다.
+    4. 첫 행에서 Enther를 누르고 root 사용자로 접속합니다.
+2. GRUB 전용 사용자와 비밀번호 생성하기
+    1. vi 에디터로 /etc/grub.d/00_header 파일을 열어 마지막 다음 줄에 아래의 4줄을 추가한 뒤 저장하고 닫습니다.
+    ```
+    cat << EOF
+    set superusers="grubuser"   # grubuser는 새로운 GRUB 사용자의 이름
+    password grubuser 1234  # 'GRUB사용자 새비밀번호' 형식으로 비밀번호 설정
+    EOF
+    ```
+    2. 변경한 내용 적용을 위해 `update-grub` 명령을 입력합니다.
+    3. reboot 명령으로 시스템을 재부팅한 후 Esc를 누르고 GRUB 화면으로 들어가 e를 누르면 사용자와 비밀번호를 입력하는 창이 나옵니다.
+    4. 해당 화면에서 설정한 사용자와 비밀번호를 입력하면 GRUB 편집 모드가 나옵니다. 설정이 제대로 된 것을 확인하실 수 있습니다.
 
 ### 참고
 #### ncftp에 관해
@@ -165,6 +251,11 @@ date: 2023-04-13 22:00:00 +0900
 3. `open ftp.ubuntu.com` 우분투의 ftp 서버에 접속합니다.
     - ncftp로 다운로드 받고, 업로드 하는 것은 [[linux]ncftp 명령어로 파일 다운로드/업로드 방법-투원대디](https://seculog.tistory.com/6)에서 확인하실 수 있습니다.
 4. `ls`, `cd ubuntu` 등 여러 명령어를 실행해 보고, 잘 작동되는 것을 확인한 후 exit으로 ftp 접속을 종료합니다.
+
+#### VMware Ubuntu에서 드래그앤 드롭이 잘 안될 때
+가상머신 우클릭 -> Setting -> Options -> Shared Folders를 disabled에서 Always enabled로 변경하고, 확인.  
+우분투에서 `apt install open-vm-tools-desktop`으로 open vm tools 설치 후 재부팅하면 windows에서 복사한 것이 Ctrl+Shift+v 또는 Shift+Insert로 잘 붙여넣기가 되는것을 확인할 수 있습니다.  
+또한 반대로 Ubuntu에서 Ctrl+Shift+c나 Ctrl+Insert로 복사한 내용이 Windows에도 정상적으로 붙여넣어집니다.
 
 ### 참고 자료
 1. [리눅스 실습 for Beginner](https://www.hanbit.co.kr/store/books/look.php?p_code=B7654754187)
