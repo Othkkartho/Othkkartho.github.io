@@ -94,7 +94,37 @@ APM의 개요를 알아보고 설치하며, XE를 활용한 웹 사이트를 구
 ![정상적으로 작동함](:/linux/ubuntu/11/clientphp.jpg){:data-align="center"}
 
 ### XE를 활용한 웹 사이트 구축
-XE가 바뀌고 나서 때문인지 정확한 이유는 알 수 없지만 xe의 php가 화면이 뜨지 않는 문제가 발생 문제를 해결하면 포스트 수정하겠습니다.
+1. 위 Server 에서 설정은 이어집니다.
+2. Server에 XE를 설치하기 전에 22.04로 PHP를 설치하신 분들은 PHP 버전이 8.1일 것입니다. 하지만 PHP8.1에서는 해당 XE가 제대로 동작하지 않기 때문에 PHP 버전은 7.4로 낮춰야 합니다. 아래는 그 코드입니다.
+    1. `su -` <- 권한 문제가 많아 root 권한으로 변경 후 진행합니다.
+    2. `add-apt-repository ppa:ondrej/php` <- 다른 버전의  PHP를 설치하기 위해 ordrej 저장소를 Add합니다.
+    3. `apt update`
+    4. `apt install php7.4`
+    5. `apt install php7.4-cli php7.4-common php7.4-json php7.4-opcache php7.4-mysql php7.4-mbstring php7.4-zip php7.4-fpm php7.4-intl php7.4-simplexml php7.4-curl php7.4-gd`
+    6. `a2dismod phpx.x` <- 깔려 있는 버전을 disable 시킵니다. x.x에는 현재 깔려있는 본인의 PHP 버전을 입력하시면 됩니다.
+    7. `a2enmod php7.4` <- 7.4 버전 enable
+    8. `service apache2 restart`
+    9. `update-alternatives --set php /usr/bin/php7.4`
+    10. `update-alternatives --set phar.phar /usr/bin/phar.phar7.4`
+3. 위 과정을 모두 완료하고, phpinfo.php를 확인하면 버전이 바뀌어 있을 겁니다.
+4. 이후 DB를 생성해 줍니다.
+    1. `mysql -u root`
+    2. `create user xeuser@localhost identified by '1234';`
+    3. `grant all on xedb.* to xeuser@localhost;`
+    4. `exit`
+    5. `mysql -u xeuser -p1234`
+    6. `create database xedb;`
+    7. `exit`
+5. xe3을 사용하기 위해 `cd /var/www/html`로 가서 아래 명령어를 실행합니다.
+    - `php -r "copy('http://start.xpressengine.io/download/installer', 'installer');" && php installer install`
+6. 그러면 installer가 실행될겁니다. 그럼 각 항목들을 입력하라고 나오는데 [참고 4](#참고-자료)를 참고해 본인의 설정에 맞는 내용들을 입력하면 정상적으로 설치가 됩니다.
+7. 이후 원래 있던 index.html을 없에거나 Client로 http://서버IP주소/index.php를 입력하면 XpressEngine이 뜨는 것을 확인할 수 있습니다. 이후 다른 것을 눌러보면 매핑도 잘 되었습니다. 만약 다른 폴더에 넣거나 했는데 설정을 잘못하면 매핑이 안되 들어가는 것만 들어가 지고 클릭하면 링크를 못찾을 수 있습니다.
+
+**PHP 버전이 잘 바뀌었는지 확인**{:data-align="center"}
+![PHP 7.4로 변경된 것을 확인](:/linux/ubuntu/11/php74.jpg){:data-align="center"}
+
+**XE3이 잘 적용되었는지 확인**{:data-align="center"}
+![XE3이 잘 설정되어진 것을 확인할 수 있음](:/linux/ubuntu/11/checkapm2.jpg){:data-align="center"}
 
 ### FTP 서버 설치와 운영
 1. Server를 초기화하고 `apt -y install vsftpd`를 입력합니다.
@@ -137,3 +167,6 @@ proftpd는 대형 사이트에서 오랫동안 인기가 많았던 ftp 서버입
 
 ### 참고 자료
 1. [리눅스 실습 for Beginner](https://www.hanbit.co.kr/store/books/look.php?p_code=B7654754187)
+2. [우분투 22.04 에서 php8.1.x 가 깔려서 xe3가 안되는 경우 질문드립니다. - XETOWN](https://xetown.com/questions/1735229)
+3. [오류 해결 - Waiting for cache lock: Could not get lock /var/lib/dpkg/lock-frontend. - mingyu_cloud](https://mingyucloud.tistory.com/entry/%EC%98%A4%EB%A5%98-%ED%95%B4%EA%B2%B0-Waiting-for-cache-lock-Could-not-get-lock-varlibdpkglock-frontend)
+4. [설치하기 - XpressEngine](https://www.xpressengine.com/guide/getting-started/installation-console)
