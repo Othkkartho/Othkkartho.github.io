@@ -1,7 +1,7 @@
 ---
 # multilingual page pair id, this must pair with translations of this page. (This name must be unique)
 lng_pair: LM2
-title: 리눅스 마스터 2급 대비 정리(10) (X-Windows - 개념 및 사용법, X-윈도우 활용)
+title: 리눅스 마스터 2급 대비 정리(10) (X-Window - 개념 및 사용법, X-윈도우 활용)
 
 # post specific
 # if not specified, .name will be used from _data/owner/[language].yml
@@ -34,7 +34,7 @@ date: 2023-08-22 22:00:00 +0900
 # exclude from search engines
 #search_engine_exclude: true
 # to disable this page, simply set published: false or delete this file
-published: false
+# published: false
 ---
 
 <!-- outline-start -->
@@ -57,11 +57,137 @@ published: false
 2. [X-윈도우 활용](#x-윈도우-활용)
 
 ### 개념 및 사용법
+#### X-윈도우의 개념과 특징
+1. 리눅스 환경의 각종 애플리케이션과 유틸리티에 대해 GUI를 제공합니다
+2. 플랫폼과 독립적으로 작동하는 그래픽 시스템입니다
+3. X 윈도우의 특징은 아래와 같습니다.
+    - 네트워크 기반의 그래픽 환경 지원
+    - 이기종 시스템 사이에서도 사용 가능
+    - 스크롤바, 아이콘, 색상 등 그래픽 환경 자원들이 특정 형태로 정의되어 있지 않음
+    - 디스플레이 장치에 의존적이지 않으며 원하는 인터페이스를 만들 수 있음
+4. X-윈도우는 네트워크 프로토콜 기반의 클라이언트/서버 시스템입니다
+    - 서버 프로그램과 클라이언트 프로그램으로 나누어 작동합니다
+    - 서버는 클라이언트들의 디스플레이에 관한 접근 허용, 클라이언트 간의 자원 공유, 네트워크 메시지 전달, 클라이언트와 입력력 기기와의 중계를 담당
+    - 클라이언트는 애플리켜이션으로 X 서버가 제공하는 기능들을 이용
+5. 오픈 데스크톱 환경으로 KDE, GNOME, XFCE 등이 있습니다
+
+#### x-윈도우의 구성요소와 종류
+1. XProtocol
+    - X 서버와 클라이언트 사이의 메시지 타입, 메시지 교환 방법을 규정
+    - 요구(request), 응답(reply), 오류(error), 입력 발생(event)으로 구성
+    - Xlib라는 저수준 인터페이스와 Xtoolkit이라는 상위 수준 인터페이스를 사용
+2. Xlib
+    - C나 Lisp 언어로 만든 XProtocol 지원 클라이언트 라이브러리
+3. XCB
+    - Xlib를 대체하기 위해 등장한 클라이언트 라이브러리
+    - 향상된 스레드 기능 지원, 확장성 뛰어남
+    - 라이브러리의 크기가 작고 단순
+    - XProtocol에 직접 접근도 가능
+4. Xtoolkit
+    - Xlib로 스크롤바, 메뉴, 버튼 등의 GUI 부품을 개발 시 효율성 문제 발생
+    - 스크롤바, 메뉴 등 GUI를 구성하는 객체인 Widget과 widget이 Xlib의 기본 함수의 집합인 Xt intrinsic를 포함
+5. XFree86
+    - 인텔 X86 계열의 유닉스 운영체계에서 동작하는 서버
+    - 어떤 목적에 사용하든 무료로 사용할 수 있는 X 시스템
+- XF86Config
+    - XFree86의 설정 파일
+    - X 서버는 XF86Config 파일을 찾아 읽음
+
+#### X-윈도우 설정과 실행
+1. 파일 /etc/inittab
+    - init 프로세스가 읽는 파일로, init 프로세스가 무엇을 해야 할 것인가를 결정
+    - 파일 시스템 점검, 서비스 프로세스 관리, 가상 콘솔 관리, 실행 level 관리등을 지냏ㅇ
+2. X-윈도우 실행
+    - 그래픽 환경이 아닌 터미널 윈도우로 로깅ㄴ한 경우 몇 개의 프로그램을 실행시켜야 함
+    - 터미널 윈도우의 명령어 프롬프트상에서 다음의 명령어를 실행 `startx -- [인자값]`
+    - 명령어 startx는 X-윈도우를 실행하는 스크립트로 시스템 환경을 초기화하고 xinit를 호출한다
+    - 명령어 startx 실행 시 인자값을 xinit에 전달하는 옵션은 `--`임
+    - 터미널 변경: Crtl+Alt+F1~F4
+    - X-window 상태 전환: Ctrl+Alt+F7
+    - X-window 강제 종료: Ctrl+Alt+Back Space
+3. 환경 변수 DISPLAY
+    - 환경 변수는 프로세스가 컴퓨터에서 동작하는 방식에 영향을 주는 동적인 값
+    - 셸에서 정의되고 실행하느 동안 프로그램에 필요한 변수
+    - 환경 변수 DISPLAY는 현재 x-윈도우 dISPLAY 위치를 지정할 수 있음
+    - `export DISPLAY=IP주소:디스플레이번호,스크린번호`
+
+#### 윈도우 매니저
+1. 윈도우 매니저는 X window상에서 창의 배치와 표현을 담당하는 시스템 프로그램
+2. 창 열기와 닫기, 창의 생성 위치, 창 크기 조정, 창의 외양과 테두리를 변화시킬 수 있음
+3. 라이브러리는 Xlib와 XCB를 사용
+4. 리눅스에서 사용 가능한 윈도우 매니저들은 다양합니다. 윈도우 매니저의 대표적인 종류로는 fvwm, rwm, mv, winodwMaker, AfterStep등이 있습니다
+    - fvwm: fwm에서 파생, 안정적이고 일반화되어 오랜 기간 많이 사용, Vitrual Window Manager의 약자로 가상 윈도우 매니저로서 실제로 가상 데스크톱을 지원
+    - twm: X-윈도우 시스템의 초창기 창 관리로 X-윈도우의 개발에 큰 영향을 줌, C로 반들어짐, 텍스트 형식의 간단한 윈도우 매니저, xlib를 사용
+    - AfterStep: fvwm을 기반으로 만들어진 윈도우 매니저, 넥스트 스텝의 GUI와 유사한 사용자 인터페이스를 제공, 여러 사용자의 요구사항에 맞추어 개선되면서 기능적으로 많은 발전을 가짐
+    - Window Maker: 오픈스텝 호환 환경으로서의 넥스트 사의 GUI를 가상으로 구현, GNU 데스크톱을 지원, 현제는 GNOME과 KDE에 통합
+    - Blackbox: 넥스트스텝의 인터페이스를 기반으로 하는 윈도우 매니저
+    - kwm: KDE 1.x의 기본 윈도우 매니저
+    - Enlightment: GNOME의 기본 윈도우 매니저
+
+#### 데스크톱 환경
+1. GUI 사용자에게 제공하는 인터페이스 스타일로 데스크톱 관리자라고도 함
+2. 윈도우 매니저, 파일 관리자, 도움말, 제어판 등 다양한 도구를 제공하는 패키지 형태의 프로그램
+3. 아이콘, 창, 도구 모음, 폴더, 배경화면, 데스크톱 위젯도 제공
+4. 드래그 앤 드롭과 프로세스 간 통보 기능을 지원
+5. 대표적인 데스크톱 환경에는 KDE, GNOME, LXDE, XFCE 등이 있음
+    - KDE(Kool Desktop Environment): 노키아의 QT 툴킷을 기반으로 함
+    - GNOME(GNU Network Object Model Environment): GTK+ 라이브러리 기반, 전용 윈도우 관리자가 없지만 윈도우 고나리자를 선택해 사용, 세션 메니저로 이전 설정을 저장해 항상 해당 환경 유지, 패널 크기 조정 가능
+    - LXDE(Light X11 Destop Environment): 창 관리자로 Openbox, 툴 킷으로는 GTK 2를 상요하고 있음, 가벼운 데스크톱 환경과 빠른 성능과 에너지 절약을 위해 개발
+    - XFCE(XForums Common Environment): GTK+ 2 툴 킷 기반, Xfwm 윈도우 매니저 사용, 모듈 간 의존성이 낮으며 하드 디스크의 공간을 적게 차지해 설치에 적은 시간이 걸림
+
+#### 디스플레이 매니저
+1. X window system상에서 작동하는 프로그램
+2. 로컬 또는 리모트 컴퓨터의 X server의 접속과 세션 시작을 담당
+3. 사용자에게 그래픽 로그인 화면을 띄워주고 아이디와 패스워드를 입력받아 인증을 진행하고 인증이 정상적으로 완료되면 세션을 시작
+4. 디스플레이 매니저 종류로는 XDM, GDM, KDM, dtlogin 등이 있음
+    - xdm(X Display Manager): 초기 X11에 도입된 매니저, 그래픽 로그인 화면을 띄우고 세션 관리를 해줌, 현제는 거의 사용되지 않음
+    - dtlogin: 유닉스 CDE에서는 사용, Motif 라이브러리를 사용해 구현, 호환성을 위해 motif 라이브러리만 유지
+    - kdm(KDE Display Manager): KDE에서 사용되는 매니저
+    - gdm: GNOME의 매니저, GTK 라이브러리를 사용해 구현, xdm 기반으로 개발되지 않고, 완전히 독립적으로 새롭게 작성
 
 ### X-윈도우 활용
+#### 윈격지에서 X 클라이언트 이용
+1. Xhost
+    - X 서버에 접속할 수 있는 클라이언트를 지정하거나 해제
+    - X 서버에 디스플레이를 요청 시 행당 요청에 대해 허용 여부를 호스트 단위로 제어
+    - 환경변수 DISPLAY로 X 서버 프로그램이 실행될 때 표시되는 클라이언트 주소를 지정
+    - xhost [+|-][IP|도메인명]
+        - xhost +: X 서버에 모든 클라이언트 접속을 허용
+        - xhost -: X 서버에 모든 클라이언트 접속을 금지
+        - xhost + IP 주소: 해당 IP 주소를 가진 호스트의 접속 허용 
+        - xhost - IP 주소: 해당 IP 주소를 가진 호스트의 접속 금지
+2. xauth
+    - .Xauthority 파일의 쿠키 내용을 추가, 삭제, 리스트를 출력하느 유틸리티
+    - xhost가 호스트 기반 인증 방식을 사용하기 위해 필요한 유틸리티라면 xauth는 MMC 방식의 인증 방식을 사용하기 위한 필수 유틸리티
+    - 원격치에서 접속하는 X 클라이언트를 허가할 때 IP 주소나 호스트명이 아닌 X-윈도우 실행시 생성되는 키 값으로 인증할 때 사용
+    - 사용자 인증 기반을 지원하기 위해 각 사용자에게 네트워크화된 홈 디렉터리에 파일 $HOME/.Xauthority에 대해 읽기 및 쓰기 권한이 있어야 함
+    - .Xauthority 파일에는 응용 프로그램이 실행될 표시장치에 대한 "매직 쿠키"가 있어야 함
+    - 매직 쿠키는 MIT-MAGIC-COOKIE-1이라는 쿠키값을 가짐
+    - xauth [옵션]
+        - list: 현재 사용되는 모든 쿠키값 리스트 확인
+        - list [표시장치명]: 지정된 프로토콜 및 키를 지정된 표시장치의 권한 부여
 
-### 참고
-#### 
+#### X-윈도우 응용 프로그램
+- 오피스
+    - LibreOffice: 오피스 프로그램 패키지, Writer(문서 작성기), Impress(프레젠테이션), Calc(스프레드시트), Draw(드로잉 프로그램)
+    - gedit: 텍스트 편집기
+    - kwrite: KDE 기반 텍스트 편집기
+- 그래픽
+    - GMP: 이미지 편집 프로그램
+    - ImageMagick: 이미지 생성 및 편집 지원, 다양한 포맷 지원
+    - eog: GNOME의 이미지 뷰어 프로그램
+    - kolourpaint: Ubuntu 이미지 편집 프로그램
+    - gThumb: 간단한 이미지 편집, GNOME 데스크톱 이미지 뷰어 프로그램, 일밙거 이미지 파일 지원
+    - Gwenview: KDE의 기본 이미지 뷰어, kio를 이용해 zip, rar 압축 파일도 볼 수 있는 이미지 뷰어
+- 멀티미디어
+    - Totem: GNOME 기반의 사운드 및 비디오 재생 프로그램
+    - RHYTHMBOX: 통합형 음악 관리 프로그램
+    - CHEESE: GNOME 기반의 카메라 동영상 프로그램
+- 개발
+    - Eclipse: 통합 개발 환경으로 자바를 비롯한 다양한 언어를 지원
+- 기타
+    - Dolphin: KDE용 파일 관리자, KDE 버전에서는 컹커러가 웹 브라우저와 파일 관리자의 역할 수행
+    - KSnapshot: 스크린샷 프로그램
 
 
 ### 참고 자료
