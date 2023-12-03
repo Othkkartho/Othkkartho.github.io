@@ -577,323 +577,323 @@ KOLASYS-NET3.0은 전국 작은 도서관 1,667개에서 사용되고있는 도�
 
 #### 사용자 관리 시스템
 1. 새로 등록할 사용자(직원, 관리자)의 가입 여부 확인 ('김소똥'의 가입여부 확인)
-![새로 등록할 사용자](:/db/theory/5-1.png){:data-align="center"}
+![새로 등록할 사용자](:/db/theory/4/5-1.png){:data-align="center"}
 
 2. 사용자 정보 등록 ('김소똥' 사용자의 정보를 등록)
-![사용자 정보 등록](:/db/theory/5-2.png){:data-align="center"}
+![사용자 정보 등록](:/db/theory/4/5-2.png){:data-align="center"}
 
 3. 사용자 정보 수정 ('김소똥' 회원의 이메일과 주소를 수정)
-![사용자 정보 수정](:/db/theory/5-3.png){:data-align="center"}
+![사용자 정보 수정](:/db/theory/4/5-3.png){:data-align="center"}
 
 4. 사용자의 관리등급 수정을 위한 현재 사용자 검색 (관리등급이 관리자(1)인 사용자만 변경 가능)
-![사용자의 관리 등급 수정을 위한 현재 사용자 검색](:/db/theory/5-4.png){:data-align="center"}
+![사용자의 관리 등급 수정을 위한 현재 사용자 검색](:/db/theory/4/5-4.png){:data-align="center"}
 
 5. 사용자 관리등급 수정 ('김소똥' 사용자의 관리등급을 일반사용자(2)에서 관리자(1)로 높임) 
-![사용자 관리등급 수정](:/db/theory/5-5.png){:data-align="center"}
+![사용자 관리등급 수정](:/db/theory/4/5-5.png){:data-align="center"}
 
 6. 직원정보 삭제 ('김소똥' 직원의 탈퇴 절차 진행)
-![직원정보 삭제](:/db/theory/5-6.png){:data-align="center"}
+![직원정보 삭제](:/db/theory/4/5-6.png){:data-align="center"}
 
 7. 전체 사용자 조회
-![전체 사용자 조회](:/db/theory/5-7.png){:data-align="center"}
+![전체 사용자 조회](:/db/theory/4/5-7.png){:data-align="center"}
 
 #### 희망자료 관리 시스템
 1. 희망자료를 신청할 회원의 정보 검색 ('최지은' 회원이 있는지 검색)
-![희망자료를 신청할 회원의 정보 검색](:/db/theory/6-1.png){:data-align="center"}
+![희망자료를 신청할 회원의 정보 검색](:/db/theory/4/6-1.png){:data-align="center"}
 
 2. 해당 회원이 이미 해당 희망자료를 신청했는지 여부 확인 ('최지은' 회원이 '주인님과 사기꾼'이라는 책을 희망 신청)
-![해당 회원이 이미 해당 희망자료를 신청했는지 여부 확인](:/db/theory/6-2.png){:data-align="center"}
+![해당 회원이 이미 해당 희망자료를 신청했는지 여부 확인](:/db/theory/4/6-2.png){:data-align="center"}
 
 3. 신청 내역이 없으면 해당 도서를 희망자료에 등록 ('최지은' 회원이 중복해 신청한 내역이 없으면 '주인님과 사기꾼' 책을 등록)
-![신청 내역이 없으면 해당 도서를 희망자료에 등록](:/db/theory/6-3.png){:data-align="center"}
+![신청 내역이 없으면 해당 도서를 희망자료에 등록](:/db/theory/4/6-3.png){:data-align="center"}
 
 4. 희망자료 비치상태를 변경할 도서 검색 ('코믹 메이플스토리' 책 중 비치가되지 않은 도서 검색)
-![희망자료 비치상태를 변경할 도서 검색](:/db/theory/6-4.png){:data-align="center"}
+![희망자료 비치상태를 변경할 도서 검색](:/db/theory/4/6-4.png){:data-align="center"}
 
 5. 도서의 비치상태 변경 (낱권ISBN이 '9788926390191'인 도서의 비치상태를 모두 취소(3) 상태로 변경)
-![도서의 비치상태 변경](:/db/theory/6-5.png){:data-align="center"}
+![도서의 비치상태 변경](:/db/theory/4/6-5.png){:data-align="center"}
 
 6. 비치상태가 취소(3) 상태인 도서 삭제를 위해 자료 검색
-![비치상태가 취소 상태인 도서 삭제를 위해 자료 검색](:/db/theory/6-6.png){:data-align="center"}
+![비치상태가 취소 상태인 도서 삭제를 위해 자료 검색](:/db/theory/4/6-6.png){:data-align="center"}
 
 7. 해당 자료를 신청한 사람들에게 알림을 보내기 위해 해당 자료를 요청한 회원의 이름과 전화번호 검색 ('코믹 메이플스토리'를 희망도서로 신청한 인물을 검색)
-![해당 자료를 신청한 사람들에게 알람을 보내기 위해 해당 자료를 요청한 회원의 이름과 전화번호 검색](:/db/theory/6-7.png){:data-align="center"}
+![해당 자료를 신청한 사람들에게 알람을 보내기 위해 해당 자료를 요청한 회원의 이름과 전화번호 검색](:/db/theory/4/6-7.png){:data-align="center"}
 
 8. 해당 희망자료도서 정보 삭제 ('코믹 메이플스토리' 취소 알람 후 삭제)
-![해당 희망자료도서 정보 삭제](:/db/theory/6-8.png){:data-align="center"}
+![해당 희망자료도서 정보 삭제](:/db/theory/4/6-8.png){:data-align="center"}
 
 9. 희망자료 검색 ('최지은'이 신청한 희망자료를 검색)
-![희망자료 검색](:/db/theory/6-9.png){:data-align="center"}
+![희망자료 검색](:/db/theory/4/6-9.png){:data-align="center"}
 
 10. 희망자료 조회( 전체 희망자료를 조회할 수 있다. )
-![희망자료 조회](:/db/theory/6-10.png){:data-align="center"}
+![희망자료 조회](:/db/theory/4/6-10.png){:data-align="center"}
 
 #### 대출 시스템
 1. 회원이 도서 검색대에서 도서 조회 ('참 예수 제자' 책의 대출을 위해 제목에 '예수'가 들어가는 책 정보 조회)
-![회원이 도서 검색대에서 도서 조회](:/db/theory/7-1.png){:data-align="center"}
+![회원이 도서 검색대에서 도서 조회](:/db/theory/4/7-1.png){:data-align="center"}
 
 2. 대출을 원하는 회원의 회원카드로 정보조회 (회원번호 '1132750083' 회원의 정보 조회)
-![대출을 원하는 회원의 회원카드로 정보조회](:/db/theory/7-2.png){:data-align="center"}
+![대출을 원하는 회원의 회원카드로 정보조회](:/db/theory/4/7-2.png){:data-align="center"}
 
 3. 해당 회원의 현 대출 도서 권수 조회 ('이상현' 회원의 대출 현황 조회)
-![해당 회원의 현 대출 도서 권수 조회](:/db/theory/7-3.png){:data-align="center"}
+![해당 회원의 현 대출 도서 권수 조회](:/db/theory/4/7-3.png){:data-align="center"}
 
 4. 해당 회원의 현 예약 도서 권수 조회 ('이상현' 회원의 예약 현황 조회)
-![해당 회원의 현 예약 도서 권수 조회](:/db/theory/7-4.png){:data-align="center"}
+![해당 회원의 현 예약 도서 권수 조회](:/db/theory/4/7-4.png){:data-align="center"}
 
 5. 회원이 대출 가능한 상태면(대출+예약한 도서의 합 <= 5), 회원이 대출하고자 하는 도서 정보 조회 (등록번호가 'KE00000000938'인 책 정보 조회)
-![회원이 대출 가능한 상태면, 회원이 대출하고자 하는 도서 정보 조회](:/db/theory/7-5.png){:data-align="center"}
+![회원이 대출 가능한 상태면, 회원이 대출하고자 하는 도서 정보 조회](:/db/theory/4/7-5.png){:data-align="center"}
 
 6. 해당 도서 대출 (대출 테이블에 해당 도서 대출 정보 입력, 등록자료에서 자료상태 대출중(4)으로 변경)
-![해당 도서 대출](:/db/theory/7-6.png){:data-align="center"}
+![해당 도서 대출](:/db/theory/4/7-6.png){:data-align="center"}
 
 7. 회원의 총 대출 내역 조회 ('김현준' 회원이 지금까지 대출한 책 조회)
-![회원의 총 대출 내역 조회](:/db/theory/7-7.png){:data-align="center"}
+![회원의 총 대출 내역 조회](:/db/theory/4/7-7.png){:data-align="center"}
 
 8. 회원의 대출중인 도서 조회 ('윤준서' 회원이 대출중인 도서를 조회)
-![회원의 대출중인 도서 조회](:/db/theory/7-8.png){:data-align="center"}
+![회원의 대출중인 도서 조회](:/db/theory/4/7-8.png){:data-align="center"}
 
 9. 대출 조회( 전체 대출정보를 조회할 수 있다. )
-![대출 조회](:/db/theory/7-9.png){:data-align="center"}
+![대출 조회](:/db/theory/4/7-9.png){:data-align="center"}
 
 #### 대출 기간 연장 시스템
 1. 회원이 대출 연장하고자 하는 대출 기간 연장 가능 여부 조회 ('이상현' 회원이 대출한 '참 예수 제자' 책의 연장 가능 여부 확인)
-![회원이 대출 연장하고자 하는 대출 기간 연장 가능 여부 조회](:/db/theory/8-1.png){:data-align="center"}
+![회원이 대출 연장하고자 하는 대출 기간 연장 가능 여부 조회](:/db/theory/4/8-1.png){:data-align="center"}
 
 2. 연장가능이면, 반납일로부터 7일 연장 ('참 예수 제자' 책의 반납 예정일에 7일을 더해 수정)
-![연장 가능이면, 반납일로부터 7일 연장](:/db/theory/8-1.png){:data-align="center"}
+![연장 가능이면, 반납일로부터 7일 연장](:/db/theory/4/8-1.png){:data-align="center"}
 
 #### 반납 시스템
 1. 반납할 회원과 도서 검색 ('이상현' 회원이 빌린 '참 예수 제자' 책을 검색)
-![반납할 회원과 도서 검색](:/db/theory/9-1.png){:data-align="center"}
+![반납할 회원과 도서 검색](:/db/theory/4/9-1.png){:data-align="center"}
 
 2. 대출 테이블에 반납일, 연체일 등록 (연체일은 반납예정일-반납일이 0보다 크면 등록 아니면 0)
-![대출 테이블에 반납일, 연체일 등록](:/db/theory/9-2.png){:data-align="center"}
+![대출 테이블에 반납일, 연체일 등록](:/db/theory/4/9-2.png){:data-align="center"}
 
 3. 연체된 회원이면, 회원 정보에 연체일만큼 대출 정지일 부여 (연체하지 않았기 때문에 부여하지 않음)
-![연체된 회원이면, 회원 정보에 연체일만큼 대출 정지일 부여](:/db/theory/9-3.png){:data-align="center"}
+![연체된 회원이면, 회원 정보에 연체일만큼 대출 정지일 부여](:/db/theory/4/9-3.png){:data-align="center"}
 
 4. 반납된 도서의 자료상태를 열람인계자료로 변환
-![반납된 도서의 자료상태를 열람인계자료로 변환](:/db/theory/9-4.png){:data-align="center"}
+![반납된 도서의 자료상태를 열람인계자료로 변환](:/db/theory/4/9-4.png){:data-align="center"}
 
 5. 예약 목록에서 도서 예약 정보 확인 ('참 예수 제자' 예약 정보 확인)
-![예약 목록에서 도서 예약 정보 확인](:/db/theory/9-5.png){:data-align="center"}
+![예약 목록에서 도서 예약 정보 확인](:/db/theory/4/9-5.png){:data-align="center"}
 
 6. 예약된 도서가 없으면 배가상태(대출가능)로 변환 (현재 예약한 내역이 있으므로 변환하지 않음)
-![예약된 도서가 없으면 배가상태로 변환](:/db/theory/9-6.png){:data-align="center"}
+![예약된 도서가 없으면 배가상태로 변환](:/db/theory/4/9-6.png){:data-align="center"}
 
 #### 예약 시스템
 1. 회원이 도서 검색대에서 도서 조회 (제목에 '예수'가 들어가는 책 정보 조회)
-![회원이 도서 검색대에서 도서 조회](:/db/theory/10-1.png){:data-align="center"}
+![회원이 도서 검색대에서 도서 조회](:/db/theory/4/10-1.png){:data-align="center"}
 
 2. 예약을 원하는 회원의 회원카드로 정보조회 (회원번호 '1132750005' 회원의 정보 조회)
-![예약을 원하는 회원의 회원카드로 정보조회](:/db/theory/10-2.png){:data-align="center"}
+![예약을 원하는 회원의 회원카드로 정보조회](:/db/theory/4/10-2.png){:data-align="center"}
 
 3. 해당 회원이 이미 해당 도서를 예약했는지 여부 확인 ('안지연' 회원이 '주인님과 사기꾼'이라는 책을 예약 신청)
-![해당 회원이 이미 해당 도서를 예약했는지 여부 확인](:/db/theory/10-3.png){:data-align="center"}
+![해당 회원이 이미 해당 도서를 예약했는지 여부 확인](:/db/theory/4/10-3.png){:data-align="center"}
 
 4. 해당 회원의 현 대출 도서 권수 조회 ('이상현' 회원의 대출 현황 조회)
-![해당 회원의 현 대출 도서 권수 조회](:/db/theory/10-4.png){:data-align="center"}
+![해당 회원의 현 대출 도서 권수 조회](:/db/theory/4/10-4.png){:data-align="center"}
 
 5. 해당 회원의 현 예약 도서 권수 조회 ('이상현' 회원의 대출 현황 조회)
-![해당 회원의 현 예약 도서 권수 조회](:/db/theory/10-5.png){:data-align="center"}
+![해당 회원의 현 예약 도서 권수 조회](:/db/theory/4/10-5.png){:data-align="center"}
 
 6. 회원이 예약한 상태면(대출+예약한 도서의 합 <= 5), 예약 정보를 예약 테이블에 등록
-![회원이 예약한 상태면 예약 정보를 예약 테이블에 등록](:/db/theory/10-6.png){:data-align="center"}
+![회원이 예약한 상태면 예약 정보를 예약 테이블에 등록](:/db/theory/4/10-6.png){:data-align="center"}
 
 7. 예약된 책이 반납되면, 해당 도서를 예약한 회원 중 제일 첫 번째 회원 검색 (알림 보내기용)
-![예약된 책이 반납되면, 해당 도서를 예약한 회원 중 제일 첫 번째 회원 검색](:/db/theory/10-7.png){:data-align="center"}
+![예약된 책이 반납되면, 해당 도서를 예약한 회원 중 제일 첫 번째 회원 검색](:/db/theory/4/10-7.png){:data-align="center"}
 
 8. 예약 만기일 설정 (반납된 날로부터 3일 후로 예약 만기일 설정)
-![예약 만기일 설정](:/db/theory/10-8.png){:data-align="center"}
+![예약 만기일 설정](:/db/theory/4/10-8.png){:data-align="center"}
 
 9. 예약 도서 대출을 하러온 회원의 예약 내역 확인 ('안지연' 회원의 예약 내역 확인)
-![예약 도서 대출을 하러 온 회원의 예약 내역 확인](:/db/theory/10-9.png){:data-align="center"}
+![예약 도서 대출을 하러 온 회원의 예약 내역 확인](:/db/theory/4/10-9.png){:data-align="center"}
 
 10. 대출을 원하는 도서의 등록번호 확인 ('참 예수 제자' 등록번호 확인)
-![대출을 원하는 도서의 등록번호 확인](:/db/theory/10-10.png){:data-align="center"}
+![대출을 원하는 도서의 등록번호 확인](:/db/theory/4/10-10.png){:data-align="center"}
 
 11. 대출 정보 등록 ('안지연' 회원이 '참 예수 제자' 도서를 대출 )
-![대출 정보 등록](:/db/theory/10-11.png){:data-align="center"}
+![대출 정보 등록](:/db/theory/4/10-11.png){:data-align="center"}
 
 12. 등록자료에서 대출된 도서 자료상태 변환 ('참 예수 제자' 자료 상태를 대출로 변환)
-![등록자료에서 대출된 도서 자료상태 변환](:/db/theory/10-12.png){:data-align="center"}
+![등록자료에서 대출된 도서 자료상태 변환](:/db/theory/4/10-12.png){:data-align="center"}
 
 13. 예약 목록에서 대출된 도서 정보 삭제 ('안지연' 회원이 예약했던 '참 예수 제자' 예약 정보 삭제)
-![예약 목록에서 대출된 도서 정보 삭제](:/db/theory/10-13.png){:data-align="center"}
+![예약 목록에서 대출된 도서 정보 삭제](:/db/theory/4/10-13.png){:data-align="center"}
 
 14. 회원이 예약 취소를 원할 시, 취소하고자 하는 예약 도서 정보 조회 ('김민석'이 '끌리고 쏠리고 들끓다' 책의 예약을 검색)
-![회원이 예약 취소를 원할 시, 취소하고자 하는 예약 도서 정보 조회](:/db/theory/10-14.png){:data-align="center"}
+![회원이 예약 취소를 원할 시, 취소하고자 하는 예약 도서 정보 조회](:/db/theory/4/10-14.png){:data-align="center"}
 
 15. 예약 정보 삭제 ('김민석'이 '끌리고 쏠리고 들끓다' 책의 예약을 삭제)
-![예약 정보 삭제](:/db/theory/10-15.png){:data-align="center"}
+![예약 정보 삭제](:/db/theory/4/10-15.png){:data-align="center"}
 
 16. 예약만기일이 지난 예약 일괄 조회( 2023-06-26일 기준 예약 만기일 지난 예약 조회 )
-![예약만기일이 지난 예약 일괄 조회](:/db/theory/10-16.png){:data-align="center"}
+![예약만기일이 지난 예약 일괄 조회](:/db/theory/4/10-16.png){:data-align="center"}
 
 17. 예약만기일이 지난 예약 일괄 삭제 (2023-06-26일 기준 예약 만기일 지난 예약 삭제)
-![예약만기일이 지난 예약 일괄 삭제](:/db/theory/10-17.png){:data-align="center"}
+![예약만기일이 지난 예약 일괄 삭제](:/db/theory/4/10-17.png){:data-align="center"}
 
 18. 예약 조회 (예약 정보를 일괄 조회할 수 있다.)
-![예약 조회](:/db/theory/10-18.png){:data-align="center"}
+![예약 조회](:/db/theory/4/10-18.png){:data-align="center"}
 
 #### 상세 검색
 1. 기증자 구분 검색 (기증자 구분이 '개인문고인' 기증자 정보 검색)
-![기증자 구분 검색](:/db/theory/11-1.png){:data-align="center"}
+![기증자 구분 검색](:/db/theory/4/11-1.png){:data-align="center"}
 
 2. 기증자ID 검색 (기증자 ID가 'GR202000001'인 기증자 정보 검색)
-![기증자 ID 검색](:/db/theory/11-2.png){:data-align="center"}
+![기증자 ID 검색](:/db/theory/4/11-2.png){:data-align="center"}
 
 3. 기증자 이름 검색 (이름이 '이혜진'인 기증자 정보 검색)
-![기증자 이름 검색](:/db/theory/11-3.png){:data-align="center"}
+![기증자 이름 검색](:/db/theory/4/11-3.png){:data-align="center"}
 
 4. 기증자 일자 검색 (2020-04-01~2020-05-01에 기증한 인원들의 정보 검색)
-![기증자 일자 검색](:/db/theory/11-4.png){:data-align="center"}
+![기증자 일자 검색](:/db/theory/4/11-4.png){:data-align="center"}
 
 5. 대출 등록번호 검색 (책 등록번호가 'KE0000002018'인 책의 대출 정보 확인)
-![대출 등록번호 검색](:/db/theory/11-5.png){:data-align="center"}
+![대출 등록번호 검색](:/db/theory/4/11-5.png){:data-align="center"}
 
 6. 대출 회원번호 검색 ('허지혜'가 대출한 책과 대출 정보 확인)
-![대출 회원번호 검색](:/db/theory/11-6.png){:data-align="center"}
+![대출 회원번호 검색](:/db/theory/4/11-6.png){:data-align="center"}
 
 7. 대출일 별 대출 도서 검색 (2023-04-08에 대출한 책을 검색)
-![대출일 별 대출 도서 검색](:/db/theory/11-7.png){:data-align="center"}
+![대출일 별 대출 도서 검색](:/db/theory/4/11-7.png){:data-align="center"}
 
 8. 등록자료 자료상태 검색 (자료 상태가 '배가'인 책 정보 검색)
-![등록자료 자료상태 검색](:/db/theory/11-8.png){:data-align="center"}
+![등록자료 자료상태 검색](:/db/theory/4/11-8.png){:data-align="center"}
 
 9. 등록자료 입수구분 검색 (기증된 책 정보 검색)
-![등록자료 입수구분 검색](:/db/theory/11-9.png){:data-align="center"}
+![등록자료 입수구분 검색](:/db/theory/4/11-9.png){:data-align="center"}
 
 10. 등록자료 등록년도 검색 (등록 년도가 2019년인 책의 정보 검색)
-![등록자료 등록년도 검색](:/db/theory/11-10.png){:data-align="center"}
+![등록자료 등록년도 검색](:/db/theory/4/11-10.png){:data-align="center"}
 
 11. 등록자료 원부년도 검색 (원부 년도가 2020년인 책 정보 검색)
-![등록자료 원부년도 검색](:/db/theory/11-11.png){:data-align="center"}
+![등록자료 원부년도 검색](:/db/theory/4/11-11.png){:data-align="center"}
 
 12. 등록자료 원부번호 검색 (원부번호가 '2019-04' 인 책 정보 확인)
-![등록자료 원부번호 검색](:/db/theory/11-12.png){:data-align="center"}
+![등록자료 원부번호 검색](:/db/theory/4/11-12.png){:data-align="center"}
 
 13. 등록자료 등록번호 범위 검색 (등록번호가 826~832인 도서 정보 확인)
-![등록자료 등록번호 범위 검색](:/db/theory/11-13.png){:data-align="center"}
+![등록자료 등록번호 범위 검색](:/db/theory/4/11-13.png){:data-align="center"}
 
 14. 등록자료 저자, 출판사 검색 (저자 중에 '홍순옥'이 들어가 있고, 출판사가 '웅진'이 들어간 도서 정보 검색)
-![등록자료 저자, 출판사 검색](:/db/theory/11-14.png){:data-align="center"}
+![등록자료 저자, 출판사 검색](:/db/theory/4/11-14.png){:data-align="center"}
 
 15. 등록자료 주제별 검색 (청구기호가 '철학'인 책 정보 검색)
-![등록자료 주제별 검색](:/db/theory/11-15.png){:data-align="center"}
+![등록자료 주제별 검색](:/db/theory/4/11-15.png){:data-align="center"}
 
 16. 등록원부 날짜 내 공급자 검색 (작업일자가 2019년이고, 공급자가 '조정남'인 원부번호 검색)
-![등록원부 날짜 내 공급자 검색](:/db/theory/11-16.png){:data-align="center"}
+![등록원부 날짜 내 공급자 검색](:/db/theory/4/11-16.png){:data-align="center"}
 
 17. 등록원부 날짜 내 작업자 검색 (작업일자가 2019년이고, 작업자가 '손창희'인 원부번호 검색)
-![등록원부 날짜 내 작업자 검색](:/db/theory/11-17.png){:data-align="center"}
+![등록원부 날짜 내 작업자 검색](:/db/theory/4/11-17.png){:data-align="center"}
 
 18. 등록원부 날짜 내 원부번호 검색 (작업일자가 2019년이고, 원부번호가 '2019-04'인 원부 정보 검색)
-![등록원부 날짜 내 원부번호 검색](:/db/theory/11-18.png){:data-align="center"}
+![등록원부 날짜 내 원부번호 검색](:/db/theory/4/11-18.png){:data-align="center"}
 
 19. 직원ID 검색 (직원 ID가 'bfM7a6wKKSb3JDI'인 직원 정보 검색)
-![직원ID 검색](:/db/theory/11-19.png){:data-align="center"}
+![직원ID 검색](:/db/theory/4/11-19.png){:data-align="center"}
 
 20. 직원 이름 검색 (직원 이름이 '봉창하'인 직원 정보 검색)
-![직원 이름 검색](:/db/theory/11-20.png){:data-align="center"}
+![직원 이름 검색](:/db/theory/4/11-20.png){:data-align="center"}
 
 21. 직원 관리등급 검색 (직원 관리 등급이 '도서 관리자'인 직원 정보 검색)
-![직원 관리등급 검색](:/db/theory/11-21.png){:data-align="center"}
+![직원 관리등급 검색](:/db/theory/4/11-21.png){:data-align="center"}
 
 22. 예약 회원번호 검색 (회원 번호가 '1132750007'인 예약 정보 검색)
-![예약 회원번호 검색](:/db/theory/11-22.png){:data-align="center"}
+![예약 회원번호 검색](:/db/theory/4/11-22.png){:data-align="center"}
 
 23. 예약 예약일 검색 (예약일이 2023년 6월 4일인 예약 정보 검색)
-![예약 예약일 검색](:/db/theory/11-23.png){:data-align="center"}
+![예약 예약일 검색](:/db/theory/4/11-23.png){:data-align="center"}
 
 24. 예약 도서ISBN 검색 (예약 도서의 ISBN이 '9788995996546'인 도서 정보 검색)
-![예약 도서ISBN 검색](:/db/theory/11-24.png){:data-align="center"}
+![예약 도서ISBN 검색](:/db/theory/4/11-24.png){:data-align="center"}
 
 25. 예약 예약만기일 검색 (예약 만기일이 2023년 6월 12일인 예약 정보 검색)
-![예약 예약만기일 검색](:/db/theory/11-25.png){:data-align="center"}
+![예약 예약만기일 검색](:/db/theory/4/11-25.png){:data-align="center"}
 
 26. 회원 ID, 이름, 회원번호 검색 ('구예진을 이름, ID, 회원번호로 검색)
-![회원 ID, 이름, 회원번호 검색](:/db/theory/11-26.png){:data-align="center"}
+![회원 ID, 이름, 회원번호 검색](:/db/theory/4/11-26.png){:data-align="center"}
 
 27. 회원 회원상태 검색 (회원 상태가 '일반'인 회원 검색)
-![회원 회원상태 검색](:/db/theory/11-27.png){:data-align="center"}
+![회원 회원상태 검색](:/db/theory/4/11-27.png){:data-align="center"}
 
 28. 회원 등급 검색 (회원의 등급이 '자원봉사자'인 회원 검색)
-![회원 등급 검색](:/db/theory/11-28.png){:data-align="center"}
+![회원 등급 검색](:/db/theory/4/11-28.png){:data-align="center"}
 
 29. 회원 대출정지일 검색 (연체한 적이 있는 회원 검색)
-![회원 대출정지일 검색](:/db/theory/11-29.png){:data-align="center"}
+![회원 대출정지일 검색](:/db/theory/4/11-29.png){:data-align="center"}
 
 30. 회원 누적 연체 횟수 검색 (연체 횟수가 5번 미만인 회원 정보를 검색)
-![회원 누적 연체 횟수 검색](:/db/theory/11-30.png){:data-align="center"}
+![회원 누적 연체 횟수 검색](:/db/theory/4/11-30.png){:data-align="center"}
 
 31. 회원 누적 연체일 검색 (누적 연체일이 10일 미만인 회원 정보를 검색)
-![회원 누적 연체일 검색](:/db/theory/11-31.png){:data-align="center"}
+![회원 누적 연체일 검색](:/db/theory/4/11-31.png){:data-align="center"}
 
 32. 희망자료 회원번호 검색 ('이정용' 회원이 신청한 희망자료 정보 검색)
-![희망자료 회원번호 검색](:/db/theory/11-32.png){:data-align="center"}
+![희망자료 회원번호 검색](:/db/theory/4/11-32.png){:data-align="center"}
 
 33. 희망자료 제목별 검색 (희망자료 제목이 '장영실인' 희망자료 정보 검색)
-![희망자료 제목별 검색](:/db/theory/11-33.png){:data-align="center"}
+![희망자료 제목별 검색](:/db/theory/4/11-33.png){:data-align="center"}
 
 34. 희망자료 신청기간별 검색 (희망자료 신청기간이 2023-05-01~2023-05-31인 희망자료 정보 검색)
-![희망자료 신청기간별 검색](:/db/theory/11-34.png){:data-align="center"}
+![희망자료 신청기간별 검색](:/db/theory/4/11-34.png){:data-align="center"}
 
 35. 희망자료 비치상태 검색 (희망자료 상태가 '신청중'인 희망자료 정보 검색)
-![희망자료 비치상태 검색](:/db/theory/11-35.png){:data-align="center"}
+![희망자료 비치상태 검색](:/db/theory/4/11-35.png){:data-align="center"}
 
 #### 통계
 1. 기간별 연체일 통계 (반납일 2023-05-01부터 2023-05-31까지 2023년 5월달 회원별 연체일 합)
-![기간별 연체일 통계](:/db/theory/12-1.png){:data-align="center"}
+![기간별 연체일 통계](:/db/theory/4/12-1.png){:data-align="center"}
 
 2. 희망자료 신청 횟수 통계
-![희망자료 신청 횟수 통계](:/db/theory/12-2.png){:data-align="center"}
+![희망자료 신청 횟수 통계](:/db/theory/4/12-2.png){:data-align="center"}
 
 3. 회원별 희망도서 신청 횟수 통계
-![회원별 희망도서 신청 횟수 통계](:/db/theory/12-3.png){:data-align="center"}
+![회원별 희망도서 신청 횟수 통계](:/db/theory/4/12-3.png){:data-align="center"}
 
 4. 월별 다독자 통계 (반납일 2023-05-01부터 2023-05-31까지 2023년 5월달 대출 횟수)
-![월별 다독자 통계](:/db/theory/12-4.png){:data-align="center"}
+![월별 다독자 통계](:/db/theory/4/12-4.png){:data-align="center"}
 
 5. 입수구분별 통계
-![입수구분별 통계](:/db/theory/12-5.png){:data-align="center"}
+![입수구분별 통계](:/db/theory/4/12-5.png){:data-align="center"}
 
 6. 기간 내 주제별 도서 대출 횟수 통계 (대출일 2023-05-01부터 2023-05-31까지 2023년 5월달 도서 대출 횟수 검색 )
-![기간 내 주제별 도서 대출 횟수 통계](:/db/theory/12-6.png){:data-align="center"}
+![기간 내 주제별 도서 대출 횟수 통계](:/db/theory/4/12-6.png){:data-align="center"}
 
 7. 기간 내 총자산 통계 (등록일자 2020-01-01부터 2020-01-31까지 2020년 1월달 도서관의 총자산)
-![기간 내 총자산 통계](:/db/theory/12-7.png){:data-align="center"}
+![기간 내 총자산 통계](:/db/theory/4/12-7.png){:data-align="center"}
 
 8. 기간 내 주제별 자산 통계 (등록일자 2020-01-01부터 2020-01-31까지 2020년 1월달 도서관의 자산)
-![기간 내 주제별 자산 통계](:/db/theory/12-8.png){:data-align="center"}
+![기간 내 주제별 자산 통계](:/db/theory/4/12-8.png){:data-align="center"}
 
 9. 주제별 도서 통계
-![주제별 도서 통계](:/db/theory/12-9.png){:data-align="center"}
+![주제별 도서 통계](:/db/theory/4/12-9.png){:data-align="center"}
 
 10. 주제별 월별 반납 통계 (반납일 2023-05-01부터 2023-05-31까지 2023년 5월달 반납)
-![주제별 월별 반납 통계](:/db/theory/12-10.png){:data-align="center"}
+![주제별 월별 반납 통계](:/db/theory/4/12-10.png){:data-align="center"}
 
 11. 기간별 도서 대출 이력 (대출일 2023-05-01부터 2023-05-31까지 2023년 5월달 도서관의 총자산)
-![기간별 도서 대출 이력](:/db/theory/12-11.png){:data-align="center"}
+![기간별 도서 대출 이력](:/db/theory/4/12-11.png){:data-align="center"}
 
 12. 전체 도서 대출 이력
-![전체 도서 대출 이력](:/db/theory/12-12.png){:data-align="center"}
+![전체 도서 대출 이력](:/db/theory/4/12-12.png){:data-align="center"}
 
 13. 주제별 도서관 대출 이력
-![주제별 도서관 대출 이력](:/db/theory/12-13.png){:data-align="center"}
+![주제별 도서관 대출 이력](:/db/theory/4/12-13.png){:data-align="center"}
 
 14. 출판 연도별 도서 통계
-![출판 연도별 도서 통계](:/db/theory/12-14.png){:data-align="center"}
+![출판 연도별 도서 통계](:/db/theory/4/12-14.png){:data-align="center"}
 
 15. 출판사 별 도서 통계
-![출판사 별 도서 통계](:/db/theory/12-15.png){:data-align="center"}
+![출판사 별 도서 통계](:/db/theory/4/12-15.png){:data-align="center"}
 
 16. 회원별 대출 중인 도서 수 통계
-![회원별 대출 중인 도서 수 통계](:/db/theory/12-16.png){:data-align="center"}
+![회원별 대출 중인 도서 수 통계](:/db/theory/4/12-16.png){:data-align="center"}
 
 17. 회원별 전체 대출했던 도서 수 통계
-![회원별 전체 대출했던 도서 수 통계](:/db/theory/12-17.png){:data-align="center"}
+![회원별 전체 대출했던 도서 수 통계](:/db/theory/4/12-17.png){:data-align="center"}
 
 ### 프로젝트 후기
 1. **문제해결과정에서 무엇을 배우고 느꼈는가?**
